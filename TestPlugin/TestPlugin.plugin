@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<Plugin>
+	<Information>
+		<Name>TestPlugin</Name>
+		<Author>Joonatan</Author>
+		<Version>0.1</Version>
+		<Description>This is a test.</Description>
+	</Information>
+	<Package>TestPlugin.TestStuff.Main</Package>
+        <Configuration Apartment="TestPlugin" />
+</Plugin>
