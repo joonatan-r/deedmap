@@ -3,7 +3,7 @@ import "Turbine.UI.Lotro";
 import "TestPlugin.TestStuff";
 
 current_area = "Bree-land"; -- use as default
-prev_area = "Bree-land";
+prev_areas = {};
 width = data[current_area]["width"];
 height = data[current_area]["height"];
 window = Turbine.UI.Lotro.Window();
@@ -26,8 +26,8 @@ disp_height = Turbine.UI.Display.GetHeight();
 -- for developing
 
 bg.MouseClick = function( sender, args )
-    x,y = bg:GetMousePosition();
-    x = x - 5;
+    local x,y = bg:GetMousePosition();
+    x = x - 5; -- adjust for image
     y = y - 5;
     Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
 end
@@ -42,34 +42,61 @@ end
 -- mins in top left, maxes in bottom right, positions are numbers, coords strings in format "74.9W", "113.1S" etc
 
 function positionToCoords( pos_x, pos_y, pos_x_max, pos_y_max, coord_x_min, coord_y_min, coord_x_max, coord_y_max )
-    side_x_min = coord_x_min:sub( -1 );
-    side_y_min = coord_y_min:sub( -1 );
-    side_x_max = coord_x_max:sub( -1 );
-    side_y_max = coord_y_max:sub( -1 );
-    coord_x_min = tonumber( coord_x_min:sub( 1, -2 ) );
-    coord_y_min = tonumber( coord_y_min:sub( 1, -2 ) );
-    coord_x_max = tonumber( coord_x_max:sub( 1, -2 ) );
-    coord_y_max = tonumber( coord_y_max:sub( 1, -2 ) );
-    relative_dist_x = pos_x / pos_x_max; -- assume min positions of 0, 0
-    relative_dist_y = pos_y / pos_y_max;
+    local side_x_min = coord_x_min:sub( -1 );
+    local side_y_min = coord_y_min:sub( -1 );
+    local side_x_max = coord_x_max:sub( -1 );
+    local side_y_max = coord_y_max:sub( -1 );
+    local coord_x_min = tonumber( coord_x_min:sub( 1, -2 ) );
+    local coord_y_min = tonumber( coord_y_min:sub( 1, -2 ) );
+    local coord_x_max = tonumber( coord_x_max:sub( 1, -2 ) );
+    local coord_y_max = tonumber( coord_y_max:sub( 1, -2 ) );
+    local relative_dist_x = pos_x / pos_x_max; -- assume min positions of 0, 0
+    local relative_dist_y = pos_y / pos_y_max;
 
     if side_x_min == "W" and side_x_max == "W" then
-        coord_x_span = coord_x_min - coord_x_max;
-        coord_x = coord_x_min - relative_dist_x * coord_x_span;
-        side_x = "W";
+        local coord_x_span = coord_x_min - coord_x_max;
+        local coord_x = coord_x_min - relative_dist_x * coord_x_span;
+        local side_x = "W";
+    elseif side_x_min == "E" and side_x_max == "E" then
+        local coord_x_span = coord_x_max - coord_x_min;
+        local coord_x = coord_x_min + relative_dist_x * coord_x_span;
+        local side_x = "E";
+    elseif side_x_min == "W" and side_x_max == "E" then
+        local coord_x_span = coord_x_max + coord_x_min;
+        local coord_x = coord_x_min - relative_dist_x * coord_x_span;
+
+        if coord_x < 0 then
+            coord_x = -coord_x;
+            local side_x = "E";
+        else
+            local side_x = "W";
+        end
     end
 
-    if side_y_min == "S" and side_y_max == "S" then
-        coord_y_span = coord_y_max - coord_y_min;
-        coord_y = coord_y_min + relative_dist_y * coord_y_span;
-        side_y = "S";
+    if side_y_min == "N" and side_y_max == "N" then
+        local coord_y_span = coord_y_min - coord_y_max;
+        local coord_y = coord_y_min - relative_dist_y * coord_y_span;
+        local side_y = "N";
+    elseif side_y_min == "S" and side_y_max == "S" then
+        local coord_y_span = coord_y_max - coord_y_min;
+        local coord_y = coord_y_min + relative_dist_y * coord_y_span;
+        local side_y = "S";
+    elseif side_y_min == "N" and side_y_max == "S" then
+        local coord_y_span = coord_y_max + coord_y_min;
+        local coord_y = coord_y_min - relative_dist_y * coord_y_span;
+
+        if coord_y < 0 then
+            coord_y = -coord_y;
+            local side_y = "S";
+        else
+            local side_y = "N";
+        end
     end
 
-    if side_x == nil or side_y == nil then return nil end
-    
+    if side_x == nil or side_y == nil then return "" end
     coord_x = tostring( round( coord_x, 1 ) ) .. side_x;
     coord_y = tostring( round( coord_y, 1 ) ) .. side_y;
-    return coord_x .. " " .. coord_y;
+    return coord_y .. " " .. coord_x;
 end
 
 bg_width = bg:GetWidth();
@@ -81,12 +108,12 @@ bg.MouseMove = function(sender, args)
         return;
     end
     
-    coord_x_min = data[current_area]["coord_x_min"];
-    coord_y_min = data[current_area]["coord_y_min"];
-    coord_x_max = data[current_area]["coord_x_max"];
-    coord_y_max = data[current_area]["coord_y_max"];
+    local coord_x_min = data[current_area]["coord_x_min"];
+    local coord_y_min = data[current_area]["coord_y_min"];
+    local coord_x_max = data[current_area]["coord_x_max"];
+    local coord_y_max = data[current_area]["coord_y_max"];
+    local x,y = bg:GetMousePosition();
     coordsLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
-    x,y = bg:GetMousePosition();
     coordsLabel:SetText( positionToCoords( x, y, bg_width - 1, bg_height - 1, coord_x_min, coord_y_min, coord_x_max, coord_y_max ) );
     coordsLabel:SetWidth( 500 );
     coordsLabel:SetPosition( bg_width + 25, bg_height - 25 + 35 );
@@ -98,7 +125,6 @@ end
 cmd = Turbine.ShellCommand();
 cmd.Execute = function( sender, cmd, args )
     window:SetVisible( not window:IsVisible() );
-
     if window:IsVisible() then window:Activate() end
 end
 Turbine.Shell.AddCommand("deedmap", cmd);
@@ -123,7 +149,6 @@ function LocButton:Constructor( area, idx )
     self.label:SetVisible( false );
     self.info = data[area][idx];
     self:SetPosition( unpack(self.info["point"]) );
-
     self.MouseEnter = function(sender, args)
         x,y = unpack(self.info["point"]);
         self.label:SetText( self.info["text"] );
@@ -134,11 +159,9 @@ function LocButton:Constructor( area, idx )
         self.label:SetZOrder( 10 ); -- show on top
         self.label:SetStretchMode( 1 ); -- renders outside bg bounds
     end
-
     self.MouseLeave = function(sender, args)
         self.label:SetVisible( false );
     end
-
     self.Click = function( sender, args )
         changeSelection( self.area, self.idx, self.selected );
         infoLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
@@ -159,15 +182,12 @@ function ZoomButton:Constructor( area, point )
     self:SetParent( bg );
     self:SetPosition( unpack( point ) );
     self.area = area;
-
     self.MouseEnter = function(sender, args)
         self:SetBlendMode( Turbine.UI.BlendMode.Multiply );
     end
-
     self.MouseLeave = function(sender, args)
         self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
     end
-
     self.Click = function( sender, args )
         changeArea( self.area );
     end
@@ -259,28 +279,31 @@ end
 
 prevButton = Turbine.UI.Lotro.Button();
 prevButton:SetSize( 50, 20 );
-prevButton:SetText( "Prev" );
+prevButton:SetText( "Back" );
 prevButton:SetParent( window );
 prevButton.Click = function( sender, args )
-    changeArea( prev_area );
+    if next(prev_areas) == nil then return end
+    local to_area = prev_areas[#prev_areas];
+    table.remove( prev_areas );
+    changeArea( to_area, true );
 end
 
 -------------
 
-function changeArea( area )
+function changeArea( area, no_insert )
     width = data[area]["width"];
     height = data[area]["height"];
+    bg_width = width;
+    bg_height = height;
     window:SetSize( width + 40 + 220, height + 57 );
     bg:SetBackground( data[area]["map"] );
     bg:SetStretchMode( 0 );
-    bg_width = width;
-    bg_height = height;
     bg:SetSize( bg_width, bg_height );
     bg:SetPosition( 20, 35 );
     
     ----------
 
-    adjusted = false;
+    local adjusted = false;
 
     if window:GetWidth() > disp_width then
         window:SetWidth( disp_width );
@@ -293,11 +316,11 @@ function changeArea( area )
     end
 
     if adjusted then
-        window_width = window:GetWidth();
-        window:SetPosition( 0, 0 );
-        bg:SetStretchMode( 1 );
+        local window_width = window:GetWidth();
         bg_width = window_width - 40 - 220;
         bg_height = window:GetHeight() - 57;
+        window:SetPosition( 0, 0 );
+        bg:SetStretchMode( 1 );
         bg:SetSize( bg_width, bg_height );
         filterButton:SetPosition( window_width - 220, 35 + 20 );
         areaButton:SetPosition( window_width - 220 + 70, 35 + 20 );
@@ -312,16 +335,17 @@ function changeArea( area )
 
     ---------
 
-    for i,button in pairs( loc_buttons[current_area] ) do
-        button:SetVisible( false );
-    end
-
-    for i,button in pairs( zoom_buttons[current_area] ) do
-        button:SetVisible( false );
-    end
-
-    prev_area = current_area;
+    local prev_area = current_area;
+    if no_insert == nil then table.insert( prev_areas, prev_area ) end
     current_area = area;
+
+    for i,button in pairs( loc_buttons[prev_area] ) do
+        button:SetVisible( false );
+    end
+
+    for i,button in pairs( zoom_buttons[prev_area] ) do
+        button:SetVisible( false );
+    end
 
     for i,button in pairs( loc_buttons[current_area] ) do
         button:SetVisible( true );
