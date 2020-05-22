@@ -52,44 +52,47 @@ function positionToCoords( pos_x, pos_y, pos_x_max, pos_y_max, coord_x_min, coor
     local coord_y_max = tonumber( coord_y_max:sub( 1, -2 ) );
     local relative_dist_x = pos_x / pos_x_max; -- assume min positions of 0, 0
     local relative_dist_y = pos_y / pos_y_max;
+    local coord_x, coord_y;
+    local side_x = nil;
+    local side_y = nil;
 
     if side_x_min == "W" and side_x_max == "W" then
         local coord_x_span = coord_x_min - coord_x_max;
-        local coord_x = coord_x_min - relative_dist_x * coord_x_span;
-        local side_x = "W";
+        coord_x = coord_x_min - relative_dist_x * coord_x_span;
+        side_x = "W";
     elseif side_x_min == "E" and side_x_max == "E" then
         local coord_x_span = coord_x_max - coord_x_min;
-        local coord_x = coord_x_min + relative_dist_x * coord_x_span;
-        local side_x = "E";
+        coord_x = coord_x_min + relative_dist_x * coord_x_span;
+        side_x = "E";
     elseif side_x_min == "W" and side_x_max == "E" then
         local coord_x_span = coord_x_max + coord_x_min;
-        local coord_x = coord_x_min - relative_dist_x * coord_x_span;
+        coord_x = coord_x_min - relative_dist_x * coord_x_span;
 
         if coord_x < 0 then
             coord_x = -coord_x;
-            local side_x = "E";
+            side_x = "E";
         else
-            local side_x = "W";
+            side_x = "W";
         end
     end
 
     if side_y_min == "N" and side_y_max == "N" then
         local coord_y_span = coord_y_min - coord_y_max;
-        local coord_y = coord_y_min - relative_dist_y * coord_y_span;
-        local side_y = "N";
+        coord_y = coord_y_min - relative_dist_y * coord_y_span;
+        side_y = "N";
     elseif side_y_min == "S" and side_y_max == "S" then
         local coord_y_span = coord_y_max - coord_y_min;
-        local coord_y = coord_y_min + relative_dist_y * coord_y_span;
-        local side_y = "S";
+        coord_y = coord_y_min + relative_dist_y * coord_y_span;
+        side_y = "S";
     elseif side_y_min == "N" and side_y_max == "S" then
         local coord_y_span = coord_y_max + coord_y_min;
-        local coord_y = coord_y_min - relative_dist_y * coord_y_span;
+        coord_y = coord_y_min - relative_dist_y * coord_y_span;
 
         if coord_y < 0 then
             coord_y = -coord_y;
-            local side_y = "S";
+            side_y = "S";
         else
-            local side_y = "N";
+            side_y = "N";
         end
     end
 
