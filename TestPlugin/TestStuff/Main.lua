@@ -148,19 +148,19 @@ function LocButton:Constructor( area, idx )
     self:SetBackground( 0x410f34f1 );
     self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
     self:SetParent( bg );
-    self.label:SetParent( bg );
+    self.label:SetParent( window ); -- label parent is window so that it won't be scaled if bg map needs to be resized
     self.label:SetVisible( false );
     self.info = data[area][idx];
     self:SetPosition( unpack(self.info["point"]) );
     self.MouseEnter = function(sender, args)
-        x,y = unpack(self.info["point"]);
+        local x,y = window:GetMousePosition();
         self.label:SetText( self.info["text"] );
-        self.label:SetPosition( x + 20, y - 20 );
+        self.label:SetPosition( x + 25, y - 25 );
         self.label:SetWidth( self.label:GetTextLength() * 8 );
         self.label:SetHeight( 25 );
         self.label:SetVisible( true );
         self.label:SetZOrder( 10 ); -- show on top
-        self.label:SetStretchMode( 1 ); -- renders outside bg bounds
+        self.label:SetStretchMode( 1 ); -- renders outside bounds
     end
     self.MouseLeave = function(sender, args)
         self.label:SetVisible( false );
@@ -291,6 +291,14 @@ prevButton.Click = function( sender, args )
     changeArea( to_area, true );
 end
 
+checkBox = Turbine.UI.Lotro.CheckBox();
+checkBox:SetParent( window );
+checkBox:SetText( " Stretch map to max size" );
+checkBox:SetWidth( 220 );
+checkBox.CheckedChanged = function( sender, args )
+    changeArea( current_area, true );
+end
+
 -------------
 
 function changeArea( area, no_insert )
@@ -307,39 +315,49 @@ function changeArea( area, no_insert )
     ----------
 
     local adjusted = false;
+    local window_width = window:GetWidth();
+    local window_height = window:GetHeight();
 
-    if window:GetWidth() > disp_width then
-        window:SetWidth( disp_width );
-        adjusted = true;
-    end
-    
-    if window:GetHeight() > disp_height then
-        window:SetHeight( disp_height );
+    if window_width > disp_width or window_height > disp_height or checkBox:IsChecked() then
+        local ratio = window_width / window_height;
+        local disp_ratio = disp_width / disp_height;
+
+        if disp_ratio < ratio then 
+            local new_height = (disp_width / window_width) * window_height;
+            window:SetSize( disp_width, new_height );
+        else
+            local new_width = (disp_height / window_height) * window_width;
+            window:SetSize( new_width, disp_height );
+        end
+
+        window_width = window:GetWidth();
+        window_height = window:GetHeight();
         adjusted = true;
     end
 
     if adjusted then
-        local window_width = window:GetWidth();
         bg_width = window_width - 40 - 220;
-        bg_height = window:GetHeight() - 57;
+        bg_height = window_height - 57;
         window:SetPosition( 0, 0 );
         bg:SetStretchMode( 1 );
         bg:SetSize( bg_width, bg_height );
         filterButton:SetPosition( window_width - 220, 35 + 20 );
         areaButton:SetPosition( window_width - 220 + 70, 35 + 20 );
         prevButton:SetPosition( window_width - 220 + 70 + 70, 35 + 20 );
+        checkBox:SetPosition( window_width - 220, 35 + 50 );
         infoLabel:SetPosition( window_width - 220, 35 + 100 );
     else
         filterButton:SetPosition( width + 20 + 20, 35 + 20 );
         areaButton:SetPosition( width + 20 + 20 + 70, 35 + 20 );
         prevButton:SetPosition( width + 20 + 20 + 70 + 70, 35 + 20 );
+        checkBox:SetPosition( width + 20 + 20, 35 + 50 );
         infoLabel:SetPosition( width + 20 + 20, 35 + 100 );
     end
 
     ---------
 
     local prev_area = current_area;
-    if no_insert == nil then table.insert( prev_areas, prev_area ) end
+    if no_insert ~= true then table.insert( prev_areas, prev_area ) end
     current_area = area;
 
     for i,button in pairs( loc_buttons[prev_area] ) do

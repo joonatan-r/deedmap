@@ -2,7 +2,7 @@
 data = {};
 
 data["areas"] = {"Ered Luin", "Bree-land"};
-data["all_areas"] = {"Ered Luin", "Sarnur", "Sarnur Keep", "Sarnur Caverns", "Bree-land", "Northern Barrow-downs", "Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Thorin's Gate"};
+data["all_areas"] = {"Ered Luin", "Sarnur Great Hall", "Sarnur Keep", "Sarnur Caverns", "Bree-land", "Northern Barrow-downs", "Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Thorin's Gate"};
 data["types"] = {"Explorer", "Slayer", "Lore"};
 
 data["Ered Luin"] = {};
@@ -17,7 +17,7 @@ data["Ered Luin"]["sub_types"] = {"Elf-ruins Exploration", "Places of the Dwarve
 
 data["Ered Luin"]["zoom"] = {};
 data["Ered Luin"]["zoom"][1] = {};
-data["Ered Luin"]["zoom"][1]["area"] = "Sarnur";
+data["Ered Luin"]["zoom"][1]["area"] = "Sarnur Great Hall";
 data["Ered Luin"]["zoom"][1]["point"] = {330, 315};
 data["Ered Luin"]["zoom"][2] = {};
 data["Ered Luin"]["zoom"][2]["area"] = "Thorin's Gate";
@@ -183,31 +183,109 @@ data["Ered Luin"][28]["point"] = {722, 501};
 data["Ered Luin"][28]["type"] = "Slayer";
 data["Ered Luin"][28]["desc"] = "Wolf-slayer\n\nWolf-slayer (Advanced)\n\nRecommended location";
 
-data["Sarnur"] = {};
-data["Sarnur"]["map"] = 0x41091b65;
-data["Sarnur"]["width"] = 1600;
-data["Sarnur"]["height"] = 1200;
-data["Sarnur"]["sub_types"] = {};
+data["Sarnur Great Hall"] = {};
+data["Sarnur Great Hall"]["map"] = 0x41091b65;
+data["Sarnur Great Hall"]["width"] = 1600;
+data["Sarnur Great Hall"]["height"] = 1200;
+data["Sarnur Great Hall"]["sub_types"] = {"Avenger of Sarnur"};
 
-data["Sarnur"]["zoom"] = {};
-data["Sarnur"]["zoom"][1] = {};
-data["Sarnur"]["zoom"][1]["area"] = "Sarnur Keep";
-data["Sarnur"]["zoom"][1]["point"] = {390, 170};
-data["Sarnur"]["zoom"][2] = {};
-data["Sarnur"]["zoom"][2]["area"] = "Sarnur Caverns";
-data["Sarnur"]["zoom"][2]["point"] = {320, 600};
+data["Sarnur Great Hall"]["zoom"] = {};
+data["Sarnur Great Hall"]["zoom"][1] = {};
+data["Sarnur Great Hall"]["zoom"][1]["area"] = "Sarnur Keep";
+data["Sarnur Great Hall"]["zoom"][1]["point"] = {390, 170};
+data["Sarnur Great Hall"]["zoom"][2] = {};
+data["Sarnur Great Hall"]["zoom"][2]["area"] = "Sarnur Caverns";
+data["Sarnur Great Hall"]["zoom"][2]["point"] = {320, 600};
+
+data["Sarnur Great Hall"][1] = {};
+data["Sarnur Great Hall"][1]["text"] = "Dourhands (area)";
+data["Sarnur Great Hall"][1]["point"] = {668, 413};
+data["Sarnur Great Hall"][1]["type"] = "Slayer";
+data["Sarnur Great Hall"][1]["desc"] = "Betrayer's Bane\n\nBetrayer's Bane (Advanced)\n\nRecommended location (Entrance floor)";
+data["Sarnur Great Hall"][2] = {};
+data["Sarnur Great Hall"][2]["text"] = "Beasts (area)";
+data["Sarnur Great Hall"][2]["point"] = {683, 413};
+data["Sarnur Great Hall"][2]["type"] = "Slayer";
+data["Sarnur Great Hall"][2]["desc"] = "Master of Beasts\n\nMaster of Beasts (Advanced)\n\nRecommended location\n\nHendroval and cave-claws on entrance floor, snow-beasts and snowbears on bottom floor";
+data["Sarnur Great Hall"][3] = {};
+data["Sarnur Great Hall"][3]["text"] = "Snow-trolls (area)";
+data["Sarnur Great Hall"][3]["point"] = {676, 426};
+data["Sarnur Great Hall"][3]["type"] = "Slayer";
+data["Sarnur Great Hall"][3]["desc"] = "Troll-kicker\n\nTroll-kicker (Advanced)\n\nRecommended location (Bottom floor)";
+data["Sarnur Great Hall"][4] = {};
+data["Sarnur Great Hall"][4]["text"] = "Icerender (roaming)";
+data["Sarnur Great Hall"][4]["point"] = {676, 490};
+data["Sarnur Great Hall"][4]["type"] = "Slayer";
+data["Sarnur Great Hall"][4]["sub_type"] = "Avenger of Sarnur";
+data["Sarnur Great Hall"][4]["desc"] = "Avenger of Sarnur\n\nIcerender is a rare elite master snow-beast, and can be found roaming the bottom floor or standing at the far end.\n\nNote: This creature has Great Protection, which makes it very resistant to all damage types except Ancient Dwarf";
+data["Sarnur Great Hall"][5] = {};
+data["Sarnur Great Hall"][5]["text"] = "Latub (roaming)";
+data["Sarnur Great Hall"][5]["point"] = {1170, 463};
+data["Sarnur Great Hall"][5]["type"] = "Slayer";
+data["Sarnur Great Hall"][5]["sub_type"] = "Avenger of Sarnur";
+data["Sarnur Great Hall"][5]["desc"] = "Avenger of Sarnur\n\nLatub is a rare signature goblin, and can be found either patrolling the stairs to the bottom floor, in the room near the entrance, in the most north-eastern room, or roaming the bridge area near the entrance.\n\nNote: This creature has Great Protection, which makes it very resistant to all damage types except Ancient Dwarf";
+data["Sarnur Great Hall"][6] = {};
+data["Sarnur Great Hall"][6]["text"] = "Northpaw (possible spawn point)";
+data["Sarnur Great Hall"][6]["point"] = {631, 768};
+data["Sarnur Great Hall"][6]["type"] = "Slayer";
+data["Sarnur Great Hall"][6]["sub_type"] = "Avenger of Sarnur";
+data["Sarnur Great Hall"][6]["desc"] = "Avenger of Sarnur\n\nNorthpaw is a rare signature lynx, and can be found either standing near the entrance, roaming in the back wall bridge and Keep entrance area, or roaming in the north-eastern corner area.\n\nNote: Northpaw is in stealth mode.\n\nNote: This creature has Great Protection, which makes it very resistant to all damage types except Ancient Dwarf";
+
+--[[  
+data["Sarnur Great Hall"][] = {};
+data["Sarnur Great Hall"][]["text"] = "";
+data["Sarnur Great Hall"][]["point"] = {727, 579};
+data["Sarnur Great Hall"][]["type"] = "Slayer";
+data["Sarnur Great Hall"][]["sub_type"] = "Avenger of Sarnur";
+data["Sarnur Great Hall"][]["desc"] = "Avenger of Sarnur";
+]]
 
 data["Sarnur Keep"] = {};
 data["Sarnur Keep"]["map"] = 0x41091b64;
 data["Sarnur Keep"]["width"] = 800;
 data["Sarnur Keep"]["height"] = 600;
-data["Sarnur Keep"]["sub_types"] = {};
+data["Sarnur Keep"]["sub_types"] = {"Avenger of Sarnur"};
+
+data["Sarnur Keep"][1] = {};
+data["Sarnur Keep"][1]["text"] = "Dourhands (area)";
+data["Sarnur Keep"][1]["point"] = {379, 410};
+data["Sarnur Keep"][1]["type"] = "Slayer";
+data["Sarnur Keep"][1]["desc"] = "Betrayer's Bane\n\nBetrayer's Bane (Advanced)\n\nRecommended location\n\nNote: All creatures in Sarnur Keep have Great Protection, which makes them very resistant to all damage types except Ancient Dwarf";
+data["Sarnur Keep"][2] = {};
+data["Sarnur Keep"][2]["text"] = "Beasts (area)";
+data["Sarnur Keep"][2]["point"] = {392, 410};
+data["Sarnur Keep"][2]["type"] = "Slayer";
+data["Sarnur Keep"][2]["desc"] = "Master of Beasts\n\nMaster of Beasts (Advanced)\n\nRecommended location\n\nNote: All creatures in Sarnur Keep have Great Protection, which makes them very resistant to all damage types except Ancient Dwarf";
+data["Sarnur Keep"][3] = {};
+data["Sarnur Keep"][3]["text"] = "Glumir (possible spawn point)";
+data["Sarnur Keep"][3]["point"] = {432, 530};
+data["Sarnur Keep"][3]["type"] = "Slayer";
+data["Sarnur Keep"][3]["sub_type"] = "Avenger of Sarnur";
+data["Sarnur Keep"][3]["desc"] = "Avenger of Sarnur\n\nGlumir is a rare signature dwarf, and can be found either at the dead end left of the entrance, on the bottom floor pool area, or roaming the stairs overlooking the hallway.\n\nNote: This creature has Great Protection, which makes it very resistant to all damage types except Ancient Dwarf";
 
 data["Sarnur Caverns"] = {};
 data["Sarnur Caverns"]["map"] = 0x41091b63;
 data["Sarnur Caverns"]["width"] = 1600;
 data["Sarnur Caverns"]["height"] = 1200;
-data["Sarnur Caverns"]["sub_types"] = {};
+data["Sarnur Caverns"]["sub_types"] = {"Avenger of Sarnur"};
+
+data["Sarnur Caverns"][1] = {};
+data["Sarnur Caverns"][1]["text"] = "Snow-trolls (area)";
+data["Sarnur Caverns"][1]["point"] = {700, 560};
+data["Sarnur Caverns"][1]["type"] = "Slayer";
+data["Sarnur Caverns"][1]["desc"] = "Troll-kicker\n\nTroll-kicker (Advanced)\n\nRecommended location\n\nNote: All creatures in Sarnur Caverns have Great Protection, which makes them very resistant to all damage types except Ancient Dwarf";
+data["Sarnur Caverns"][2] = {};
+data["Sarnur Caverns"][2]["text"] = "Brullug (roaming)";
+data["Sarnur Caverns"][2]["point"] = {727, 579};
+data["Sarnur Caverns"][2]["type"] = "Slayer";
+data["Sarnur Caverns"][2]["sub_type"] = "Avenger of Sarnur";
+data["Sarnur Caverns"][2]["desc"] = "Avenger of Sarnur\n\nBrullug is a rare nemesis drake, and can be found roaming in the bottom or middle floor. It can sometimes fly between locations.\n\nNote: This creature has Great Protection, which makes it very resistant to all damage types except Ancient Dwarf";
+data["Sarnur Caverns"][3] = {};
+data["Sarnur Caverns"][3]["text"] = "Gadhup (roaming)";
+data["Sarnur Caverns"][3]["point"] = {740, 579};
+data["Sarnur Caverns"][3]["type"] = "Slayer";
+data["Sarnur Caverns"][3]["sub_type"] = "Avenger of Sarnur";
+data["Sarnur Caverns"][3]["desc"] = "Avenger of Sarnur\n\nGadhup is a rare elite troll, and can be found roaming the middle floor bridges or guarding the ramp to the bottom floor.\n\nNote: This creature has Great Protection, which makes it very resistant to all damage types except Ancient Dwarf";
 
 data["Thorin's Gate"] = {};
 data["Thorin's Gate"]["map"] = 0x4100812b;
@@ -515,14 +593,6 @@ data["Southern Barrow-downs"][10]["text"] = "Barrow-wardens (area)";
 data["Southern Barrow-downs"][10]["point"] = {449, 405};
 data["Southern Barrow-downs"][10]["type"] = "Slayer";
 data["Southern Barrow-downs"][10]["desc"] = "Grave-digger\n\nGrave-digger (Advanced)\n\nRecommended location (inside the barrow)";
-
---[[  
-data["Bree-land"][] = {};
-data["Bree-land"][]["text"] = "Barrow-wardens (area)";
-data["Bree-land"][]["point"] = 
-data["Bree-land"][]["type"] = "Slayer";
-data["Bree-land"][]["desc"] = "Grave-digger\n\nGrave-digger (Advanced)\n\nRecommended location (inside the barrow)";
-]]
 
 data["The Old Forest"] = {};
 data["The Old Forest"]["map"] = 0x410e4ddd;
