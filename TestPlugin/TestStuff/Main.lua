@@ -4,8 +4,8 @@ import "TestPlugin.TestStuff";
 
 current_area = "Bree-land"; -- use as default
 prev_areas = {};
-width = data[current_area]["width"];
-height = data[current_area]["height"];
+width = data[current_area].width;
+height = data[current_area].height;
 window = Turbine.UI.Lotro.Window();
 window:SetPosition( 0, 0 );
 window:SetText( "Map" );
@@ -106,15 +106,15 @@ bg_width = bg:GetWidth();
 bg_height = bg:GetHeight(); -- these need to be changed manually if stretching
 
 bg.MouseMove = function(sender, args)
-    if data[current_area]["coord_x_min"] == nil then
+    if data[current_area].coord_x_min == nil then
         coordsLabel:SetVisible( false );
         return;
     end
     
-    local coord_x_min = data[current_area]["coord_x_min"];
-    local coord_y_min = data[current_area]["coord_y_min"];
-    local coord_x_max = data[current_area]["coord_x_max"];
-    local coord_y_max = data[current_area]["coord_y_max"];
+    local coord_x_min = data[current_area].coord_x_min;
+    local coord_y_min = data[current_area].coord_y_min;
+    local coord_x_max = data[current_area].coord_x_max;
+    local coord_y_max = data[current_area].coord_y_max;
     local x,y = bg:GetMousePosition();
     coordsLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
     coordsLabel:SetText( positionToCoords( x, y, bg_width - 1, bg_height - 1, coord_x_min, coord_y_min, coord_x_max, coord_y_max ) );
@@ -130,7 +130,7 @@ cmd.Execute = function( sender, cmd, args )
     window:SetVisible( not window:IsVisible() );
     if window:IsVisible() then window:Activate() end
 end
-Turbine.Shell.AddCommand("deedmap", cmd);
+Turbine.Shell.AddCommand( "deedmap", cmd );
 
 ---------------
 
@@ -151,10 +151,10 @@ function LocButton:Constructor( area, idx )
     self.label:SetParent( window ); -- label parent is window so that it won't be scaled if bg map needs to be resized
     self.label:SetVisible( false );
     self.info = data[area][idx];
-    self:SetPosition( unpack(self.info["point"]) );
+    self:SetPosition( unpack(self.info.point) );
     self.MouseEnter = function(sender, args)
         local x,y = window:GetMousePosition();
-        self.label:SetText( self.info["text"] );
+        self.label:SetText( self.info.text );
         self.label:SetPosition( x + 25, y - 25 );
         self.label:SetWidth( self.label:GetTextLength() * 8 );
         self.label:SetHeight( 25 );
@@ -168,7 +168,7 @@ function LocButton:Constructor( area, idx )
     self.Click = function( sender, args )
         changeSelection( self.area, self.idx, self.selected );
         infoLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
-        infoLabel:SetText( self.info["desc"] );
+        infoLabel:SetText( self.info.desc );
         infoLabel:SetWidth( 200 );
         infoLabel:SetHeight( 800 );
         infoLabel:SetVisible( self.selected );
@@ -214,7 +214,7 @@ end
 
 loc_buttons = {};
 
-for i,area in pairs( data["all_areas"] ) do
+for i,area in pairs( data.all_areas ) do
     loc_buttons[area] = {};
 
     for j,info in pairs(data[area]) do
@@ -231,12 +231,12 @@ end
 
 zoom_buttons = {};
 
-for i,area in pairs( data["all_areas"] ) do
+for i,area in pairs( data.all_areas ) do
     zoom_buttons[area] = {};
 
-    if data[area]["zoom"] ~= nil then
-        for j,info in pairs(data[area]["zoom"]) do
-            zoom_buttons[area][j] = ZoomButton( info["area"], info["point"] );
+    if data[area].zoom ~= nil then
+        for j,info in pairs(data[area].zoom) do
+            zoom_buttons[area][j] = ZoomButton( info.area, info.point );
             zoom_buttons[area][j]:SetVisible( false );
         end
     end
@@ -268,7 +268,7 @@ end
 areaMenu = Turbine.UI.ContextMenu();
 areaMenuItems = areaMenu:GetItems();
 
-for i,area in pairs( data["areas"] ) do
+for i,area in pairs( data.areas ) do
     areaMenuItems:Add( Turbine.UI.MenuItem( area ) );
 end
 
@@ -302,12 +302,12 @@ end
 -------------
 
 function changeArea( area, no_insert )
-    width = data[area]["width"];
-    height = data[area]["height"];
+    width = data[area].width;
+    height = data[area].height;
     bg_width = width;
     bg_height = height;
     window:SetSize( width + 40 + 220, height + 57 );
-    bg:SetBackground( data[area]["map"] );
+    bg:SetBackground( data[area].map );
     bg:SetStretchMode( 0 );
     bg:SetSize( bg_width, bg_height );
     bg:SetPosition( 20, 35 );
@@ -387,7 +387,7 @@ function changeArea( area, no_insert )
             item:SetChecked( true );
     
             for i,button in pairs( loc_buttons[current_area] ) do
-                if button.info["type"] == item:GetText() or button.info["sub_type"] == item:GetText() then
+                if button.info.type == item:GetText() or button.info.sub_type == item:GetText() then
                     button:SetVisible( true );
                 end
             end
@@ -399,18 +399,18 @@ function changeArea( area, no_insert )
             item:SetChecked( false );
     
             for i,button in pairs( loc_buttons[current_area] ) do
-                if button.info["type"] == item:GetText() or button.info["sub_type"] == item:GetText() then
+                if button.info.type == item:GetText() or button.info.sub_type == item:GetText() then
                     button:SetVisible( false );
                 end
             end
         end
     end
 
-    for i,type in pairs( data["types"] ) do
+    for i,type in pairs( data.types ) do
         filterMenuItems:Add( Turbine.UI.MenuItem( type ) );
     end
 
-    for i,type in pairs( data[current_area]["sub_types"] ) do
+    for i,type in pairs( data[current_area].sub_types ) do
         filterMenuItems:Add( Turbine.UI.MenuItem( type ) );
     end
 
@@ -422,7 +422,7 @@ function changeArea( area, no_insert )
             item:SetChecked( new_val );
     
             for i,button in pairs( loc_buttons[current_area] ) do
-                if button.info["type"] == item:GetText() or button.info["sub_type"] == item:GetText() then
+                if button.info.type == item:GetText() or button.info.sub_type == item:GetText() then
                     button:SetVisible( new_val );
                 end
             end
