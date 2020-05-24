@@ -1,9 +1,9 @@
+import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "TestPlugin.TestStuff";
 
 current_area = "Bree-land"; -- use as default
-prev_areas = {};
 width = data[current_area].width;
 height = data[current_area].height;
 window = Turbine.UI.Lotro.Window();
@@ -16,6 +16,8 @@ bg:SetParent( window );
 bg:SetPosition( 20, 35 );
 infoLabel = Turbine.UI.Label();
 infoLabel:SetParent( window );
+infoLabel:SetWidth( 200 );
+infoLabel:SetHeight( 800 );
 coordsLabel = Turbine.UI.Label();
 coordsLabel:SetParent( window );
 disp_width = Turbine.UI.Display.GetWidth();
@@ -23,13 +25,15 @@ disp_height = Turbine.UI.Display.GetHeight();
 
 ------------------
 
--- for developing
-
 bg.MouseClick = function( sender, args )
-    local x,y = bg:GetMousePosition();
-    x = x - 5; -- adjust for image
-    y = y - 5;
-    Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
+    if args.Button == Turbine.UI.MouseButton.Left then
+        local x,y = bg:GetMousePosition();
+        x = x - 5; -- adjust for image
+        y = y - 5;
+        Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
+    elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
+        changeArea( data[current_area].main_area );
+    end
 end
 
 ---------------
@@ -169,8 +173,6 @@ function LocButton:Constructor( area, idx )
         changeSelection( self.area, self.idx, self.selected );
         infoLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
         infoLabel:SetText( self.info.desc );
-        infoLabel:SetWidth( 200 );
-        infoLabel:SetHeight( 800 );
         infoLabel:SetVisible( self.selected );
     end
 end
@@ -280,28 +282,17 @@ for i = 1, areaMenuItems:GetCount() do
     end
 end
 
-prevButton = Turbine.UI.Lotro.Button();
-prevButton:SetSize( 50, 20 );
-prevButton:SetText( "Back" );
-prevButton:SetParent( window );
-prevButton.Click = function( sender, args )
-    if next(prev_areas) == nil then return end
-    local to_area = prev_areas[#prev_areas];
-    table.remove( prev_areas );
-    changeArea( to_area, true );
-end
-
 checkBox = Turbine.UI.Lotro.CheckBox();
 checkBox:SetParent( window );
 checkBox:SetText( " Stretch map to max size" );
 checkBox:SetWidth( 220 );
 checkBox.CheckedChanged = function( sender, args )
-    changeArea( current_area, true );
+    changeArea( current_area );
 end
 
 -------------
 
-function changeArea( area, no_insert )
+function changeArea( area )
     width = data[area].width;
     height = data[area].height;
     bg_width = width;
@@ -343,13 +334,11 @@ function changeArea( area, no_insert )
         bg:SetSize( bg_width, bg_height );
         filterButton:SetPosition( window_width - 220, 35 + 20 );
         areaButton:SetPosition( window_width - 220 + 70, 35 + 20 );
-        prevButton:SetPosition( window_width - 220 + 70 + 70, 35 + 20 );
         checkBox:SetPosition( window_width - 220, 35 + 50 );
         infoLabel:SetPosition( window_width - 220, 35 + 100 );
     else
         filterButton:SetPosition( width + 20 + 20, 35 + 20 );
         areaButton:SetPosition( width + 20 + 20 + 70, 35 + 20 );
-        prevButton:SetPosition( width + 20 + 20 + 70 + 70, 35 + 20 );
         checkBox:SetPosition( width + 20 + 20, 35 + 50 );
         infoLabel:SetPosition( width + 20 + 20, 35 + 100 );
     end
@@ -357,7 +346,6 @@ function changeArea( area, no_insert )
     ---------
 
     local prev_area = current_area;
-    if no_insert ~= true then table.insert( prev_areas, prev_area ) end
     current_area = area;
 
     for i,button in pairs( loc_buttons[prev_area] ) do

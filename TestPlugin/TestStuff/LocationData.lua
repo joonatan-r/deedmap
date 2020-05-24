@@ -2,8 +2,22 @@
 data = {};
 
 data.areas = {"Ered Luin", "Bree-land"};
-data.all_areas = {"Ered Luin", "Sarnur Great Hall", "Sarnur Keep", "Sarnur Caverns", "Bree-land", "Northern Barrow-downs", "Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Thorin's Gate"};
+data.all_areas = {"Eriador", "Ered Luin", "Sarnur Great Hall", "Sarnur Keep", "Sarnur Caverns", "Bree-land", "Northern Barrow-downs", "Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Thorin's Gate"};
 data.types = {"Explorer", "Slayer", "Lore"};
+
+data["Eriador"] = {};
+data["Eriador"].map = 0x41008138;
+data["Eriador"].width = 1024;
+data["Eriador"].height = 768;
+data["Eriador"].sub_types = {};
+
+data["Eriador"].zoom = {};
+data["Eriador"].zoom[1] = {};
+data["Eriador"].zoom[1].area = "Ered Luin";
+data["Eriador"].zoom[1].point = {250, 300};
+data["Eriador"].zoom[2] = {};
+data["Eriador"].zoom[2].area = "Bree-land";
+data["Eriador"].zoom[2].point = {570, 380};
 
 data["Ered Luin"] = {};
 data["Ered Luin"].map = 0x4100812c;
@@ -13,6 +27,7 @@ data["Ered Luin"].coord_x_min = "113.0W";
 data["Ered Luin"].coord_y_min = "12.6S";
 data["Ered Luin"].coord_x_max = "86.6W";
 data["Ered Luin"].coord_y_max = "32.4S";
+data["Ered Luin"].main_area = "Eriador";
 data["Ered Luin"].sub_types = {"Elf-ruins Exploration", "Places of the Dwarves", "Rath Teraig Exploration", "Scouting the Dourhands"};
 
 data["Ered Luin"].zoom = {};
@@ -187,6 +202,7 @@ data["Sarnur Great Hall"] = {};
 data["Sarnur Great Hall"].map = 0x41091b65;
 data["Sarnur Great Hall"].width = 1600;
 data["Sarnur Great Hall"].height = 1200;
+data["Sarnur Great Hall"].main_area = "Ered Luin";
 data["Sarnur Great Hall"].sub_types = {"Avenger of Sarnur"};
 
 data["Sarnur Great Hall"].zoom = {};
@@ -235,7 +251,13 @@ data["Sarnur Keep"] = {};
 data["Sarnur Keep"].map = 0x41091b64;
 data["Sarnur Keep"].width = 800;
 data["Sarnur Keep"].height = 600;
+data["Sarnur Keep"].main_area = "Ered Luin";
 data["Sarnur Keep"].sub_types = {"Avenger of Sarnur"};
+
+data["Sarnur Keep"].zoom = {};
+data["Sarnur Keep"].zoom[1] = {};
+data["Sarnur Keep"].zoom[1].area = "Sarnur Great Hall";
+data["Sarnur Keep"].zoom[1].point = {521, 386};
 
 data["Sarnur Keep"][1] = {};
 data["Sarnur Keep"][1].text = "Dourhands (area)";
@@ -258,7 +280,13 @@ data["Sarnur Caverns"] = {};
 data["Sarnur Caverns"].map = 0x41091b63;
 data["Sarnur Caverns"].width = 1600;
 data["Sarnur Caverns"].height = 1200;
+data["Sarnur Caverns"].main_area = "Ered Luin";
 data["Sarnur Caverns"].sub_types = {"Avenger of Sarnur"};
+
+data["Sarnur Caverns"].zoom = {};
+data["Sarnur Caverns"].zoom[1] = {};
+data["Sarnur Caverns"].zoom[1].area = "Sarnur Great Hall";
+data["Sarnur Caverns"].zoom[1].point = {1165, 740};
 
 data["Sarnur Caverns"][1] = {};
 data["Sarnur Caverns"][1].text = "Snow-trolls (area)";
@@ -286,6 +314,7 @@ data["Thorin's Gate"].coord_x_min = "106.8W";
 data["Thorin's Gate"].coord_y_min = "11.2S";
 data["Thorin's Gate"].coord_x_max = "98.8W";
 data["Thorin's Gate"].coord_y_max = "17.2S";
+data["Thorin's Gate"].main_area = "Ered Luin";
 data["Thorin's Gate"].sub_types = {"Places of the Dwarves"};
 
 data["Thorin's Gate"][1] = {};
@@ -315,6 +344,7 @@ data["Bree-land"].coord_x_min = "65.6W";
 data["Bree-land"].coord_y_min = "17.7S";
 data["Bree-land"].coord_x_max = "37.4W";
 data["Bree-land"].coord_y_max = "38.9S";
+data["Bree-land"].main_area = "Eriador";
 data["Bree-land"].sub_types = {"The Ruins of Bree-land", "The History of the Dunedain"};
 
 data["Bree-land"].zoom = {};
@@ -455,6 +485,7 @@ data["Northern Barrow-downs"].coord_x_min = "57.3W";
 data["Northern Barrow-downs"].coord_y_min = "29.9S";
 data["Northern Barrow-downs"].coord_x_max = "52.5W";
 data["Northern Barrow-downs"].coord_y_max = "33.5S";
+data["Northern Barrow-downs"].main_area = "Bree-land";
 data["Northern Barrow-downs"].sub_types = {"The Barrow-downs", "Executioner of the Wicked"};
 
 data["Northern Barrow-downs"][1] = {};
@@ -528,6 +559,7 @@ data["Southern Barrow-downs"].coord_x_min = "57.8W";
 data["Southern Barrow-downs"].coord_y_min = "32.7S";
 data["Southern Barrow-downs"].coord_x_max = "51.9W";
 data["Southern Barrow-downs"].coord_y_max = "37.1S";
+data["Southern Barrow-downs"].main_area = "Bree-land";
 data["Southern Barrow-downs"].sub_types = {"The Barrow-downs", "Executioner of the Wicked"};
 
 data["Southern Barrow-downs"][1] = {};
@@ -593,6 +625,7 @@ data["The Old Forest"].coord_x_min = "65.2W";
 data["The Old Forest"].coord_y_min = "29.2S";
 data["The Old Forest"].coord_x_max = "52.4W";
 data["The Old Forest"].coord_y_max = "38.8S";
+data["The Old Forest"].main_area = "Bree-land";
 data["The Old Forest"].sub_types = {"The Old Forest", "Flowers of the Old Forest"};
 
 data["The Old Forest"][1] = {};
@@ -682,6 +715,7 @@ data["Archet"].coord_x_min = "50.8W";
 data["Archet"].coord_y_min = "24.2S";
 data["Archet"].coord_x_max = "45.2W";
 data["Archet"].coord_y_max = "28.4S";
+data["Archet"].main_area = "Bree-land";
 data["Archet"].sub_types = {"The Ruins of Bree-land", "The History of the Dunedain"};
 
 data["Archet"][1] = {};
@@ -716,6 +750,7 @@ data["Bree"].coord_x_min = "54.6W";
 data["Bree"].coord_y_min = "28.1S";
 data["Bree"].coord_x_max = "47.8W";
 data["Bree"].coord_y_max = "33.2S";
+data["Bree"].main_area = "Bree-land";
 data["Bree"].sub_types = {"The History of the Dunedain"};
 
 data["Bree"][1] = {};
