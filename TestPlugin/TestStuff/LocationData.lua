@@ -1,14 +1,26 @@
 
 data = {};
 
-data.areas = {"Ered Luin", "Bree-land"};
-data.all_areas = {"Eriador", "Ered Luin", "Sarnur Great Hall", "Sarnur Keep", "Sarnur Caverns", "Bree-land", "Northern Barrow-downs", "Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Thorin's Gate"};
+data.areas = {"Middle-earth", "Ered Luin", "The Shire", "Bree-land", "Lone-lands", "North Downs", "Evendim", "Forochel", "Angmar", "Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland"};
+data.all_areas = {"Middle-earth", "Eriador", "Ered Luin", "Thorin's Gate", "Sarnur Great Hall", "Sarnur Keep", "Sarnur Caverns", "The Shire", "Bree-land", "Northern Barrow-downs", "Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Lone-lands", "North Downs", "Evendim", "Forochel", "Angmar", "Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland"};
 data.types = {"Explorer", "Slayer", "Lore"};
+
+data["Middle-earth"] = {};
+data["Middle-earth"].map = 0x41008139;
+data["Middle-earth"].width = 1024;
+data["Middle-earth"].height = 768;
+data["Middle-earth"].sub_types = {};
+
+data["Middle-earth"].zoom = {};
+data["Middle-earth"].zoom[1] = {};
+data["Middle-earth"].zoom[1].area = "Eriador";
+data["Middle-earth"].zoom[1].point = {295, 250};
 
 data["Eriador"] = {};
 data["Eriador"].map = 0x41008138;
 data["Eriador"].width = 1024;
 data["Eriador"].height = 768;
+data["Eriador"].main_area = "Middle-earth";
 data["Eriador"].sub_types = {};
 
 data["Eriador"].zoom = {};
@@ -18,6 +30,39 @@ data["Eriador"].zoom[1].point = {250, 300};
 data["Eriador"].zoom[2] = {};
 data["Eriador"].zoom[2].area = "Bree-land";
 data["Eriador"].zoom[2].point = {570, 380};
+data["Eriador"].zoom[3] = {};
+data["Eriador"].zoom[3].area = "The Shire";
+data["Eriador"].zoom[3].point = {440, 370};
+data["Eriador"].zoom[4] = {};
+data["Eriador"].zoom[4].area = "Lone-lands";
+data["Eriador"].zoom[4].point = {660, 370};
+data["Eriador"].zoom[5] = {};
+data["Eriador"].zoom[5].area = "North Downs";
+data["Eriador"].zoom[5].point = {646, 281};
+data["Eriador"].zoom[6] = {};
+data["Eriador"].zoom[6].area = "Evendim";
+data["Eriador"].zoom[6].point = {473, 222};
+data["Eriador"].zoom[7] = {};
+data["Eriador"].zoom[7].area = "Forochel";
+data["Eriador"].zoom[7].point = {464, 135};
+data["Eriador"].zoom[8] = {};
+data["Eriador"].zoom[8].area = "Angmar";
+data["Eriador"].zoom[8].point = {702, 169};
+data["Eriador"].zoom[9] = {};
+data["Eriador"].zoom[9].area = "Trollshaws";
+data["Eriador"].zoom[9].point = {817, 360};
+data["Eriador"].zoom[10] = {};
+data["Eriador"].zoom[10].area = "Misty Mountains";
+data["Eriador"].zoom[10].point = {931, 278};
+data["Eriador"].zoom[11] = {};
+data["Eriador"].zoom[11].area = "Eregion";
+data["Eriador"].zoom[11].point = {880, 530};
+data["Eriador"].zoom[12] = {};
+data["Eriador"].zoom[12].area = "Enedwaith";
+data["Eriador"].zoom[12].point = {790, 602};
+data["Eriador"].zoom[13] = {};
+data["Eriador"].zoom[13].area = "Dunland";
+data["Eriador"].zoom[13].point = {760, 700};
 
 data["Ered Luin"] = {};
 data["Ered Luin"].map = 0x4100812c;
@@ -335,6 +380,17 @@ data["Thorin's Gate"][3].point = {656, 392};
 data["Thorin's Gate"][3].type = "Explorer";
 data["Thorin's Gate"][3].sub_type = "Places of the Dwarves";
 data["Thorin's Gate"][3].desc = "Places of the Dwarves";
+
+data["The Shire"] = {};
+data["The Shire"].map = 0x41008137;
+data["The Shire"].width = 1024;
+data["The Shire"].height = 768;
+data["The Shire"].coord_x_min = "80.9W";
+data["The Shire"].coord_y_min = "22.9S";
+data["The Shire"].coord_x_max = "59.8W";
+data["The Shire"].coord_y_max = "38.8S";
+data["The Shire"].main_area = "Eriador";
+data["The Shire"].sub_types = {};
 
 data["Bree-land"] = {};
 data["Bree-land"].map = 0x41008136;
@@ -759,3 +815,113 @@ data["Bree"][1].point = {301, 390};
 data["Bree"][1].type = "Lore";
 data["Bree"][1].sub_type = "The History of the Dunedain";
 data["Bree"][1].desc = "The History of the Dunedain";
+
+data["Lone-lands"] = {};
+data["Lone-lands"].map = 0x41008130;
+data["Lone-lands"].width = 1024;
+data["Lone-lands"].height = 768;
+data["Lone-lands"].coord_x_min = "44.3W";
+data["Lone-lands"].coord_y_min = "26.2S";
+data["Lone-lands"].coord_x_max = "20.9W";
+data["Lone-lands"].coord_y_max = "43.7S";
+data["Lone-lands"].main_area = "Eriador";
+data["Lone-lands"].sub_types = {};
+    
+data["North Downs"] = {};
+data["North Downs"].map = 0x41008132;
+data["North Downs"].width = 1024;
+data["North Downs"].height = 768;
+data["North Downs"].coord_x_min = "60.4W";
+data["North Downs"].coord_y_min = "1.3S";
+data["North Downs"].coord_x_max = "32.2W";
+data["North Downs"].coord_y_max = "22.5S";
+data["North Downs"].main_area = "Eriador";
+data["North Downs"].sub_types = {};
+    
+data["Evendim"] = {};
+data["Evendim"].map = 0x4101f084;
+data["Evendim"].width = 1024;
+data["Evendim"].height = 768;
+data["Evendim"].coord_x_min = "82.6W";
+data["Evendim"].coord_y_min = "1.6S";
+data["Evendim"].coord_x_max = "52.3W";
+data["Evendim"].coord_y_max = "24.4S";
+data["Evendim"].main_area = "Eriador";
+data["Evendim"].sub_types = {};
+
+data["Forochel"] = {};
+data["Forochel"].map = 0x410e3f46;
+data["Forochel"].width = 1024;
+data["Forochel"].height = 768;
+data["Forochel"].coord_x_min = "92.8W";
+data["Forochel"].coord_y_min = "24.9N";
+data["Forochel"].coord_x_max = "51.9W";
+data["Forochel"].coord_y_max = "5.7S";
+data["Forochel"].main_area = "Eriador";
+data["Forochel"].sub_types = {};
+    
+data["Angmar"] = {};
+data["Angmar"].map = 0x41008131;
+data["Angmar"].width = 1024;
+data["Angmar"].height = 768;
+data["Angmar"].coord_x_min = "42.8W";
+data["Angmar"].coord_y_min = "14.7N";
+data["Angmar"].coord_x_max = "13.6W";
+data["Angmar"].coord_y_max = "7.3S";
+data["Angmar"].main_area = "Eriador";
+data["Angmar"].sub_types = {};
+    
+data["Trollshaws"] = {};
+data["Trollshaws"].map = 0x4100812e;
+data["Trollshaws"].width = 1024;
+data["Trollshaws"].height = 768;
+data["Trollshaws"].coord_x_min = "26.3W";
+data["Trollshaws"].coord_y_min = "20.8S";
+data["Trollshaws"].coord_x_max = "0.9E";
+data["Trollshaws"].coord_y_max = "41.3S";
+data["Trollshaws"].main_area = "Eriador";
+data["Trollshaws"].sub_types = {};
+
+data["Misty Mountains"] = {};
+data["Misty Mountains"].map = 0x4100812f;
+data["Misty Mountains"].width = 1024;
+data["Misty Mountains"].height = 768;
+data["Misty Mountains"].coord_x_min = "11.9W";
+data["Misty Mountains"].coord_y_min = "14.6S";
+data["Misty Mountains"].coord_x_max = "12.9E";
+data["Misty Mountains"].coord_y_max = "33.2S";
+data["Misty Mountains"].main_area = "Eriador";
+data["Misty Mountains"].sub_types = {};
+    
+data["Eregion"] = {};
+data["Eregion"].map = 0x410e8686;
+data["Eregion"].width = 1024;
+data["Eregion"].height = 768;
+data["Eregion"].coord_x_min = "23.8W";
+data["Eregion"].coord_y_min = "35.2S";
+data["Eregion"].coord_x_max = "6.5E";
+data["Eregion"].coord_y_max = "58.0S";
+data["Eregion"].main_area = "Eriador";
+data["Eregion"].sub_types = {};
+    
+data["Enedwaith"] = {};
+data["Enedwaith"].map = 0x411041a4;
+data["Enedwaith"].width = 1024;
+data["Enedwaith"].height = 768;
+data["Enedwaith"].coord_x_min = "31.6W";
+data["Enedwaith"].coord_y_min = "53.7S";
+data["Enedwaith"].coord_x_max = "0.6W";
+data["Enedwaith"].coord_y_max = "77.0S";
+data["Enedwaith"].main_area = "Eriador";
+data["Enedwaith"].sub_types = {};
+    
+data["Dunland"] = {};
+data["Dunland"].map = 0x4111961d; -- TODO Dunland map is a bit weird
+data["Dunland"].width = 1024;
+data["Dunland"].height = 768;
+data["Dunland"].coord_x_min = "28.6W";
+data["Dunland"].coord_y_min = "70.8S";
+data["Dunland"].coord_x_max = "1.9W";
+data["Dunland"].coord_y_max = "90.9S";
+data["Dunland"].main_area = "Eriador";
+data["Dunland"].sub_types = {};

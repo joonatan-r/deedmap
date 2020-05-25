@@ -38,6 +38,45 @@ end
 
 ---------------
 
+--[[ test_qs = Turbine.UI.Lotro.Quickslot();
+test_qs:SetParent( window );
+test_qs:SetZOrder( 10 );
+test_qs:SetPosition( 0, 0 );
+test_qs.ShortcutChanged = function( sender, args ) Turbine.Shell.WriteLine( test_qs:GetShortcut():GetData() ) end
+
+qs = Turbine.UI.Lotro.Quickslot();
+qs:SetParent( window );
+qs:SetZOrder( 10 );
+qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Undefined, "" ) );
+qs:SetSize( 0, 0 );
+
+travelButton = class( Turbine.UI.Lotro.Button );
+
+function travelButton:Constructor()
+    Turbine.UI.Button.Constructor( self );
+    self:SetParent( bg );
+    self:SetPosition( 0, 0 );
+    self:SetSize( 30, 30 );
+    self:SetBackground( 0x41005e52 );
+    self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
+    self.MouseEnter = function( sender, args )
+        self:SetWantsUpdates( true );
+    end
+    self.MouseLeave = function( sender, args )
+        self:SetWantsUpdates( false );
+    end
+    self.Update = function( sender, args )
+        local x, y = window:GetMousePosition();
+        qs:SetPosition( x - 1, y - 1 );
+        qs:SetSize( 3, 3 );
+        qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Skill, "0x70003043" ) );
+    end
+end
+
+b = travelButton(); ]]
+
+---------------
+
 function round(num, numDecimalPlaces)
     local mult = 10^(numDecimalPlaces or 0);
     return math.floor(num * mult + 0.5) / mult;
