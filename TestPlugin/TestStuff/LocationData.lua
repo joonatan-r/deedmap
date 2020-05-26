@@ -1,8 +1,12 @@
 
 data = {};
 
-data.areas = {"Middle-earth", "Ered Luin", "The Shire", "Bree-land", "Lone-lands", "North Downs", "Evendim", "Forochel", "Angmar", "Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland"};
-data.all_areas = {"Middle-earth", "Eriador", "Ered Luin", "Thorin's Gate", "Sarnur Great Hall", "Sarnur Keep", "Sarnur Caverns", "The Shire", "Bree-land", "Northern Barrow-downs", "Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Lone-lands", "North Downs", "Evendim", "Forochel", "Angmar", "Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland"};
+data.areas = {"Middle-earth", "Ered Luin", "The Shire", "Bree-land", "Lone-lands", "North Downs", 
+"Evendim", "Forochel", "Angmar", "Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland"};
+data.all_areas = {"Middle-earth", "Eriador", "Ered Luin", "Thorin's Gate", "Sarnur Great Hall", 
+"Sarnur Keep", "Sarnur Caverns", "The Shire", "Bree-land", "Northern Barrow-downs", 
+"Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Lone-lands", "North Downs", "Evendim", 
+"Forochel", "Angmar", "Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland"};
 data.types = {"Explorer", "Slayer", "Lore"};
 
 data["Middle-earth"] = {};
@@ -419,6 +423,18 @@ data["Bree-land"].zoom[4].point = {631, 239};
 data["Bree-land"].zoom[5] = {};
 data["Bree-land"].zoom[5].area = "Bree";
 data["Bree-land"].zoom[5].point = {476, 392};
+
+-------------
+
+--[[ data["Bree-land"].travel = {}; -- test
+data["Bree-land"].travel[1] = {};
+data["Bree-land"].travel[1].skill = "0x70003043";
+data["Bree-land"].travel[1].point = {50, 50};
+data["Bree-land"].travel[2] = {};
+data["Bree-land"].travel[2].skill = "0x70003043";
+data["Bree-land"].travel[2].point = {150, 150}; ]]
+
+-------------
 
 data["Bree-land"][1] = {};
 data["Bree-land"][1].text = "Hillshire Ruins, 27.8S, 58.7W";

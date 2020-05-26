@@ -38,42 +38,11 @@ end
 
 ---------------
 
---[[ test_qs = Turbine.UI.Lotro.Quickslot();
+--[[ test_qs = Turbine.UI.Lotro.Quickslot(); -- for getting skill ids while developing
 test_qs:SetParent( window );
 test_qs:SetZOrder( 10 );
 test_qs:SetPosition( 0, 0 );
-test_qs.ShortcutChanged = function( sender, args ) Turbine.Shell.WriteLine( test_qs:GetShortcut():GetData() ) end
-
-qs = Turbine.UI.Lotro.Quickslot();
-qs:SetParent( window );
-qs:SetZOrder( 10 );
-qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Undefined, "" ) );
-qs:SetSize( 0, 0 );
-
-travelButton = class( Turbine.UI.Lotro.Button );
-
-function travelButton:Constructor()
-    Turbine.UI.Button.Constructor( self );
-    self:SetParent( bg );
-    self:SetPosition( 0, 0 );
-    self:SetSize( 30, 30 );
-    self:SetBackground( 0x41005e52 );
-    self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
-    self.MouseEnter = function( sender, args )
-        self:SetWantsUpdates( true );
-    end
-    self.MouseLeave = function( sender, args )
-        self:SetWantsUpdates( false );
-    end
-    self.Update = function( sender, args )
-        local x, y = window:GetMousePosition();
-        qs:SetPosition( x - 1, y - 1 );
-        qs:SetSize( 3, 3 );
-        qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Skill, "0x70003043" ) );
-    end
-end
-
-b = travelButton(); ]]
+test_qs.ShortcutChanged = function( sender, args ) Turbine.Shell.WriteLine( test_qs:GetShortcut():GetData() ) end ]]
 
 ---------------
 
@@ -216,6 +185,18 @@ function LocButton:Constructor( area, idx )
     end
 end
 
+changeSelection = function( area, idx, remove_selection )
+    for i,button in pairs( loc_buttons[area] ) do
+        if remove_selection or i ~= idx then
+            button:SetBackground( 0x410f34f1 );
+            button.selected = false;
+        else
+            button:SetBackground( 0x410d7856 );
+            button.selected = true;
+        end
+    end
+end
+
 ZoomButton = class( Turbine.UI.Button );
 
 function ZoomButton:Constructor( area, point )
@@ -237,15 +218,55 @@ function ZoomButton:Constructor( area, point )
     end
 end
 
-changeSelection = function( area, idx, remove_selection )
-    for i,button in pairs( loc_buttons[area] ) do
-        if remove_selection or i ~= idx then
-            button:SetBackground( 0x410f34f1 );
-            button.selected = false;
-        else
-            button:SetBackground( 0x410d7856 );
-            button.selected = true;
+qs = Turbine.UI.Lotro.Quickslot(); -- the same quickslot is used, its position and skill is changed based on hovered button
+qs:SetParent( window );
+qs:SetZOrder( 10 );
+qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Undefined, "" ) );
+qs:SetSize( 0, 0 );
+
+TravelButton = class( Turbine.UI.Lotro.Button );
+
+function TravelButton:Constructor( area, idx )
+    Turbine.UI.Button.Constructor( self );
+    self.x, self.y = unpack( data[area].travel[idx].point );
+    self.skill = data[area].travel[idx].skill;
+    self.idx = idx;
+    self:SetParent( bg );
+    self:SetPosition( self.x, self.y );
+    self:SetSize( 30, 30 );
+    self:SetBackground( 0x41005e52 );
+    self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
+    self.MouseEnter = function( sender, args )
+        self:SetBackground( 0x41005e55 );
+        qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Skill, self.skill ) );
+        qs.MouseLeave = function( sender, args )
+            local x,y = bg:GetMousePosition();
+        
+            if not ( x >= self.x and x <= self.x + 29 ) or not ( y >= self.y and y <= self.y + 29 ) then
+                self:SetBackground( 0x41005e52 );
+            end
         end
+        self:SetWantsUpdates( true );
+    end
+    self.MouseLeave = function( sender, args )
+        self:SetWantsUpdates( false );
+    end
+    self.Update = function( sender, args )
+        local x, y = window:GetMousePosition();
+        qs:SetPosition( x - 1, y - 1 );
+        qs:SetSize( 3, 3 );
+    end
+    self.EnterEdit = function()
+        self.qs = Turbine.UI.Lotro.Quickslot();
+        self.qs:SetParent( bg );
+        self.qs:SetPosition( self.x, self.y );
+        self.qs:SetZOrder( 10 );
+        self.qs.ShortcutChanged = function( sender, args )
+            self.skill = self.qs:GetShortcut():GetData();
+        end
+    end
+    self.ExitEdit = function()
+        self.qs:SetVisible( false );
     end
 end
 
@@ -258,7 +279,7 @@ loc_buttons = {};
 for i,area in pairs( data.all_areas ) do
     loc_buttons[area] = {};
 
-    for j,info in pairs(data[area]) do
+    for j,info in pairs( data[area] ) do
         if type(j) == "number" then -- if index is a number, it contains info for a button
             loc_buttons[area][j] = LocButton( area, j );
             loc_buttons[area][j]:SetVisible( false );
@@ -276,7 +297,7 @@ for i,area in pairs( data.all_areas ) do
     zoom_buttons[area] = {};
 
     if data[area].zoom ~= nil then
-        for j,info in pairs(data[area].zoom) do
+        for j,info in pairs( data[area].zoom ) do
             zoom_buttons[area][j] = ZoomButton( info.area, info.point );
             zoom_buttons[area][j]:SetVisible( false );
         end
@@ -286,6 +307,35 @@ end
 for i,button in pairs( zoom_buttons[current_area] ) do
     button:SetVisible( true );
 end
+
+travel_buttons = {};
+
+for i,area in pairs( data.all_areas ) do
+    travel_buttons[area] = {};
+
+    if data[area].travel ~= nil then
+        for j,info in pairs( data[area].travel ) do
+            travel_buttons[area][j] = TravelButton( area, j );
+            travel_buttons[area][j]:SetVisible( false );
+        end
+    end
+end
+
+for i,button in pairs( travel_buttons[current_area] ) do
+    button:SetVisible( true );
+end
+
+load_data = Turbine.PluginData.Load( Turbine.DataScope.Character, "TestPlugin_saved_skills" );
+
+if load_data ~= nil then
+    for area,info in pairs( load_data ) do
+        for j,skill in pairs( info ) do
+            travel_buttons[area][j].skill = skill;
+        end
+    end
+end
+
+save_data = {};
 
 ---------------
 
@@ -320,6 +370,29 @@ for i = 1, areaMenuItems:GetCount() do
         changeArea( area );
     end
 end
+
+function enter_edit( sender, args )
+    for i,button in pairs( travel_buttons[current_area] ) do
+        button.EnterEdit();
+    end
+    editButton.Click = function( sender, args ) exit_edit( sender, args ) end
+end
+
+function exit_edit( sender, args )
+    for i,button in pairs( travel_buttons[current_area] ) do
+        button.ExitEdit();
+        if save_data[current_area] == nil then save_data[current_area] = {} end
+        save_data[current_area][button.idx] = button.skill;
+    end
+    Turbine.PluginData.Save( Turbine.DataScope.Character, "TestPlugin_saved_skills", save_data );
+    editButton.Click = function( sender, args ) enter_edit( sender, args ) end
+end
+
+editButton = Turbine.UI.Lotro.Button();
+editButton:SetSize( 50, 20 );
+editButton:SetText( "Skills" );
+editButton:SetParent( window );
+editButton.Click = function( sender, args ) enter_edit( sender, args ) end
 
 checkBox = Turbine.UI.Lotro.CheckBox();
 checkBox:SetParent( window );
@@ -373,11 +446,13 @@ function changeArea( area )
         bg:SetSize( bg_width, bg_height );
         filterButton:SetPosition( window_width - 220, 35 + 20 );
         areaButton:SetPosition( window_width - 220 + 70, 35 + 20 );
+        editButton:SetPosition( window_width - 220 + 70 + 70, 35 + 20 );
         checkBox:SetPosition( window_width - 220, 35 + 50 );
         infoLabel:SetPosition( window_width - 220, 35 + 100 );
     else
         filterButton:SetPosition( width + 20 + 20, 35 + 20 );
         areaButton:SetPosition( width + 20 + 20 + 70, 35 + 20 );
+        editButton:SetPosition( width + 20 + 20 + 70 + 70, 35 + 20 );
         checkBox:SetPosition( width + 20 + 20, 35 + 50 );
         infoLabel:SetPosition( width + 20 + 20, 35 + 100 );
     end
@@ -395,11 +470,19 @@ function changeArea( area )
         button:SetVisible( false );
     end
 
+    for i,button in pairs( travel_buttons[prev_area] ) do
+        button:SetVisible( false );
+    end
+
     for i,button in pairs( loc_buttons[current_area] ) do
         button:SetVisible( true );
     end
 
     for i,button in pairs( zoom_buttons[current_area] ) do
+        button:SetVisible( true );
+    end
+
+    for i,button in pairs( travel_buttons[current_area] ) do
         button:SetVisible( true );
     end
 
