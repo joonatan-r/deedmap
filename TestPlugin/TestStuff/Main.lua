@@ -28,7 +28,7 @@ disp_height = Turbine.UI.Display.GetHeight();
 bg.MouseClick = function( sender, args )
     if args.Button == Turbine.UI.MouseButton.Left then
         local x,y = bg:GetMousePosition();
-        x = x - 30; -- adjust for image, - 5 for loc, - 30 for zoom 
+        x = x - 30; -- adjust for image, - 5 for loc, - 30 for zoom, - 15 for travel
         y = y - 30;
         Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
     elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
@@ -327,7 +327,7 @@ end
 
 load_data = Turbine.PluginData.Load( Turbine.DataScope.Character, "TestPlugin_saved_skills" );
 
-if load_data ~= nil then
+function load_skills()
     for area,info in pairs( load_data ) do
         for j,skill in pairs( info ) do
             travel_buttons[area][j].skill = skill;
@@ -335,6 +335,7 @@ if load_data ~= nil then
     end
 end
 
+if load_data ~= nil then pcall( load_skills ) end
 save_data = {};
 
 ---------------
