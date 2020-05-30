@@ -3,7 +3,7 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "TestPlugin.TestStuff";
 
-current_area = "Bree-land"; -- use as default
+current_area = "Middle-earth";
 width = data[current_area].width;
 height = data[current_area].height;
 window = Turbine.UI.Lotro.Window();
@@ -28,21 +28,13 @@ disp_height = Turbine.UI.Display.GetHeight();
 bg.MouseClick = function( sender, args )
     if args.Button == Turbine.UI.MouseButton.Left then
         local x,y = bg:GetMousePosition();
-        x = x - 5; -- adjust for image
-        y = y - 5;
+        x = x - 30; -- adjust for image, - 5 for loc, - 30 for zoom 
+        y = y - 30;
         Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
     elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
         changeArea( data[current_area].main_area );
     end
 end
-
----------------
-
---[[ test_qs = Turbine.UI.Lotro.Quickslot(); -- for getting skill ids while developing
-test_qs:SetParent( window );
-test_qs:SetZOrder( 10 );
-test_qs:SetPosition( 0, 0 );
-test_qs.ShortcutChanged = function( sender, args ) Turbine.Shell.WriteLine( test_qs:GetShortcut():GetData() ) end ]]
 
 ---------------
 
@@ -274,9 +266,17 @@ end
 
 -- TODO maybe later don't load all at once
 
+all_areas = {};
+
+for key,val in pairs( data ) do
+    if key ~= "areas" and key ~= "types" then
+        all_areas[#all_areas + 1] = key;
+    end
+end
+
 loc_buttons = {};
 
-for i,area in pairs( data.all_areas ) do
+for i,area in pairs( all_areas ) do
     loc_buttons[area] = {};
 
     for j,info in pairs( data[area] ) do
@@ -293,7 +293,7 @@ end
 
 zoom_buttons = {};
 
-for i,area in pairs( data.all_areas ) do
+for i,area in pairs( all_areas ) do
     zoom_buttons[area] = {};
 
     if data[area].zoom ~= nil then
@@ -310,7 +310,7 @@ end
 
 travel_buttons = {};
 
-for i,area in pairs( data.all_areas ) do
+for i,area in pairs( all_areas ) do
     travel_buttons[area] = {};
 
     if data[area].travel ~= nil then

@@ -1,12 +1,10 @@
 
 data = {};
-
-data.areas = {"Middle-earth", "Ered Luin", "The Shire", "Bree-land", "Lone-lands", "North Downs", 
-"Evendim", "Forochel", "Angmar", "Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland"};
-data.all_areas = {"Middle-earth", "Eriador", "Ered Luin", "Thorin's Gate", "Sarnur Great Hall", 
-"Sarnur Keep", "Sarnur Caverns", "The Shire", "Bree-land", "Northern Barrow-downs", 
-"Southern Barrow-downs", "The Old Forest", "Archet", "Bree", "Lone-lands", "North Downs", "Evendim", 
-"Forochel", "Angmar", "Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland"};
+data.areas = {"Ered Luin", "The Shire", "Bree-land", "Lone-lands", "North Downs", "Evendim", "Forochel", "Angmar", 
+"Trollshaws", "Misty Mountains", "Eregion", "Enedwaith", "Dunland", "Ered Mithrin", "Eryn Lasgalen", "Iron Hills", 
+"Wells of Langflood", "Vales of Anduin", "Moria", "Lothlorien", "Mirkwood", "The Great River", "Wildermore", 
+"East Rohan", "West Rohan", "Western Gondor", "Central Gondor", "Eastern Gondor", "Old Anorien", "Far Anorien", 
+"North Ithilien", "The Wastes", "The Plateau of Gorgoroth", "The Morgul Vale"};
 data.types = {"Explorer", "Slayer", "Lore"};
 
 data["Middle-earth"] = {};
@@ -19,6 +17,15 @@ data["Middle-earth"].zoom = {};
 data["Middle-earth"].zoom[1] = {};
 data["Middle-earth"].zoom[1].area = "Eriador";
 data["Middle-earth"].zoom[1].point = {295, 250};
+data["Middle-earth"].zoom[2] = {};
+data["Middle-earth"].zoom[2].area = "Rhovanion";
+data["Middle-earth"].zoom[2].point = {687, 212};
+data["Middle-earth"].zoom[3] = {};
+data["Middle-earth"].zoom[3].area = "Gondor"
+data["Middle-earth"].zoom[3].point = {639, 565};
+data["Middle-earth"].zoom[4] = {};
+data["Middle-earth"].zoom[4].area = "Mordor";
+data["Middle-earth"].zoom[4].point = {893, 483};
 
 data["Eriador"] = {};
 data["Eriador"].map = 0x41008138;
@@ -65,7 +72,7 @@ data["Eriador"].zoom[12] = {};
 data["Eriador"].zoom[12].area = "Enedwaith";
 data["Eriador"].zoom[12].point = {790, 602};
 data["Eriador"].zoom[13] = {};
-data["Eriador"].zoom[13].area = "Dunland";
+data["Eriador"].zoom[13].area = "Dunland Area";
 data["Eriador"].zoom[13].point = {760, 700};
 
 data["Ered Luin"] = {};
@@ -426,13 +433,13 @@ data["Bree-land"].zoom[5].point = {476, 392};
 
 -------------
 
---[[ data["Bree-land"].travel = {}; -- test
+data["Bree-land"].travel = {}; -- test
 data["Bree-land"].travel[1] = {};
 data["Bree-land"].travel[1].skill = "0x70003043";
 data["Bree-land"].travel[1].point = {50, 50};
 data["Bree-land"].travel[2] = {};
 data["Bree-land"].travel[2].skill = "0x70003043";
-data["Bree-land"].travel[2].point = {150, 150}; ]]
+data["Bree-land"].travel[2].point = {150, 150};
 
 -------------
 
@@ -898,6 +905,22 @@ data["Trollshaws"].coord_y_max = "41.3S";
 data["Trollshaws"].main_area = "Eriador";
 data["Trollshaws"].sub_types = {};
 
+data["Trollshaws"].zoom = {};
+data["Trollshaws"].zoom[1] = {};
+data["Trollshaws"].zoom[1].area = "Rivendell";
+data["Trollshaws"].zoom[1].point = {768, 243};
+
+data["Rivendell"] = {};
+data["Rivendell"].map = 0x4100812d;
+data["Rivendell"].width = 1024;
+data["Rivendell"].height = 768;
+data["Rivendell"].coord_x_min = "";
+data["Rivendell"].coord_y_min = "";
+data["Rivendell"].coord_x_max = "";
+data["Rivendell"].coord_y_max = "";
+data["Rivendell"].main_area = "Trollshaws";
+data["Rivendell"].sub_types = {};
+
 data["Misty Mountains"] = {};
 data["Misty Mountains"].map = 0x4100812f;
 data["Misty Mountains"].width = 1024;
@@ -908,6 +931,11 @@ data["Misty Mountains"].coord_x_max = "12.9E";
 data["Misty Mountains"].coord_y_max = "33.2S";
 data["Misty Mountains"].main_area = "Eriador";
 data["Misty Mountains"].sub_types = {};
+
+data["Misty Mountains"].zoom = {};
+data["Misty Mountains"].zoom[1] = {};
+data["Misty Mountains"].zoom[1].area = "Rivendell";
+data["Misty Mountains"].zoom[1].point = {234, 550};
     
 data["Eregion"] = {};
 data["Eregion"].map = 0x410e8686;
@@ -919,7 +947,23 @@ data["Eregion"].coord_x_max = "6.5E";
 data["Eregion"].coord_y_max = "58.0S";
 data["Eregion"].main_area = "Eriador";
 data["Eregion"].sub_types = {};
-    
+
+data["Eregion"].zoom = {};
+data["Eregion"].zoom[1] = {};
+data["Eregion"].zoom[1].area = "The Walls of Moria";
+data["Eregion"].zoom[1].point = {591, 494};
+
+data["The Walls of Moria"] = {};
+data["The Walls of Moria"].map = 0x410e8694;
+data["The Walls of Moria"].width = 1024;
+data["The Walls of Moria"].height = 768;
+data["The Walls of Moria"].coord_x_min = "";
+data["The Walls of Moria"].coord_y_min = "";
+data["The Walls of Moria"].coord_x_max = "";
+data["The Walls of Moria"].coord_y_max = "";
+data["The Walls of Moria"].main_area = "Eregion";
+data["The Walls of Moria"].sub_types = {};
+
 data["Enedwaith"] = {};
 data["Enedwaith"].map = 0x411041a4;
 data["Enedwaith"].width = 1024;
@@ -931,13 +975,1355 @@ data["Enedwaith"].coord_y_max = "77.0S";
 data["Enedwaith"].main_area = "Eriador";
 data["Enedwaith"].sub_types = {};
     
+data["Dunland Area"] = {};
+data["Dunland Area"].map = 0x41119615;
+data["Dunland Area"].width = 1024;
+data["Dunland Area"].height = 768;
+data["Dunland Area"].coord_x_min = "";
+data["Dunland Area"].coord_y_min = "";
+data["Dunland Area"].coord_x_max = "";
+data["Dunland Area"].coord_y_max = "";
+data["Dunland Area"].main_area = "Eriador";
+data["Dunland Area"].sub_types = {};
+
+data["Dunland Area"].zoom = {};
+data["Dunland Area"].zoom[1] = {};
+data["Dunland Area"].zoom[1].area = "Dunland";
+data["Dunland Area"].zoom[1].point = {189, 159};
+data["Dunland Area"].zoom[2] = {};
+data["Dunland Area"].zoom[2].area = "Nan Curunir";
+data["Dunland Area"].zoom[2].point = {816, 151};
+data["Dunland Area"].zoom[3] = {};
+data["Dunland Area"].zoom[3].area = "Gap of Rohan";
+data["Dunland Area"].zoom[3].point = {646, 544};
+
 data["Dunland"] = {};
-data["Dunland"].map = 0x4111961d; -- TODO Dunland map is a bit weird
+data["Dunland"].map = 0x4111961d;
 data["Dunland"].width = 1024;
 data["Dunland"].height = 768;
 data["Dunland"].coord_x_min = "28.6W";
 data["Dunland"].coord_y_min = "70.8S";
 data["Dunland"].coord_x_max = "1.9W";
 data["Dunland"].coord_y_max = "90.9S";
-data["Dunland"].main_area = "Eriador";
+data["Dunland"].main_area = "Dunland Area";
 data["Dunland"].sub_types = {};
+
+data["Dunland"].zoom = {};
+data["Dunland"].zoom[1] = {};
+data["Dunland"].zoom[1].area = "Galtrev";
+data["Dunland"].zoom[1].point = {455, 297};
+data["Dunland"].zoom[2] = {};
+data["Dunland"].zoom[2].area = "Tal Methedras";
+data["Dunland"].zoom[2].point = {708, 182};
+
+data["Galtrev"] = {};
+data["Galtrev"].map = 0x41116EFE;
+data["Galtrev"].width = 1024;
+data["Galtrev"].height = 768;
+data["Galtrev"].coord_x_min = "";
+data["Galtrev"].coord_y_min = "";
+data["Galtrev"].coord_x_max = "";
+data["Galtrev"].coord_y_max = "";
+data["Galtrev"].main_area = "Dunland";
+data["Galtrev"].sub_types = {};
+
+data["Tal Methedras"] = {};
+data["Tal Methedras"].map = 0x4111b941;
+data["Tal Methedras"].width = 1024;
+data["Tal Methedras"].height = 768;
+data["Tal Methedras"].coord_x_min = "";
+data["Tal Methedras"].coord_y_min = "";
+data["Tal Methedras"].coord_x_max = "";
+data["Tal Methedras"].coord_y_max = "";
+data["Tal Methedras"].main_area = "Dunland";
+data["Tal Methedras"].sub_types = {};
+
+data["Nan Curunir"] = {};
+data["Nan Curunir"].map = 0x41119607;
+data["Nan Curunir"].width = 1024;
+data["Nan Curunir"].height = 768;
+data["Nan Curunir"].coord_x_min = "";
+data["Nan Curunir"].coord_y_min = "";
+data["Nan Curunir"].coord_x_max = "";
+data["Nan Curunir"].coord_y_max = "";
+data["Nan Curunir"].main_area = "Dunland Area";
+data["Nan Curunir"].sub_types = {};
+
+data["Gap of Rohan"] = {};
+data["Gap of Rohan"].map = 0x41116d55;
+data["Gap of Rohan"].width = 1024;
+data["Gap of Rohan"].height = 768;
+data["Gap of Rohan"].coord_x_min = "";
+data["Gap of Rohan"].coord_y_min = "";
+data["Gap of Rohan"].coord_x_max = "";
+data["Gap of Rohan"].coord_y_max = "";
+data["Gap of Rohan"].main_area = "Dunland Area";
+data["Gap of Rohan"].sub_types = {};
+
+data["Rhovanion"] = {};
+data["Rhovanion"].map = 0x411c2de4;
+data["Rhovanion"].width = 1024;
+data["Rhovanion"].height = 768;
+data["Rhovanion"].main_area = "Middle-earth";
+data["Rhovanion"].sub_types = {};
+
+data["Rhovanion"].zoom = {};
+data["Rhovanion"].zoom[1] = {};
+data["Rhovanion"].zoom[1].area = "Ered Mithrin";
+data["Rhovanion"].zoom[1].point = {430, 10};
+data["Rhovanion"].zoom[2] = {};
+data["Rhovanion"].zoom[2].area = "Eryn Lasgalen";
+data["Rhovanion"].zoom[2].point = {573, 53};
+data["Rhovanion"].zoom[3] = {};
+data["Rhovanion"].zoom[3].area = "Iron Hills";
+data["Rhovanion"].zoom[3].point = {705, 57};
+data["Rhovanion"].zoom[4] = {};
+data["Rhovanion"].zoom[4].area = "Wells of Langflood";
+data["Rhovanion"].zoom[4].point = {381, 95};
+data["Rhovanion"].zoom[5] = {};
+data["Rhovanion"].zoom[5].area = "Vales of Anduin";
+data["Rhovanion"].zoom[5].point = {436, 197};
+data["Rhovanion"].zoom[6] = {};
+data["Rhovanion"].zoom[6].area = "Moria";
+data["Rhovanion"].zoom[6].point = {254, 254};
+data["Rhovanion"].zoom[7] = {};
+data["Rhovanion"].zoom[7].area = "Lothlorien";
+data["Rhovanion"].zoom[7].point = {311, 348};
+data["Rhovanion"].zoom[8] = {};
+data["Rhovanion"].zoom[8].area = "Mirkwood";
+data["Rhovanion"].zoom[8].point = {513, 334};
+data["Rhovanion"].zoom[9] = {};
+data["Rhovanion"].zoom[9].area = "The Great River";
+data["Rhovanion"].zoom[9].point = {390, 387};
+data["Rhovanion"].zoom[10] = {};
+data["Rhovanion"].zoom[10].area = "Wildermore";
+data["Rhovanion"].zoom[10].point = {361, 453};
+data["Rhovanion"].zoom[11] = {};
+data["Rhovanion"].zoom[11].area = "East Rohan";
+data["Rhovanion"].zoom[11].point = {415, 515};
+data["Rhovanion"].zoom[12] = {};
+data["Rhovanion"].zoom[12].area = "West Rohan";
+data["Rhovanion"].zoom[12].point = {242, 594};
+data["Rhovanion"].zoom[13] = {};
+data["Rhovanion"].zoom[13].area = "Nan Curunir After Battle";
+data["Rhovanion"].zoom[13].point = {178, 512};
+
+data["Ered Mithrin"] = {};
+data["Ered Mithrin"].map = 0x411c8da9;
+data["Ered Mithrin"].width = 1024;
+data["Ered Mithrin"].height = 768;
+data["Ered Mithrin"].coord_x_min = "";
+data["Ered Mithrin"].coord_y_min = "";
+data["Ered Mithrin"].coord_x_max = "";
+data["Ered Mithrin"].coord_y_max = "";
+data["Ered Mithrin"].main_area = "Rhovanion";
+data["Ered Mithrin"].sub_types = {};
+
+data["Ered Mithrin"].zoom = {};
+data["Ered Mithrin"].zoom[1] = {};
+data["Ered Mithrin"].zoom[1].area = "Thikil-gundu";
+data["Ered Mithrin"].zoom[1].point = {60, 272};
+data["Ered Mithrin"].zoom[2] = {};
+data["Ered Mithrin"].zoom[2].area = "Glimmerdeep";
+data["Ered Mithrin"].zoom[2].point = {371, 268};
+data["Ered Mithrin"].zoom[3] = {};
+data["Ered Mithrin"].zoom[3].area = "The Anvil of Winterstith";
+data["Ered Mithrin"].zoom[3].point = {761, 135};
+
+data["Thikil-gundu"] = {};
+data["Thikil-gundu"].map = 0x411ce4fc;
+data["Thikil-gundu"].width = 1024;
+data["Thikil-gundu"].height = 768;
+data["Thikil-gundu"].coord_x_min = "";
+data["Thikil-gundu"].coord_y_min = "";
+data["Thikil-gundu"].coord_x_max = "";
+data["Thikil-gundu"].coord_y_max = "";
+data["Thikil-gundu"].main_area = "Ered Mithrin";
+data["Thikil-gundu"].sub_types = {};
+
+data["Glimmerdeep"] = {};
+data["Glimmerdeep"].map = 0x411ce735;
+data["Glimmerdeep"].width = 1024;
+data["Glimmerdeep"].height = 768;
+data["Glimmerdeep"].coord_x_min = "";
+data["Glimmerdeep"].coord_y_min = "";
+data["Glimmerdeep"].coord_x_max = "";
+data["Glimmerdeep"].coord_y_max = "";
+data["Glimmerdeep"].main_area = "Ered Mithrin";
+data["Glimmerdeep"].sub_types = {};
+
+data["The Anvil of Winterstith"] = {};
+data["The Anvil of Winterstith"].map = 0x411d2eba;
+data["The Anvil of Winterstith"].width = 1024;
+data["The Anvil of Winterstith"].height = 768;
+data["The Anvil of Winterstith"].coord_x_min = "";
+data["The Anvil of Winterstith"].coord_y_min = "";
+data["The Anvil of Winterstith"].coord_x_max = "";
+data["The Anvil of Winterstith"].coord_y_max = "";
+data["The Anvil of Winterstith"].main_area = "Ered Mithrin";
+data["The Anvil of Winterstith"].sub_types = {};
+    
+data["Eryn Lasgalen"] = {};
+data["Eryn Lasgalen"].map = 0x411c2de2;
+data["Eryn Lasgalen"].width = 1024;
+data["Eryn Lasgalen"].height = 768;
+data["Eryn Lasgalen"].coord_x_min = "";
+data["Eryn Lasgalen"].coord_y_min = "";
+data["Eryn Lasgalen"].coord_x_max = "";
+data["Eryn Lasgalen"].coord_y_max = "";
+data["Eryn Lasgalen"].main_area = "Rhovanion";
+data["Eryn Lasgalen"].sub_types = {};
+
+data["Eryn Lasgalen"].zoom = {};
+data["Eryn Lasgalen"].zoom[1] = {};
+data["Eryn Lasgalen"].zoom[1].area = "Felegoth";
+data["Eryn Lasgalen"].zoom[1].point = {406, 367};
+data["Eryn Lasgalen"].zoom[2] = {};
+data["Eryn Lasgalen"].zoom[2].area = "Erebor";
+data["Eryn Lasgalen"].zoom[2].point = {717, 120};
+
+data["Felegoth"] = {};
+data["Felegoth"].map = 0x411c2de1;
+data["Felegoth"].width = 1024;
+data["Felegoth"].height = 768;
+data["Felegoth"].coord_x_min = "";
+data["Felegoth"].coord_y_min = "";
+data["Felegoth"].coord_x_max = "";
+data["Felegoth"].coord_y_max = "";
+data["Felegoth"].main_area = "Eryn Lasgalen";
+data["Felegoth"].sub_types = {};
+
+data["Erebor"] = {};
+data["Erebor"].map = 0x411ce74f;
+data["Erebor"].width = 1024;
+data["Erebor"].height = 768;
+data["Erebor"].coord_x_min = "";
+data["Erebor"].coord_y_min = "";
+data["Erebor"].coord_x_max = "";
+data["Erebor"].coord_y_max = "";
+data["Erebor"].main_area = "Eryn Lasgalen";
+data["Erebor"].sub_types = {};
+    
+data["Iron Hills"] = {};
+data["Iron Hills"].map = 0x411cd4b8;
+data["Iron Hills"].width = 1024;
+data["Iron Hills"].height = 768;
+data["Iron Hills"].coord_x_min = "";
+data["Iron Hills"].coord_y_min = "";
+data["Iron Hills"].coord_x_max = "";
+data["Iron Hills"].coord_y_max = "";
+data["Iron Hills"].main_area = "Rhovanion";
+data["Iron Hills"].sub_types = {};
+    
+data["Wells of Langflood"] = {};
+data["Wells of Langflood"].map = 0x411ee769;
+data["Wells of Langflood"].width = 1024;
+data["Wells of Langflood"].height = 768;
+data["Wells of Langflood"].coord_x_min = "";
+data["Wells of Langflood"].coord_y_min = "";
+data["Wells of Langflood"].coord_x_max = "";
+data["Wells of Langflood"].coord_y_max = "";
+data["Wells of Langflood"].main_area = "Rhovanion";
+data["Wells of Langflood"].sub_types = {};
+    
+data["Vales of Anduin"] = {};
+data["Vales of Anduin"].map = 0x411da4a0;
+data["Vales of Anduin"].width = 1024;
+data["Vales of Anduin"].height = 768;
+data["Vales of Anduin"].coord_x_min = "";
+data["Vales of Anduin"].coord_y_min = "";
+data["Vales of Anduin"].coord_x_max = "";
+data["Vales of Anduin"].coord_y_max = "";
+data["Vales of Anduin"].main_area = "Rhovanion";
+data["Vales of Anduin"].sub_types = {};
+    
+data["Moria"] = {};
+data["Moria"].map = 0x410e8708;
+data["Moria"].width = 1024;
+data["Moria"].height = 768;
+data["Moria"].coord_x_min = "";
+data["Moria"].coord_y_min = "";
+data["Moria"].coord_x_max = "";
+data["Moria"].coord_y_max = "";
+data["Moria"].main_area = "Rhovanion";
+data["Moria"].sub_types = {};
+
+data["Moria"].zoom = {};
+data["Moria"].zoom[1] = {};
+data["Moria"].zoom[1].area = "The Great Delving";
+data["Moria"].zoom[1].point = {234, 275};
+data["Moria"].zoom[2] = {};
+data["Moria"].zoom[2].area = "Durin's Way";
+data["Moria"].zoom[2].point = {322, 160};
+data["Moria"].zoom[3] = {};
+data["Moria"].zoom[3].area = "Zelem-melek";
+data["Moria"].zoom[3].point = {392, 318};
+data["Moria"].zoom[4] = {};
+data["Moria"].zoom[4].area = "Nud-melek";
+data["Moria"].zoom[4].point = {587, 328};
+data["Moria"].zoom[5] = {};
+data["Moria"].zoom[5].area = "The Silvertine Lodes";
+data["Moria"].zoom[5].point = {266, 368};
+data["Moria"].zoom[6] = {};
+data["Moria"].zoom[6].area = "The Water-works";
+data["Moria"].zoom[6].point = {191, 514};
+data["Moria"].zoom[7] = {};
+data["Moria"].zoom[7].area = "Flaming Deeps";
+data["Moria"].zoom[7].point = {409, 493};
+data["Moria"].zoom[8] = {};
+data["Moria"].zoom[8].area = "Redhorn Lodes";
+data["Moria"].zoom[8].point = {489, 375};
+data["Moria"].zoom[9] = {};
+data["Moria"].zoom[9].area = "Foundations of Stone";
+data["Moria"].zoom[9].point = {712, 433};
+data["Moria"].zoom[10] = {};
+data["Moria"].zoom[10].area = "Zirakzigil";
+data["Moria"].zoom[10].point = {745, 73};
+
+data["The Great Delving"] = {};
+data["The Great Delving"].map = 0x410e871c;
+data["The Great Delving"].width = 1024;
+data["The Great Delving"].height = 768;
+data["The Great Delving"].coord_x_min = "";
+data["The Great Delving"].coord_y_min = "";
+data["The Great Delving"].coord_x_max = "";
+data["The Great Delving"].coord_y_max = "";
+data["The Great Delving"].main_area = "Moria";
+data["The Great Delving"].sub_types = {};
+
+data["Durin's Way"] = {};
+data["Durin's Way"].map = 0x410e871d;
+data["Durin's Way"].width = 1024;
+data["Durin's Way"].height = 768;
+data["Durin's Way"].coord_x_min = "";
+data["Durin's Way"].coord_y_min = "";
+data["Durin's Way"].coord_x_max = "";
+data["Durin's Way"].coord_y_max = "";
+data["Durin's Way"].main_area = "Moria";
+data["Durin's Way"].sub_types = {};
+
+data["Zelem-melek"] = {};
+data["Zelem-melek"].map = 0x410e871b;
+data["Zelem-melek"].width = 1024;
+data["Zelem-melek"].height = 768;
+data["Zelem-melek"].coord_x_min = "";
+data["Zelem-melek"].coord_y_min = "";
+data["Zelem-melek"].coord_x_max = "";
+data["Zelem-melek"].coord_y_max = "";
+data["Zelem-melek"].main_area = "Moria";
+data["Zelem-melek"].sub_types = {};
+
+data["Nud-melek"] = {};
+data["Nud-melek"].map = 0x410e871a;
+data["Nud-melek"].width = 1024;
+data["Nud-melek"].height = 768;
+data["Nud-melek"].coord_x_min = "";
+data["Nud-melek"].coord_y_min = "";
+data["Nud-melek"].coord_x_max = "";
+data["Nud-melek"].coord_y_max = "";
+data["Nud-melek"].main_area = "Moria";
+data["Nud-melek"].sub_types = {};
+
+data["The Silvertine Lodes"] = {};
+data["The Silvertine Lodes"].map = 0x410e8719;
+data["The Silvertine Lodes"].width = 1024;
+data["The Silvertine Lodes"].height = 768;
+data["The Silvertine Lodes"].coord_x_min = "";
+data["The Silvertine Lodes"].coord_y_min = "";
+data["The Silvertine Lodes"].coord_x_max = "";
+data["The Silvertine Lodes"].coord_y_max = "";
+data["The Silvertine Lodes"].main_area = "Moria";
+data["The Silvertine Lodes"].sub_types = {};
+
+data["The Water-works"] = {};
+data["The Water-works"].map = 0x410e8717;
+data["The Water-works"].width = 1024;
+data["The Water-works"].height = 768;
+data["The Water-works"].coord_x_min = "";
+data["The Water-works"].coord_y_min = "";
+data["The Water-works"].coord_x_max = "";
+data["The Water-works"].coord_y_max = "";
+data["The Water-works"].main_area = "Moria";
+data["The Water-works"].sub_types = {};
+
+data["Flaming Deeps"] = {};
+data["Flaming Deeps"].map = 0x410e8716;
+data["Flaming Deeps"].width = 1024;
+data["Flaming Deeps"].height = 768;
+data["Flaming Deeps"].coord_x_min = "";
+data["Flaming Deeps"].coord_y_min = "";
+data["Flaming Deeps"].coord_x_max = "";
+data["Flaming Deeps"].coord_y_max = "";
+data["Flaming Deeps"].main_area = "Moria";
+data["Flaming Deeps"].sub_types = {};
+
+data["Redhorn Lodes"] = {};
+data["Redhorn Lodes"].map = 0x410e8718;
+data["Redhorn Lodes"].width = 1024;
+data["Redhorn Lodes"].height = 768;
+data["Redhorn Lodes"].coord_x_min = "";
+data["Redhorn Lodes"].coord_y_min = "";
+data["Redhorn Lodes"].coord_x_max = "";
+data["Redhorn Lodes"].coord_y_max = "";
+data["Redhorn Lodes"].main_area = "Moria";
+data["Redhorn Lodes"].sub_types = {};
+
+data["Foundations of Stone"] = {};
+data["Foundations of Stone"].map = 0x410e8715;
+data["Foundations of Stone"].width = 1024;
+data["Foundations of Stone"].height = 768;
+data["Foundations of Stone"].coord_x_min = "";
+data["Foundations of Stone"].coord_y_min = "";
+data["Foundations of Stone"].coord_x_max = "";
+data["Foundations of Stone"].coord_y_max = "";
+data["Foundations of Stone"].main_area = "Moria";
+data["Foundations of Stone"].sub_types = {};
+
+data["Zirakzigil"] = {};
+data["Zirakzigil"].map = 0x410e871e;
+data["Zirakzigil"].width = 1024;
+data["Zirakzigil"].height = 768;
+data["Zirakzigil"].coord_x_min = "";
+data["Zirakzigil"].coord_y_min = "";
+data["Zirakzigil"].coord_x_max = "";
+data["Zirakzigil"].coord_y_max = "";
+data["Zirakzigil"].main_area = "Moria";
+data["Zirakzigil"].sub_types = {};
+    
+data["Lothlorien"] = {};
+data["Lothlorien"].map = 0x410e8707;
+data["Lothlorien"].width = 1024;
+data["Lothlorien"].height = 768;
+data["Lothlorien"].coord_x_min = "";
+data["Lothlorien"].coord_y_min = "";
+data["Lothlorien"].coord_x_max = "";
+data["Lothlorien"].coord_y_max = "";
+data["Lothlorien"].main_area = "Rhovanion";
+data["Lothlorien"].sub_types = {};
+
+data["Lothlorien"].zoom = {};
+data["Lothlorien"].zoom[1] = {};
+data["Lothlorien"].zoom[1].area = "Caras Galadhon";
+data["Lothlorien"].zoom[1].point = {698, 505};
+
+data["Caras Galadhon"] = {};
+data["Caras Galadhon"].map = 0x410e8706;
+data["Caras Galadhon"].width = 1024;
+data["Caras Galadhon"].height = 768;
+data["Caras Galadhon"].coord_x_min = "";
+data["Caras Galadhon"].coord_y_min = "";
+data["Caras Galadhon"].coord_x_max = "";
+data["Caras Galadhon"].coord_y_max = "";
+data["Caras Galadhon"].main_area = "Lothlorien";
+data["Caras Galadhon"].sub_types = {};
+    
+data["Mirkwood"] = {};
+data["Mirkwood"].map = 0x41100DF2;
+data["Mirkwood"].width = 1024;
+data["Mirkwood"].height = 768;
+data["Mirkwood"].coord_x_min = "";
+data["Mirkwood"].coord_y_min = "";
+data["Mirkwood"].coord_x_max = "";
+data["Mirkwood"].coord_y_max = "";
+data["Mirkwood"].main_area = "Rhovanion";
+data["Mirkwood"].sub_types = {};
+    
+data["The Great River"] = {};
+data["The Great River"].map = 0x4111e1c0;
+data["The Great River"].width = 1024;
+data["The Great River"].height = 768;
+data["The Great River"].coord_x_min = "";
+data["The Great River"].coord_y_min = "";
+data["The Great River"].coord_x_max = "";
+data["The Great River"].coord_y_max = "";
+data["The Great River"].main_area = "Rhovanion";
+data["The Great River"].sub_types = {};
+    
+data["Wildermore"] = {};
+data["Wildermore"].map = 0x411375af;
+data["Wildermore"].width = 1024;
+data["Wildermore"].height = 768;
+data["Wildermore"].coord_x_min = "";
+data["Wildermore"].coord_y_min = "";
+data["Wildermore"].coord_x_max = "";
+data["Wildermore"].coord_y_max = "";
+data["Wildermore"].main_area = "Rhovanion";
+data["Wildermore"].sub_types = {};
+
+data["Wildermore"].zoom = {};
+data["Wildermore"].zoom[1] = {};
+data["Wildermore"].zoom[1].area = "Forlaw";
+data["Wildermore"].zoom[1].point = {563, 389};
+
+data["Forlaw"] = {};
+data["Forlaw"].map = 0x411379ff;
+data["Forlaw"].width = 1024;
+data["Forlaw"].height = 768;
+data["Forlaw"].coord_x_min = "";
+data["Forlaw"].coord_y_min = "";
+data["Forlaw"].coord_x_max = "";
+data["Forlaw"].coord_y_max = "";
+data["Forlaw"].main_area = "Wildermore";
+data["Forlaw"].sub_types = {};
+    
+data["East Rohan"] = {};
+data["East Rohan"].map = 0x41129eb7;
+data["East Rohan"].width = 1024;
+data["East Rohan"].height = 768;
+data["East Rohan"].coord_x_min = "";
+data["East Rohan"].coord_y_min = "";
+data["East Rohan"].coord_x_max = "";
+data["East Rohan"].coord_y_max = "";
+data["East Rohan"].main_area = "Rhovanion";
+data["East Rohan"].sub_types = {};
+
+data["East Rohan"].zoom = {};
+data["East Rohan"].zoom[1] = {};
+data["East Rohan"].zoom[1].area = "Eaves of Fangorn";
+data["East Rohan"].zoom[1].point = {108, 88};
+data["East Rohan"].zoom[2] = {};
+data["East Rohan"].zoom[2].area = "Entwash Vale";
+data["East Rohan"].zoom[2].point = {305, 252};
+data["East Rohan"].zoom[3] = {};
+data["East Rohan"].zoom[3].area = "Norcrofts";
+data["East Rohan"].zoom[3].point = {428, 346};
+data["East Rohan"].zoom[4] = {};
+data["East Rohan"].zoom[4].area = "The Wold";
+data["East Rohan"].zoom[4].point = {738, 88};
+data["East Rohan"].zoom[5] = {};
+data["East Rohan"].zoom[5].area = "The East Wall";
+data["East Rohan"].zoom[5].point = {575, 579};
+data["East Rohan"].zoom[6] = {};
+data["East Rohan"].zoom[6].area = "Sutcrofts";
+data["East Rohan"].zoom[6].point = {331, 534};
+
+data["Eaves of Fangorn"] = {};
+data["Eaves of Fangorn"].map = 0x4112d1dd;
+data["Eaves of Fangorn"].width = 1024;
+data["Eaves of Fangorn"].height = 768;
+data["Eaves of Fangorn"].coord_x_min = "";
+data["Eaves of Fangorn"].coord_y_min = "";
+data["Eaves of Fangorn"].coord_x_max = "";
+data["Eaves of Fangorn"].coord_y_max = "";
+data["Eaves of Fangorn"].main_area = "East Rohan";
+data["Eaves of Fangorn"].sub_types = {};
+
+data["Entwash Vale"] = {};
+data["Entwash Vale"].map = 0x4112d1e1;
+data["Entwash Vale"].width = 1024;
+data["Entwash Vale"].height = 768;
+data["Entwash Vale"].coord_x_min = "";
+data["Entwash Vale"].coord_y_min = "";
+data["Entwash Vale"].coord_x_max = "";
+data["Entwash Vale"].coord_y_max = "";
+data["Entwash Vale"].main_area = "East Rohan";
+data["Entwash Vale"].sub_types = {};
+
+data["Norcrofts"] = {};
+data["Norcrofts"].map = 0x4112d1e0;
+data["Norcrofts"].width = 1024;
+data["Norcrofts"].height = 768;
+data["Norcrofts"].coord_x_min = "";
+data["Norcrofts"].coord_y_min = "";
+data["Norcrofts"].coord_x_max = "";
+data["Norcrofts"].coord_y_max = "";
+data["Norcrofts"].main_area = "East Rohan";
+data["Norcrofts"].sub_types = {};
+
+data["The Wold"] = {};
+data["The Wold"].map = 0x4112d1de;
+data["The Wold"].width = 1024;
+data["The Wold"].height = 768;
+data["The Wold"].coord_x_min = "";
+data["The Wold"].coord_y_min = "";
+data["The Wold"].coord_x_max = "";
+data["The Wold"].coord_y_max = "";
+data["The Wold"].main_area = "East Rohan";
+data["The Wold"].sub_types = {};
+
+data["The Wold"].zoom = {};
+data["The Wold"].zoom[1] = {};
+data["The Wold"].zoom[1].area = "Harwick";
+data["The Wold"].zoom[1].point = {439, 339};
+
+data["Harwick"] = {};
+data["Harwick"].map = 0x41132e10;
+data["Harwick"].width = 1024;
+data["Harwick"].height = 768;
+data["Harwick"].coord_x_min = "";
+data["Harwick"].coord_y_min = "";
+data["Harwick"].coord_x_max = "";
+data["Harwick"].coord_y_max = "";
+data["Harwick"].main_area = "The Wold";
+data["Harwick"].sub_types = {};
+
+data["The East Wall"] = {};
+data["The East Wall"].map = 0x4112d1dc;
+data["The East Wall"].width = 1024;
+data["The East Wall"].height = 768;
+data["The East Wall"].coord_x_min = "";
+data["The East Wall"].coord_y_min = "";
+data["The East Wall"].coord_x_max = "";
+data["The East Wall"].coord_y_max = "";
+data["The East Wall"].main_area = "East Rohan";
+data["The East Wall"].sub_types = {};
+
+data["Sutcrofts"] = {};
+data["Sutcrofts"].map = 0x4112d1df;
+data["Sutcrofts"].width = 1024;
+data["Sutcrofts"].height = 768;
+data["Sutcrofts"].coord_x_min = "";
+data["Sutcrofts"].coord_y_min = "";
+data["Sutcrofts"].coord_x_max = "";
+data["Sutcrofts"].coord_y_max = "";
+data["Sutcrofts"].main_area = "East Rohan";
+data["Sutcrofts"].sub_types = {};
+
+data["Sutcrofts"].zoom = {};
+data["Sutcrofts"].zoom[1] = {};
+data["Sutcrofts"].zoom[1].area = "Snowbourn";
+data["Sutcrofts"].zoom[1].point = {425, 410};
+
+data["Snowbourn"] = {};
+data["Snowbourn"].map = 0x41132e57;
+data["Snowbourn"].width = 1024;
+data["Snowbourn"].height = 768;
+data["Snowbourn"].coord_x_min = "";
+data["Snowbourn"].coord_y_min = "";
+data["Snowbourn"].coord_x_max = "";
+data["Snowbourn"].coord_y_max = "";
+data["Snowbourn"].main_area = "Sutcrofts";
+data["Snowbourn"].sub_types = {};
+    
+data["West Rohan"] = {};
+data["West Rohan"].map = 0x4113C325;
+data["West Rohan"].width = 1024;
+data["West Rohan"].height = 768;
+data["West Rohan"].coord_x_min = "";
+data["West Rohan"].coord_y_min = "";
+data["West Rohan"].coord_x_max = "";
+data["West Rohan"].coord_y_max = "";
+data["West Rohan"].main_area = "Rhovanion";
+data["West Rohan"].sub_types = {};
+
+data["West Rohan"].zoom = {};
+data["West Rohan"].zoom[1] = {};
+data["West Rohan"].zoom[1].area = "Entwood";
+data["West Rohan"].zoom[1].point = {372, 14};
+data["West Rohan"].zoom[2] = {};
+data["West Rohan"].zoom[2].area = "Stonedeans";
+data["West Rohan"].zoom[2].point = {365, 129};
+data["West Rohan"].zoom[3] = {};
+data["West Rohan"].zoom[3].area = "Broadacres";
+data["West Rohan"].zoom[3].point = {542, 153};
+data["West Rohan"].zoom[4] = {};
+data["West Rohan"].zoom[4].area = "Westfold";
+data["West Rohan"].zoom[4].point = {228, 264};
+data["West Rohan"].zoom[5] = {};
+data["West Rohan"].zoom[5].area = "Helm's Deep";
+data["West Rohan"].zoom[5].point = {160, 436};
+data["West Rohan"].zoom[6] = {};
+data["West Rohan"].zoom[6].area = "Kingstead";
+data["West Rohan"].zoom[6].point = {507, 321};
+data["West Rohan"].zoom[7] = {};
+data["West Rohan"].zoom[7].area = "Eastfold";
+data["West Rohan"].zoom[7].point = {696, 489};
+
+data["Nan Curunir After Battle"] = {};
+data["Nan Curunir After Battle"].map = 0x4114E11C;
+data["Nan Curunir After Battle"].width = 1024;
+data["Nan Curunir After Battle"].height = 768;
+data["Nan Curunir After Battle"].coord_x_min = "";
+data["Nan Curunir After Battle"].coord_y_min = "";
+data["Nan Curunir After Battle"].coord_x_max = "";
+data["Nan Curunir After Battle"].coord_y_max = "";
+data["Nan Curunir After Battle"].main_area = "West Rohan";
+data["Nan Curunir After Battle"].sub_types = {};
+
+data["Entwood"] = {};
+data["Entwood"].map = 0x4114BEAA;
+data["Entwood"].width = 1024;
+data["Entwood"].height = 768;
+data["Entwood"].coord_x_min = "";
+data["Entwood"].coord_y_min = "";
+data["Entwood"].coord_x_max = "";
+data["Entwood"].coord_y_max = "";
+data["Entwood"].main_area = "West Rohan";
+data["Entwood"].sub_types = {};
+
+data["Stonedeans"] = {};
+data["Stonedeans"].map = 0x4113C322;
+data["Stonedeans"].width = 1024;
+data["Stonedeans"].height = 768;
+data["Stonedeans"].coord_x_min = "";
+data["Stonedeans"].coord_y_min = "";
+data["Stonedeans"].coord_x_max = "";
+data["Stonedeans"].coord_y_max = "";
+data["Stonedeans"].main_area = "West Rohan";
+data["Stonedeans"].sub_types = {};
+
+data["Broadacres"] = {};
+data["Broadacres"].map = 0x4113C320;
+data["Broadacres"].width = 1024;
+data["Broadacres"].height = 768;
+data["Broadacres"].coord_x_min = "";
+data["Broadacres"].coord_y_min = "";
+data["Broadacres"].coord_x_max = "";
+data["Broadacres"].coord_y_max = "";
+data["Broadacres"].main_area = "West Rohan";
+data["Broadacres"].sub_types = {};
+
+data["Westfold"] = {};
+data["Westfold"].map = 0x4113C324;
+data["Westfold"].width = 1024;
+data["Westfold"].height = 768;
+data["Westfold"].coord_x_min = "";
+data["Westfold"].coord_y_min = "";
+data["Westfold"].coord_x_max = "";
+data["Westfold"].coord_y_max = "";
+data["Westfold"].main_area = "West Rohan";
+data["Westfold"].sub_types = {};
+
+data["Helm's Deep"] = {};
+data["Helm's Deep"].map = 0x4113C323;
+data["Helm's Deep"].width = 1024;
+data["Helm's Deep"].height = 768;
+data["Helm's Deep"].coord_x_min = "";
+data["Helm's Deep"].coord_y_min = "";
+data["Helm's Deep"].coord_x_max = "";
+data["Helm's Deep"].coord_y_max = "";
+data["Helm's Deep"].main_area = "West Rohan";
+data["Helm's Deep"].sub_types = {};
+
+data["Kingstead"] = {};
+data["Kingstead"].map = 0x4113C31F;
+data["Kingstead"].width = 1024;
+data["Kingstead"].height = 768;
+data["Kingstead"].coord_x_min = "";
+data["Kingstead"].coord_y_min = "";
+data["Kingstead"].coord_x_max = "";
+data["Kingstead"].coord_y_max = "";
+data["Kingstead"].main_area = "West Rohan";
+data["Kingstead"].sub_types = {};
+
+data["Kingstead"].zoom = {};
+data["Kingstead"].zoom[1] = {};
+data["Kingstead"].zoom[1].area = "Edoras";
+data["Kingstead"].zoom[1].point = {374, 267};
+
+data["Edoras"] = {};
+data["Edoras"].map = 0x4113C31E;
+data["Edoras"].width = 1024;
+data["Edoras"].height = 768;
+data["Edoras"].coord_x_min = "";
+data["Edoras"].coord_y_min = "";
+data["Edoras"].coord_x_max = "";
+data["Edoras"].coord_y_max = "";
+data["Edoras"].main_area = "Kingstead";
+data["Edoras"].sub_types = {};
+
+data["Eastfold"] = {};
+data["Eastfold"].map = 0x4113C321;
+data["Eastfold"].width = 1024;
+data["Eastfold"].height = 768;
+data["Eastfold"].coord_x_min = "";
+data["Eastfold"].coord_y_min = "";
+data["Eastfold"].coord_x_max = "";
+data["Eastfold"].coord_y_max = "";
+data["Eastfold"].main_area = "West Rohan";
+data["Eastfold"].sub_types = {};
+
+data["Gondor"] = {};
+data["Gondor"].map = 0x41154336;
+data["Gondor"].width = 1024;
+data["Gondor"].height = 768;
+data["Gondor"].main_area = "Middle-earth";
+data["Gondor"].sub_types = {};
+
+data["Gondor"].zoom = {};
+data["Gondor"].zoom[1] = {};
+data["Gondor"].zoom[1].area = "Western Gondor";
+data["Gondor"].zoom[1].point = {366, 384};
+data["Gondor"].zoom[2] = {};
+data["Gondor"].zoom[2].area = "Central Gondor";
+data["Gondor"].zoom[2].point = {534, 455};
+data["Gondor"].zoom[3] = {};
+data["Gondor"].zoom[3].area = "Eastern Gondor";
+data["Gondor"].zoom[3].point = {751, 487};
+data["Gondor"].zoom[4] = {};
+data["Gondor"].zoom[4].area = "Old Anorien";
+data["Gondor"].zoom[4].point = {765, 304};
+data["Gondor"].zoom[5] = {};
+data["Gondor"].zoom[5].area = "Far Anorien";
+data["Gondor"].zoom[5].point = {543, 146};
+data["Gondor"].zoom[6] = {};
+data["Gondor"].zoom[6].area = "North Ithilien";
+data["Gondor"].zoom[6].point = {850, 234};
+data["Gondor"].zoom[7] = {};
+data["Gondor"].zoom[7].area = "The Wastes";
+data["Gondor"].zoom[7].point = {837, 93};
+
+data["Western Gondor"] = {};
+data["Western Gondor"].map = 0x411538df;
+data["Western Gondor"].width = 1024;
+data["Western Gondor"].height = 768;
+data["Western Gondor"].coord_x_min = "";
+data["Western Gondor"].coord_y_min = "";
+data["Western Gondor"].coord_x_max = "";
+data["Western Gondor"].coord_y_max = "";
+data["Western Gondor"].main_area = "Gondor";
+data["Western Gondor"].sub_types = {};
+
+data["Western Gondor"].zoom = {};
+data["Western Gondor"].zoom[1] = {};
+data["Western Gondor"].zoom[1].area = "Paths of the Dead";
+data["Western Gondor"].zoom[1].point = {578, 38};
+data["Western Gondor"].zoom[2] = {};
+data["Western Gondor"].zoom[2].area = "Blackroot Vale";
+data["Western Gondor"].zoom[2].point = {498, 254};
+data["Western Gondor"].zoom[3] = {};
+data["Western Gondor"].zoom[3].area = "Lamedon";
+data["Western Gondor"].zoom[3].point = {713, 345};
+data["Western Gondor"].zoom[4] = {};
+data["Western Gondor"].zoom[4].area = "Havens of Belfalas";
+data["Western Gondor"].zoom[4].point = {465, 602};
+
+data["Paths of the Dead"] = {};
+data["Paths of the Dead"].map = 0x41154c34;
+data["Paths of the Dead"].width = 1024;
+data["Paths of the Dead"].height = 768;
+data["Paths of the Dead"].coord_x_min = "";
+data["Paths of the Dead"].coord_y_min = "";
+data["Paths of the Dead"].coord_x_max = "";
+data["Paths of the Dead"].coord_y_max = "";
+data["Paths of the Dead"].main_area = "Western Gondor";
+data["Paths of the Dead"].sub_types = {};
+
+data["Blackroot Vale"] = {};
+data["Blackroot Vale"].map = 0x41154eed;
+data["Blackroot Vale"].width = 1024;
+data["Blackroot Vale"].height = 768;
+data["Blackroot Vale"].coord_x_min = "";
+data["Blackroot Vale"].coord_y_min = "";
+data["Blackroot Vale"].coord_x_max = "";
+data["Blackroot Vale"].coord_y_max = "";
+data["Blackroot Vale"].main_area = "Western Gondor";
+data["Blackroot Vale"].sub_types = {};
+
+data["Lamedon"] = {};
+data["Lamedon"].map = 0x41154eec;
+data["Lamedon"].width = 1024;
+data["Lamedon"].height = 768;
+data["Lamedon"].coord_x_min = "";
+data["Lamedon"].coord_y_min = "";
+data["Lamedon"].coord_x_max = "";
+data["Lamedon"].coord_y_max = "";
+data["Lamedon"].main_area = "Western Gondor";
+data["Lamedon"].sub_types = {};
+
+data["Havens of Belfalas"] = {};
+data["Havens of Belfalas"].map = 0x41154eeb;
+data["Havens of Belfalas"].width = 1024;
+data["Havens of Belfalas"].height = 768;
+data["Havens of Belfalas"].coord_x_min = "";
+data["Havens of Belfalas"].coord_y_min = "";
+data["Havens of Belfalas"].coord_x_max = "";
+data["Havens of Belfalas"].coord_y_max = "";
+data["Havens of Belfalas"].main_area = "Western Gondor";
+data["Havens of Belfalas"].sub_types = {};
+
+data["Havens of Belfalas"].zoom = {};
+data["Havens of Belfalas"].zoom[1] = {};
+data["Havens of Belfalas"].zoom[1].area = "Dol Amroth";
+data["Havens of Belfalas"].zoom[1].point = {456, 303};
+
+data["Dol Amroth"] = {};
+data["Dol Amroth"].map = 0x41154e05;
+data["Dol Amroth"].width = 1024;
+data["Dol Amroth"].height = 768;
+data["Dol Amroth"].coord_x_min = "";
+data["Dol Amroth"].coord_y_min = "";
+data["Dol Amroth"].coord_x_max = "";
+data["Dol Amroth"].coord_y_max = "";
+data["Dol Amroth"].main_area = "Havens of Belfalas";
+data["Dol Amroth"].sub_types = {};
+    
+data["Central Gondor"] = {};
+data["Central Gondor"].map = 0x4115b943;
+data["Central Gondor"].width = 1024;
+data["Central Gondor"].height = 768;
+data["Central Gondor"].coord_x_min = "";
+data["Central Gondor"].coord_y_min = "";
+data["Central Gondor"].coord_x_max = "";
+data["Central Gondor"].coord_y_max = "";
+data["Central Gondor"].main_area = "Gondor";
+data["Central Gondor"].sub_types = {};
+
+data["Central Gondor"].zoom = {};
+data["Central Gondor"].zoom[1] = {};
+data["Central Gondor"].zoom[1].area = "Ringlo Vale";
+data["Central Gondor"].zoom[1].point = {283, 96};
+data["Central Gondor"].zoom[2] = {};
+data["Central Gondor"].zoom[2].area = "Dor-en-ernil";
+data["Central Gondor"].zoom[2].point = {290, 477};
+data["Central Gondor"].zoom[3] = {};
+data["Central Gondor"].zoom[3].area = "Lebennin";
+data["Central Gondor"].zoom[3].point = {662, 335};
+
+data["Ringlo Vale"] = {};
+data["Ringlo Vale"].map = 0x4115b93f;
+data["Ringlo Vale"].width = 1024;
+data["Ringlo Vale"].height = 768;
+data["Ringlo Vale"].coord_x_min = "";
+data["Ringlo Vale"].coord_y_min = "";
+data["Ringlo Vale"].coord_x_max = "";
+data["Ringlo Vale"].coord_y_max = "";
+data["Ringlo Vale"].main_area = "Central Gondor";
+data["Ringlo Vale"].sub_types = {};
+
+data["Dor-en-ernil"] = {};
+data["Dor-en-ernil"].map = 0x4115b945;
+data["Dor-en-ernil"].width = 1024;
+data["Dor-en-ernil"].height = 768;
+data["Dor-en-ernil"].coord_x_min = "";
+data["Dor-en-ernil"].coord_y_min = "";
+data["Dor-en-ernil"].coord_x_max = "";
+data["Dor-en-ernil"].coord_y_max = "";
+data["Dor-en-ernil"].main_area = "Central Gondor";
+data["Dor-en-ernil"].sub_types = {};
+
+data["Lebennin"] = {};
+data["Lebennin"].map = 0x4115b944;
+data["Lebennin"].width = 1024;
+data["Lebennin"].height = 768;
+data["Lebennin"].coord_x_min = "";
+data["Lebennin"].coord_y_min = "";
+data["Lebennin"].coord_x_max = "";
+data["Lebennin"].coord_y_max = "";
+data["Lebennin"].main_area = "Central Gondor";
+data["Lebennin"].sub_types = {};
+
+data["Lebennin"].zoom = {};
+data["Lebennin"].zoom[1] = {};
+data["Lebennin"].zoom[1].area = "Pelargir";
+data["Lebennin"].zoom[1].point = {814, 443};
+
+data["Pelargir"] = {};
+data["Pelargir"].map = 0x4115b93c;
+data["Pelargir"].width = 1024;
+data["Pelargir"].height = 768;
+data["Pelargir"].coord_x_min = "";
+data["Pelargir"].coord_y_min = "";
+data["Pelargir"].coord_x_max = "";
+data["Pelargir"].coord_y_max = "";
+data["Pelargir"].main_area = "Lebennin";
+data["Pelargir"].sub_types = {};
+
+data["Eastern Gondor"] = {};
+data["Eastern Gondor"].map = 0x4115ee35;
+data["Eastern Gondor"].width = 1024;
+data["Eastern Gondor"].height = 768;
+data["Eastern Gondor"].coord_x_min = "";
+data["Eastern Gondor"].coord_y_min = "";
+data["Eastern Gondor"].coord_x_max = "";
+data["Eastern Gondor"].coord_y_max = "";
+data["Eastern Gondor"].main_area = "Gondor";
+data["Eastern Gondor"].sub_types = {};
+
+data["Eastern Gondor"].zoom = {};
+data["Eastern Gondor"].zoom[1] = {};
+data["Eastern Gondor"].zoom[1].area = "Upper Lebennin";
+data["Eastern Gondor"].zoom[1].point = {161, 596};
+data["Eastern Gondor"].zoom[2] = {};
+data["Eastern Gondor"].zoom[2].area = "Lossarnach";
+data["Eastern Gondor"].zoom[2].point = {387, 463};
+data["Eastern Gondor"].zoom[3] = {};
+data["Eastern Gondor"].zoom[3].area = "South Ithilien";
+data["Eastern Gondor"].zoom[3].point = {734, 311};
+
+data["Upper Lebennin"] = {};
+data["Upper Lebennin"].map = 0x4115ee38;
+data["Upper Lebennin"].width = 1024;
+data["Upper Lebennin"].height = 768;
+data["Upper Lebennin"].coord_x_min = "";
+data["Upper Lebennin"].coord_y_min = "";
+data["Upper Lebennin"].coord_x_max = "";
+data["Upper Lebennin"].coord_y_max = "";
+data["Upper Lebennin"].main_area = "Eastern Gondor";
+data["Upper Lebennin"].sub_types = {};
+
+data["Lossarnach"] = {};
+data["Lossarnach"].map = 0x4115ee3c;
+data["Lossarnach"].width = 1024;
+data["Lossarnach"].height = 768;
+data["Lossarnach"].coord_x_min = "";
+data["Lossarnach"].coord_y_min = "";
+data["Lossarnach"].coord_x_max = "";
+data["Lossarnach"].coord_y_max = "";
+data["Lossarnach"].main_area = "Eastern Gondor";
+data["Lossarnach"].sub_types = {};
+
+data["South Ithilien"] = {};
+data["South Ithilien"].map = 0x4115ee3a;
+data["South Ithilien"].width = 1024;
+data["South Ithilien"].height = 768;
+data["South Ithilien"].coord_x_min = "";
+data["South Ithilien"].coord_y_min = "";
+data["South Ithilien"].coord_x_max = "";
+data["South Ithilien"].coord_y_max = "";
+data["South Ithilien"].main_area = "Eastern Gondor";
+data["South Ithilien"].sub_types = {};
+
+data["South Ithilien"].zoom = {};
+data["South Ithilien"].zoom[1] = {};
+data["South Ithilien"].zoom[1].area = "Osgiliath";
+data["South Ithilien"].zoom[1].point = {631, 111};
+
+data["Osgiliath"] = {};
+data["Osgiliath"].map = 0x4115ee41;
+data["Osgiliath"].width = 1024;
+data["Osgiliath"].height = 768;
+data["Osgiliath"].coord_x_min = "";
+data["Osgiliath"].coord_y_min = "";
+data["Osgiliath"].coord_x_max = "";
+data["Osgiliath"].coord_y_max = "";
+data["Osgiliath"].main_area = "South Ithilien";
+data["Osgiliath"].sub_types = {};
+
+data["Old Anorien"] = {};
+data["Old Anorien"].map = 0x411656f1;
+data["Old Anorien"].width = 1024;
+data["Old Anorien"].height = 768;
+data["Old Anorien"].coord_x_min = "";
+data["Old Anorien"].coord_y_min = "";
+data["Old Anorien"].coord_x_max = "";
+data["Old Anorien"].coord_y_max = "";
+data["Old Anorien"].main_area = "Gondor";
+data["Old Anorien"].sub_types = {};
+
+data["Old Anorien"].zoom = {};
+data["Old Anorien"].zoom[1] = {};
+data["Old Anorien"].zoom[1].area = "Pelennor";
+data["Old Anorien"].zoom[1].point = {442, 469};
+data["Old Anorien"].zoom[2] = {};
+data["Old Anorien"].zoom[2].area = "Talath Anor";
+data["Old Anorien"].zoom[2].point = {411, 295};
+
+data["Pelennor"] = {};
+data["Pelennor"].map = 0x411656f0;
+data["Pelennor"].width = 1024;
+data["Pelennor"].height = 768;
+data["Pelennor"].coord_x_min = "";
+data["Pelennor"].coord_y_min = "";
+data["Pelennor"].coord_x_max = "";
+data["Pelennor"].coord_y_max = "";
+data["Pelennor"].main_area = "Old Anorien";
+data["Pelennor"].sub_types = {};
+
+data["Pelennor"].zoom = {};
+data["Pelennor"].zoom[1] = {};
+data["Pelennor"].zoom[1].area = "Minas Tirith";
+data["Pelennor"].zoom[1].point = {386, 338};
+
+data["Minas Tirith"] = {};
+data["Minas Tirith"].map = 0x411656ef;
+data["Minas Tirith"].width = 1024;
+data["Minas Tirith"].height = 768;
+data["Minas Tirith"].coord_x_min = "";
+data["Minas Tirith"].coord_y_min = "";
+data["Minas Tirith"].coord_x_max = "";
+data["Minas Tirith"].coord_y_max = "";
+data["Minas Tirith"].main_area = "Pelennor";
+data["Minas Tirith"].sub_types = {};
+
+data["Talath Anor"] = {};
+data["Talath Anor"].map = 0x411656ee;
+data["Talath Anor"].width = 1024;
+data["Talath Anor"].height = 768;
+data["Talath Anor"].coord_x_min = "";
+data["Talath Anor"].coord_y_min = "";
+data["Talath Anor"].coord_x_max = "";
+data["Talath Anor"].coord_y_max = "";
+data["Talath Anor"].main_area = "Old Anorien";
+data["Talath Anor"].sub_types = {};
+    
+data["Far Anorien"] = {};
+data["Far Anorien"].map = 0x4116af91;
+data["Far Anorien"].width = 1024;
+data["Far Anorien"].height = 768;
+data["Far Anorien"].coord_x_min = "";
+data["Far Anorien"].coord_y_min = "";
+data["Far Anorien"].coord_x_max = "";
+data["Far Anorien"].coord_y_max = "";
+data["Far Anorien"].main_area = "Gondor";
+data["Far Anorien"].sub_types = {};
+
+data["Far Anorien"].zoom = {};
+data["Far Anorien"].zoom[1] = {};
+data["Far Anorien"].zoom[1].area = "The Beacon Hills";
+data["Far Anorien"].zoom[1].point = {237, 412};
+data["Far Anorien"].zoom[2] = {};
+data["Far Anorien"].zoom[2].area = "Taur Druadan";
+data["Far Anorien"].zoom[2].point = {837, 340};
+
+data["The Beacon Hills"] = {};
+data["The Beacon Hills"].map = 0x4116af8b;
+data["The Beacon Hills"].width = 1024;
+data["The Beacon Hills"].height = 768;
+data["The Beacon Hills"].coord_x_min = "";
+data["The Beacon Hills"].coord_y_min = "";
+data["The Beacon Hills"].coord_x_max = "";
+data["The Beacon Hills"].coord_y_max = "";
+data["The Beacon Hills"].main_area = "Far Anorien";
+data["The Beacon Hills"].sub_types = {};
+
+data["Taur Druadan"] = {};
+data["Taur Druadan"].map = 0x4116af90;
+data["Taur Druadan"].width = 1024;
+data["Taur Druadan"].height = 768;
+data["Taur Druadan"].coord_x_min = "";
+data["Taur Druadan"].coord_y_min = "";
+data["Taur Druadan"].coord_x_max = "";
+data["Taur Druadan"].coord_y_max = "";
+data["Taur Druadan"].main_area = "Far Anorien";
+data["Taur Druadan"].sub_types = {};
+
+data["North Ithilien"] = {};
+data["North Ithilien"].map = 0x411a42e7;
+data["North Ithilien"].width = 1024;
+data["North Ithilien"].height = 768;
+data["North Ithilien"].coord_x_min = "";
+data["North Ithilien"].coord_y_min = "";
+data["North Ithilien"].coord_x_max = "";
+data["North Ithilien"].coord_y_max = "";
+data["North Ithilien"].main_area = "Gondor";
+data["North Ithilien"].sub_types = {};
+
+data["North Ithilien"].zoom = {};
+data["North Ithilien"].zoom[1] = {};
+data["North Ithilien"].zoom[1].area = "Pelennor After Battle";
+data["North Ithilien"].zoom[1].point = {332, 612};
+data["North Ithilien"].zoom[2] = {};
+data["North Ithilien"].zoom[2].area = "Osgiliath After Battle";
+data["North Ithilien"].zoom[2].point = {530, 579};
+
+data["Pelennor After Battle"] = {};
+data["Pelennor After Battle"].map = 0x411a42e8;
+data["Pelennor After Battle"].width = 1024;
+data["Pelennor After Battle"].height = 768;
+data["Pelennor After Battle"].coord_x_min = "";
+data["Pelennor After Battle"].coord_y_min = "";
+data["Pelennor After Battle"].coord_x_max = "";
+data["Pelennor After Battle"].coord_y_max = "";
+data["Pelennor After Battle"].main_area = "North Ithilien";
+data["Pelennor After Battle"].sub_types = {};
+
+data["Osgiliath After Battle"] = {};
+data["Osgiliath After Battle"].map = 0x411a42e5;
+data["Osgiliath After Battle"].width = 1024;
+data["Osgiliath After Battle"].height = 768;
+data["Osgiliath After Battle"].coord_x_min = "";
+data["Osgiliath After Battle"].coord_y_min = "";
+data["Osgiliath After Battle"].coord_x_max = "";
+data["Osgiliath After Battle"].coord_y_max = "";
+data["Osgiliath After Battle"].main_area = "North Ithilien";
+data["Osgiliath After Battle"].sub_types = {};
+
+data["Mordor"] = {};
+data["Mordor"].map = 0x411a4333;
+data["Mordor"].width = 1024;
+data["Mordor"].height = 768;
+data["Mordor"].main_area = "Middle-earth";
+data["Mordor"].sub_types = {};
+
+data["Mordor"].zoom = {};
+data["Mordor"].zoom[1] = {};
+data["Mordor"].zoom[1].area = "The Wastes";
+data["Mordor"].zoom[1].point = {136, 32};
+data["Mordor"].zoom[2] = {};
+data["Mordor"].zoom[2].area = "The Plateau of Gorgoroth";
+data["Mordor"].zoom[2].point = {458, 163};
+data["Mordor"].zoom[3] = {};
+data["Mordor"].zoom[3].area = "The Morgul Vale";
+data["Mordor"].zoom[3].point = {270, 362};
+
+data["The Wastes"] = {};
+data["The Wastes"].map = 0x411ad8a9;
+data["The Wastes"].width = 1024;
+data["The Wastes"].height = 768;
+data["The Wastes"].coord_x_min = "";
+data["The Wastes"].coord_y_min = "";
+data["The Wastes"].coord_x_max = "";
+data["The Wastes"].coord_y_max = "";
+data["The Wastes"].main_area = "Mordor";
+data["The Wastes"].sub_types = {};
+    
+data["The Plateau of Gorgoroth"] = {};
+data["The Plateau of Gorgoroth"].map = 0x411b84d4;
+data["The Plateau of Gorgoroth"].width = 1024;
+data["The Plateau of Gorgoroth"].height = 768;
+data["The Plateau of Gorgoroth"].coord_x_min = "";
+data["The Plateau of Gorgoroth"].coord_y_min = "";
+data["The Plateau of Gorgoroth"].coord_x_max = "";
+data["The Plateau of Gorgoroth"].coord_y_max = "";
+data["The Plateau of Gorgoroth"].main_area = "Mordor";
+data["The Plateau of Gorgoroth"].sub_types = {};
+
+data["The Plateau of Gorgoroth"].zoom = {};
+data["The Plateau of Gorgoroth"].zoom[1] = {};
+data["The Plateau of Gorgoroth"].zoom[1].area = "Udun";
+data["The Plateau of Gorgoroth"].zoom[1].point = {211, 81};
+data["The Plateau of Gorgoroth"].zoom[2] = {};
+data["The Plateau of Gorgoroth"].zoom[2].area = "Lhingris";
+data["The Plateau of Gorgoroth"].zoom[2].point = {245, 452};
+data["The Plateau of Gorgoroth"].zoom[3] = {};
+data["The Plateau of Gorgoroth"].zoom[3].area = "Dor Amarth";
+data["The Plateau of Gorgoroth"].zoom[3].point = {532, 195};
+data["The Plateau of Gorgoroth"].zoom[4] = {};
+data["The Plateau of Gorgoroth"].zoom[4].area = "Orodruin";
+data["The Plateau of Gorgoroth"].zoom[4].point = {504, 352};
+data["The Plateau of Gorgoroth"].zoom[5] = {};
+data["The Plateau of Gorgoroth"].zoom[5].area = "Talath Urui";
+data["The Plateau of Gorgoroth"].zoom[5].point = {585, 542};
+data["The Plateau of Gorgoroth"].zoom[6] = {};
+data["The Plateau of Gorgoroth"].zoom[6].area = "Agarnaith";
+data["The Plateau of Gorgoroth"].zoom[6].point = {869, 298};
+    
+data["Udun"] = {};
+data["Udun"].map = 0x411b9591;
+data["Udun"].width = 1024;
+data["Udun"].height = 768;
+data["Udun"].coord_x_min = "";
+data["Udun"].coord_y_min = "";
+data["Udun"].coord_x_max = "";
+data["Udun"].coord_y_max = "";
+data["Udun"].main_area = "The Plateau of Gorgoroth";
+data["Udun"].sub_types = {};
+    
+data["Lhingris"] = {};
+data["Lhingris"].map = 0x411b958e;
+data["Lhingris"].width = 1024;
+data["Lhingris"].height = 768;
+data["Lhingris"].coord_x_min = "";
+data["Lhingris"].coord_y_min = "";
+data["Lhingris"].coord_x_max = "";
+data["Lhingris"].coord_y_max = "";
+data["Lhingris"].main_area = "The Plateau of Gorgoroth";
+data["Lhingris"].sub_types = {};
+    
+data["Dor Amarth"] = {};
+data["Dor Amarth"].map = 0x411b958d;
+data["Dor Amarth"].width = 1024;
+data["Dor Amarth"].height = 768;
+data["Dor Amarth"].coord_x_min = "";
+data["Dor Amarth"].coord_y_min = "";
+data["Dor Amarth"].coord_x_max = "";
+data["Dor Amarth"].coord_y_max = "";
+data["Dor Amarth"].main_area = "The Plateau of Gorgoroth";
+data["Dor Amarth"].sub_types = {};
+
+data["Dor Amarth"].zoom = {};
+data["Dor Amarth"].zoom[1] = {};
+data["Dor Amarth"].zoom[1].area = "Mordor Besieged";
+data["Dor Amarth"].zoom[1].point = {648, 199};
+    
+data["Mordor Besieged"] = {};
+data["Mordor Besieged"].map = 0x411e9a43;
+data["Mordor Besieged"].width = 1024;
+data["Mordor Besieged"].height = 768;
+data["Mordor Besieged"].coord_x_min = "";
+data["Mordor Besieged"].coord_y_min = "";
+data["Mordor Besieged"].coord_x_max = "";
+data["Mordor Besieged"].coord_y_max = "";
+data["Mordor Besieged"].main_area = "Dor Amarth";
+data["Mordor Besieged"].sub_types = {};
+    
+data["Orodruin"] = {};
+data["Orodruin"].map = 0x411b958f;
+data["Orodruin"].width = 1024;
+data["Orodruin"].height = 768;
+data["Orodruin"].coord_x_min = "";
+data["Orodruin"].coord_y_min = "";
+data["Orodruin"].coord_x_max = "";
+data["Orodruin"].coord_y_max = "";
+data["Orodruin"].main_area = "The Plateau of Gorgoroth";
+data["Orodruin"].sub_types = {};
+
+data["Talath Urui"] = {};
+data["Talath Urui"].map = 0x411b9590;
+data["Talath Urui"].width = 1024;
+data["Talath Urui"].height = 768;
+data["Talath Urui"].coord_x_min = "";
+data["Talath Urui"].coord_y_min = "";
+data["Talath Urui"].coord_x_max = "";
+data["Talath Urui"].coord_y_max = "";
+data["Talath Urui"].main_area = "The Plateau of Gorgoroth";
+data["Talath Urui"].sub_types = {};
+
+data["Talath Urui"].zoom = {};
+data["Talath Urui"].zoom[1] = {};
+data["Talath Urui"].zoom[1].area = "Nargroth";
+data["Talath Urui"].zoom[1].point = {896, 458};
+
+data["Nargroth"] = {};
+data["Nargroth"].map = 0x411bbfd1;
+data["Nargroth"].width = 1024;
+data["Nargroth"].height = 768;
+data["Nargroth"].coord_x_min = "";
+data["Nargroth"].coord_y_min = "";
+data["Nargroth"].coord_x_max = "";
+data["Nargroth"].coord_y_max = "";
+data["Nargroth"].main_area = "Talath Urui";
+data["Nargroth"].sub_types = {};
+
+data["Agarnaith"] = {};
+data["Agarnaith"].map = 0x411b958c;
+data["Agarnaith"].width = 1024;
+data["Agarnaith"].height = 768;
+data["Agarnaith"].coord_x_min = "";
+data["Agarnaith"].coord_y_min = "";
+data["Agarnaith"].coord_x_max = "";
+data["Agarnaith"].coord_y_max = "";
+data["Agarnaith"].main_area = "The Plateau of Gorgoroth";
+data["Agarnaith"].sub_types = {};
+
+data["The Morgul Vale"] = {};
+data["The Morgul Vale"].map = 0x411e9a41;
+data["The Morgul Vale"].width = 1024;
+data["The Morgul Vale"].height = 768;
+data["The Morgul Vale"].coord_x_min = "";
+data["The Morgul Vale"].coord_y_min = "";
+data["The Morgul Vale"].coord_x_max = "";
+data["The Morgul Vale"].coord_y_max = "";
+data["The Morgul Vale"].main_area = "Mordor";
+data["The Morgul Vale"].sub_types = {};
+
+data["The Morgul Vale"].zoom = {};
+data["The Morgul Vale"].zoom[1] = {};
+data["The Morgul Vale"].zoom[1].area = "Minas Morgul";
+data["The Morgul Vale"].zoom[1].point = {469, 321};
+data["The Morgul Vale"].zoom[2] = {};
+data["The Morgul Vale"].zoom[2].area = "Torech Ungol";
+data["The Morgul Vale"].zoom[2].point = {602, 135};
+
+data["Minas Morgul"] = {};
+data["Minas Morgul"].map = 0x411e9a42;
+data["Minas Morgul"].width = 1024;
+data["Minas Morgul"].height = 768;
+data["Minas Morgul"].coord_x_min = "";
+data["Minas Morgul"].coord_y_min = "";
+data["Minas Morgul"].coord_x_max = "";
+data["Minas Morgul"].coord_y_max = "";
+data["Minas Morgul"].main_area = "The Morgul Vale";
+data["Minas Morgul"].sub_types = {};
+
+data["Torech Ungol"] = {};
+data["Torech Ungol"].map = 0x411ea2fa;
+data["Torech Ungol"].width = 1024;
+data["Torech Ungol"].height = 768;
+data["Torech Ungol"].coord_x_min = "";
+data["Torech Ungol"].coord_y_min = "";
+data["Torech Ungol"].coord_x_max = "";
+data["Torech Ungol"].coord_y_max = "";
+data["Torech Ungol"].main_area = "The Morgul Vale";
+data["Torech Ungol"].sub_types = {};
