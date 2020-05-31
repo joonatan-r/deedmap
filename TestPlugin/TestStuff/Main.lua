@@ -253,6 +253,7 @@ function TravelButton:Constructor( area, idx )
         self.qs:SetParent( bg );
         self.qs:SetPosition( self.x, self.y );
         self.qs:SetZOrder( 10 );
+        self.qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Skill, self.skill ) );
         self.qs.ShortcutChanged = function( sender, args )
             self.skill = self.qs:GetShortcut():GetData();
         end
@@ -335,8 +336,8 @@ function load_skills()
     end
 end
 
-if load_data ~= nil then pcall( load_skills ) end
-save_data = {};
+if load_data ~= nil then pcall( load_skills )
+else load_data = {} end
 
 ---------------
 
@@ -382,10 +383,13 @@ end
 function exit_edit( sender, args )
     for i,button in pairs( travel_buttons[current_area] ) do
         button.ExitEdit();
-        if save_data[current_area] == nil then save_data[current_area] = {} end
-        save_data[current_area][button.idx] = button.skill;
+        
+        if button.skill ~= data[current_area].travel[button.idx].skill then -- no point saving custom skill if it's the default one
+            if load_data[current_area] == nil then load_data[current_area] = {} end
+            load_data[current_area][button.idx] = button.skill;
+        end
     end
-    Turbine.PluginData.Save( Turbine.DataScope.Character, "TestPlugin_saved_skills", save_data );
+    Turbine.PluginData.Save( Turbine.DataScope.Character, "TestPlugin_saved_skills", load_data );
     editButton.Click = function( sender, args ) enter_edit( sender, args ) end
 end
 
