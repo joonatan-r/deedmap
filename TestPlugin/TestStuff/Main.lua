@@ -79,7 +79,6 @@ function positionToCoords( pos_x, pos_y, pos_x_max, pos_y_max, coord_x_min, coor
             side_x = "W";
         end
     end
-
     if side_y_min == "N" and side_y_max == "N" then
         local coord_y_span = coord_y_min - coord_y_max;
         coord_y = coord_y_min - relative_dist_y * coord_y_span;
@@ -99,7 +98,6 @@ function positionToCoords( pos_x, pos_y, pos_x_max, pos_y_max, coord_x_min, coor
             side_y = "N";
         end
     end
-
     if side_x == nil or side_y == nil then return "" end
     coord_x = tostring( round( coord_x, 1 ) ) .. side_x;
     coord_y = tostring( round( coord_y, 1 ) ) .. side_y;
@@ -108,13 +106,11 @@ end
 
 bg_width = bg:GetWidth();
 bg_height = bg:GetHeight(); -- these need to be changed manually if stretching
-
 bg.MouseMove = function(sender, args)
     if data[current_area].coord_x_min == nil then
         coordsLabel:SetVisible( false );
         return;
     end
-    
     local coord_x_min = data[current_area].coord_x_min;
     local coord_y_min = data[current_area].coord_y_min;
     local coord_x_max = data[current_area].coord_x_max;
@@ -160,7 +156,7 @@ function LocButton:Constructor( area, idx )
         local x,y = window:GetMousePosition();
         self.label:SetText( self.info.text );
         self.label:SetPosition( x + 25, y - 25 );
-        self.label:SetWidth( self.label:GetTextLength() * 8 );
+        self.label:SetWidth( get_text_width( self.info.text ) );
         self.label:SetHeight( 25 );
         self.label:SetVisible( true );
         self.label:SetZOrder( 10 ); -- show on top
@@ -268,15 +264,15 @@ end
 -- TODO maybe later don't load all at once
 
 all_areas = {};
+loc_buttons = {};
+zoom_buttons = {};
+travel_buttons = {};
 
 for key,val in pairs( data ) do
     if key ~= "areas" and key ~= "types" then
         all_areas[#all_areas + 1] = key;
     end
 end
-
-loc_buttons = {};
-
 for i,area in pairs( all_areas ) do
     loc_buttons[area] = {};
 
@@ -287,13 +283,6 @@ for i,area in pairs( all_areas ) do
         end
     end
 end
-
-for i,button in pairs( loc_buttons[current_area] ) do
-    button:SetVisible( true );
-end
-
-zoom_buttons = {};
-
 for i,area in pairs( all_areas ) do
     zoom_buttons[area] = {};
 
@@ -304,16 +293,9 @@ for i,area in pairs( all_areas ) do
         end
     end
 end
-
-for i,button in pairs( zoom_buttons[current_area] ) do
-    button:SetVisible( true );
-end
-
-travel_buttons = {};
-
 for i,area in pairs( all_areas ) do
     travel_buttons[area] = {};
-
+    
     if data[area].travel ~= nil then
         for j,info in pairs( data[area].travel ) do
             travel_buttons[area][j] = TravelButton( area, j );
@@ -321,7 +303,12 @@ for i,area in pairs( all_areas ) do
         end
     end
 end
-
+for i,button in pairs( loc_buttons[current_area] ) do
+    button:SetVisible( true );
+end
+for i,button in pairs( zoom_buttons[current_area] ) do
+    button:SetVisible( true );
+end
 for i,button in pairs( travel_buttons[current_area] ) do
     button:SetVisible( true );
 end
@@ -336,8 +323,11 @@ function load_skills()
     end
 end
 
-if load_data ~= nil then pcall( load_skills )
-else load_data = {} end
+if load_data ~= nil then
+    pcall( load_skills )
+else 
+    load_data = {}
+end
 
 ---------------
 
@@ -346,6 +336,7 @@ filterButton:SetSize( 50, 20 );
 filterButton:SetText( "Filter" );
 filterButton:SetParent( window );
 filterButton.Click = function( sender, args )
+    filterMenuX, filterMenuY = Turbine.UI.Display.GetMousePosition();
     filterMenu:ShowMenu();
 end
 filterMenu = Turbine.UI.ContextMenu();
@@ -364,7 +355,6 @@ areaMenuItems = areaMenu:GetItems();
 for i,area in pairs( data.areas ) do
     areaMenuItems:Add( Turbine.UI.MenuItem( area ) );
 end
-
 for i = 1, areaMenuItems:GetCount() do
     local item = areaMenuItems:Get( i );
     item.Click = function( sender, args )
@@ -407,8 +397,6 @@ checkBox.CheckedChanged = function( sender, args )
     changeArea( current_area );
 end
 
--------------
-
 function changeArea( area )
     width = data[area].width;
     height = data[area].height;
@@ -419,8 +407,6 @@ function changeArea( area )
     bg:SetStretchMode( 0 );
     bg:SetSize( bg_width, bg_height );
     bg:SetPosition( 20, 35 );
-    
-    ----------
 
     local adjusted = false;
     local window_width = window:GetWidth();
@@ -437,12 +423,10 @@ function changeArea( area )
             local new_width = (disp_height / window_height) * window_width;
             window:SetSize( new_width, disp_height );
         end
-
         window_width = window:GetWidth();
         window_height = window:GetHeight();
         adjusted = true;
     end
-
     if adjusted then
         bg_width = window_width - 40 - 220;
         bg_height = window_height - 57;
@@ -462,36 +446,40 @@ function changeArea( area )
         infoLabel:SetPosition( width + 20 + 20, 35 + 100 );
     end
 
-    ---------
-
     local prev_area = current_area;
     current_area = area;
 
     for i,button in pairs( loc_buttons[prev_area] ) do
         button:SetVisible( false );
     end
-
     for i,button in pairs( zoom_buttons[prev_area] ) do
         button:SetVisible( false );
     end
-
     for i,button in pairs( travel_buttons[prev_area] ) do
         button:SetVisible( false );
     end
-
     for i,button in pairs( loc_buttons[current_area] ) do
         button:SetVisible( true );
     end
-
     for i,button in pairs( zoom_buttons[current_area] ) do
         button:SetVisible( true );
     end
-
     for i,button in pairs( travel_buttons[current_area] ) do
         button:SetVisible( true );
     end
 
-    ---------
+    function set_filtering( item, new_val )
+        item:SetChecked( new_val );
+
+        for i,button in pairs( loc_buttons[current_area] ) do
+            if button.info.type == item:GetText() or button.info.sub_type == item:GetText() then
+                button:SetVisible( new_val );
+            end
+        end
+        if filterMenuX ~= nil and filterMenuY ~= nil then
+            filterMenu:ShowMenuAt( filterMenuX, filterMenuY ); -- menu auto closes, workaround for keeping it visible
+        end
+    end
 
     filterMenuItems:Clear();
     filterMenuItems:Add( Turbine.UI.MenuItem( "Select All" ) );
@@ -499,48 +487,27 @@ function changeArea( area )
     filterMenuItems:Get( 1 ).Click = function( sender, args )
         for i = 3, filterMenuItems:GetCount() do
             local item = filterMenuItems:Get( i );
-            item:SetChecked( true );
-    
-            for i,button in pairs( loc_buttons[current_area] ) do
-                if button.info.type == item:GetText() or button.info.sub_type == item:GetText() then
-                    button:SetVisible( true );
-                end
-            end
+            set_filtering( item, true )
         end
     end
     filterMenuItems:Get( 2 ).Click = function( sender, args )
         for i = 3, filterMenuItems:GetCount() do
             local item = filterMenuItems:Get( i );
-            item:SetChecked( false );
-    
-            for i,button in pairs( loc_buttons[current_area] ) do
-                if button.info.type == item:GetText() or button.info.sub_type == item:GetText() then
-                    button:SetVisible( false );
-                end
-            end
+            set_filtering( item, false )
         end
     end
-
     for i,type in pairs( data.types ) do
         filterMenuItems:Add( Turbine.UI.MenuItem( type ) );
     end
-
     for i,type in pairs( data[current_area].sub_types ) do
         filterMenuItems:Add( Turbine.UI.MenuItem( type ) );
     end
-
     for i = 3, filterMenuItems:GetCount() do
         local item = filterMenuItems:Get( i );
         item:SetChecked( true );
         item.Click = function( sender, args )
             new_val = not item:IsChecked();
-            item:SetChecked( new_val );
-    
-            for i,button in pairs( loc_buttons[current_area] ) do
-                if button.info.type == item:GetText() or button.info.sub_type == item:GetText() then
-                    button:SetVisible( new_val );
-                end
-            end
+            set_filtering( item, new_val )
         end
     end
 end
