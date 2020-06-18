@@ -14,6 +14,32 @@ window:Activate();
 bg = Turbine.UI.Control();
 bg:SetParent( window );
 bg:SetPosition( 20, 35 );
+bg.MouseClick = function( sender, args )
+    if args.Button == Turbine.UI.MouseButton.Left then
+        local x,y = bg:GetMousePosition();
+        x = x - 30; -- adjust for image, - 5 for loc, - 30 for zoom, - 15 for travel
+        y = y - 30;
+        Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
+    elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
+        changeArea( data[current_area].main_area );
+    end
+end
+bg_width = bg:GetWidth();
+bg_height = bg:GetHeight(); -- these need to be changed manually if stretching
+bg.MouseMove = function( sender, args )
+    if data[current_area].coord_x_min == nil then
+        coordsLabel:SetVisible( false );
+        return;
+    end
+    local coord_x_min = data[current_area].coord_x_min;
+    local coord_y_min = data[current_area].coord_y_min;
+    local coord_x_max = data[current_area].coord_x_max;
+    local coord_y_max = data[current_area].coord_y_max;
+    local x,y = bg:GetMousePosition();
+    coordsLabel:SetText( position_to_coords( x, y, bg_width - 1, bg_height - 1, coord_x_min, coord_y_min, coord_x_max, coord_y_max ) );
+    coordsLabel:SetPosition( bg_width + 25, bg_height - 25 + 35 );
+    coordsLabel:SetVisible( true );
+end
 infoLabel = Turbine.UI.Label();
 infoLabel:SetParent( window );
 infoLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
@@ -39,120 +65,23 @@ Turbine.Shell.AddCommand( "deedmap", cmd );
 loc_buttons = {};
 zoom_buttons = {};
 travel_buttons = {};
-
-------------------
-
-bg.MouseClick = function( sender, args )
-    if args.Button == Turbine.UI.MouseButton.Left then
-        local x,y = bg:GetMousePosition();
-        x = x - 30; -- adjust for image, - 5 for loc, - 30 for zoom, - 15 for travel
-        y = y - 30;
-        Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
-    elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
-        changeArea( data[current_area].main_area );
-    end
-end
-
----------------
-
-function round( num, numDecimalPlaces )
-    local mult = 10^(numDecimalPlaces or 0);
-    return math.floor(num * mult + 0.5) / mult;
-end
-
--- mins in top left, maxes in bottom right, positions are numbers, coords strings in format "74.9W", "113.1S" etc
-
-function positionToCoords( pos_x, pos_y, pos_x_max, pos_y_max, coord_x_min, coord_y_min, coord_x_max, coord_y_max )
-    local side_x_min = coord_x_min:sub( -1 );
-    local side_y_min = coord_y_min:sub( -1 );
-    local side_x_max = coord_x_max:sub( -1 );
-    local side_y_max = coord_y_max:sub( -1 );
-    local coord_x_min = tonumber( coord_x_min:sub( 1, -2 ) );
-    local coord_y_min = tonumber( coord_y_min:sub( 1, -2 ) );
-    local coord_x_max = tonumber( coord_x_max:sub( 1, -2 ) );
-    local coord_y_max = tonumber( coord_y_max:sub( 1, -2 ) );
-    local relative_dist_x = pos_x / pos_x_max; -- assume min positions of 0, 0
-    local relative_dist_y = pos_y / pos_y_max;
-    local coord_x, coord_y;
-    local side_x = nil;
-    local side_y = nil;
-
-    if side_x_min == "W" and side_x_max == "W" then
-        local coord_x_span = coord_x_min - coord_x_max;
-        coord_x = coord_x_min - relative_dist_x * coord_x_span;
-        side_x = "W";
-    elseif side_x_min == "E" and side_x_max == "E" then
-        local coord_x_span = coord_x_max - coord_x_min;
-        coord_x = coord_x_min + relative_dist_x * coord_x_span;
-        side_x = "E";
-    elseif side_x_min == "W" and side_x_max == "E" then
-        local coord_x_span = coord_x_max + coord_x_min;
-        coord_x = coord_x_min - relative_dist_x * coord_x_span;
-
-        if coord_x < 0 then
-            coord_x = -coord_x;
-            side_x = "E";
-        else
-            side_x = "W";
-        end
-    end
-    if side_y_min == "N" and side_y_max == "N" then
-        local coord_y_span = coord_y_min - coord_y_max;
-        coord_y = coord_y_min - relative_dist_y * coord_y_span;
-        side_y = "N";
-    elseif side_y_min == "S" and side_y_max == "S" then
-        local coord_y_span = coord_y_max - coord_y_min;
-        coord_y = coord_y_min + relative_dist_y * coord_y_span;
-        side_y = "S";
-    elseif side_y_min == "N" and side_y_max == "S" then
-        local coord_y_span = coord_y_max + coord_y_min;
-        coord_y = coord_y_min - relative_dist_y * coord_y_span;
-
-        if coord_y < 0 then
-            coord_y = -coord_y;
-            side_y = "S";
-        else
-            side_y = "N";
-        end
-    end
-    if side_x == nil or side_y == nil then return "" end
-    coord_x = tostring( round( coord_x, 1 ) ) .. side_x;
-    coord_y = tostring( round( coord_y, 1 ) ) .. side_y;
-    return coord_y .. " " .. coord_x;
-end
-
-bg_width = bg:GetWidth();
-bg_height = bg:GetHeight(); -- these need to be changed manually if stretching
-bg.MouseMove = function( sender, args )
-    if data[current_area].coord_x_min == nil then
-        coordsLabel:SetVisible( false );
-        return;
-    end
-    local coord_x_min = data[current_area].coord_x_min;
-    local coord_y_min = data[current_area].coord_y_min;
-    local coord_x_max = data[current_area].coord_x_max;
-    local coord_y_max = data[current_area].coord_y_max;
-    local x,y = bg:GetMousePosition();
-    coordsLabel:SetText( positionToCoords( x, y, bg_width - 1, bg_height - 1, coord_x_min, coord_y_min, coord_x_max, coord_y_max ) );
-    coordsLabel:SetPosition( bg_width + 25, bg_height - 25 + 35 );
-    coordsLabel:SetVisible( true );
-end
-
 load_data = Turbine.PluginData.Load( Turbine.DataScope.Character, "TestPlugin_saved_skills" );
 
-function load_skills()
-    for area,info in pairs( load_data ) do
-        for j,skill in pairs( info ) do
-            travel_buttons[area][j].skill = skill;
+if load_data ~= nil then
+    function load_skills()
+        for area,info in pairs( load_data ) do
+            for j,skill in pairs( info ) do
+                travel_buttons[area][j].skill = skill;
+            end
         end
     end
-end
-
-if load_data ~= nil then
     pcall( load_skills )
 else 
     load_data = {}
 end
+
+filterMenu = Turbine.UI.ContextMenu();
+filterMenuItems = filterMenu:GetItems();
 
 filterButton = Turbine.UI.Lotro.Button();
 filterButton:SetSize( 50, 20 );
@@ -162,18 +91,15 @@ filterButton.Click = function( sender, args )
     filterMenuX, filterMenuY = Turbine.UI.Display.GetMousePosition();
     filterMenu:ShowMenu();
 end
-filterMenu = Turbine.UI.ContextMenu();
-filterMenuItems = filterMenu:GetItems();
+
+areaMenu = Turbine.UI.ContextMenu();
+areaMenuItems = areaMenu:GetItems();
 
 areaButton = Turbine.UI.Lotro.Button();
 areaButton:SetSize( 50, 20 );
 areaButton:SetText( "Area" );
 areaButton:SetParent( window );
-areaButton.Click = function( sender, args )
-    areaMenu:ShowMenu();
-end
-areaMenu = Turbine.UI.ContextMenu();
-areaMenuItems = areaMenu:GetItems();
+areaButton.Click = function( sender, args ) areaMenu:ShowMenu() end
 
 for i,area in pairs( data.areas ) do
     areaMenuItems:Add( Turbine.UI.MenuItem( area ) );
@@ -216,9 +142,7 @@ checkBox = Turbine.UI.Lotro.CheckBox();
 checkBox:SetParent( window );
 checkBox:SetText( " Stretch map to max size" );
 checkBox:SetWidth( 220 );
-checkBox.CheckedChanged = function( sender, args )
-    changeArea( current_area );
-end
+checkBox.CheckedChanged = function( sender, args ) changeArea( current_area ) end
 
 function set_filtering( item, new_val )
     item:SetChecked( new_val );
@@ -277,19 +201,17 @@ function changeArea( area )
         checkBox:SetPosition( width + 20 + 20, 35 + 50 );
         infoLabel:SetPosition( width + 20 + 20, 35 + 100 );
     end
-
-    local prev_area = current_area;
+    for i,button in pairs( loc_buttons[current_area] ) do
+        button:SetVisible( false );
+    end
+    for i,button in pairs( zoom_buttons[current_area] ) do
+        button:SetVisible( false );
+    end
+    for i,button in pairs( travel_buttons[current_area] ) do
+        button:SetVisible( false );
+    end
     current_area = area;
 
-    for i,button in pairs( loc_buttons[prev_area] ) do
-        button:SetVisible( false );
-    end
-    for i,button in pairs( zoom_buttons[prev_area] ) do
-        button:SetVisible( false );
-    end
-    for i,button in pairs( travel_buttons[prev_area] ) do
-        button:SetVisible( false );
-    end
     for i,button in pairs( loc_buttons[current_area] ) do
         button:SetVisible( true );
     end
@@ -369,15 +291,6 @@ for i,area in pairs( all_areas ) do
             travel_buttons[area][j]:SetVisible( false );
         end
     end
-end
-for i,button in pairs( loc_buttons[current_area] ) do
-    button:SetVisible( true );
-end
-for i,button in pairs( zoom_buttons[current_area] ) do
-    button:SetVisible( true );
-end
-for i,button in pairs( travel_buttons[current_area] ) do
-    button:SetVisible( true );
 end
 
 changeArea( current_area );

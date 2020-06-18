@@ -43,9 +43,7 @@ function LocButton:Constructor( area, idx, data, bg, window, infoLabel )
         self.label:SetZOrder( 10 ); -- show on top
         self.label:SetStretchMode( 1 ); -- renders outside bounds
     end
-    self.MouseLeave = function(sender, args)
-        self.label:SetVisible( false );
-    end
+    self.MouseLeave = function(sender, args) self.label:SetVisible( false ) end
     self.Click = function( sender, args )
         if not self.selected then
             Selection:SetLoc( self );
@@ -67,15 +65,9 @@ function ZoomButton:Constructor( area, point, bg, changeArea )
     self:SetParent( bg );
     self:SetPosition( unpack( point ) );
     self.area = area;
-    self.MouseEnter = function(sender, args)
-        self:SetBlendMode( Turbine.UI.BlendMode.Multiply );
-    end
-    self.MouseLeave = function(sender, args)
-        self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
-    end
-    self.Click = function( sender, args )
-        changeArea( self.area );
-    end
+    self.MouseEnter = function(sender, args) self:SetBlendMode( Turbine.UI.BlendMode.Multiply ) end
+    self.MouseLeave = function(sender, args) self:SetBlendMode( Turbine.UI.BlendMode.Overlay ) end
+    self.Click = function( sender, args ) changeArea( self.area ) end
 end
 
 TravelButton = class( Turbine.UI.Lotro.Button );
@@ -102,9 +94,7 @@ function TravelButton:Constructor( area, idx, data, bg, window, qs )
         end
         self:SetWantsUpdates( true );
     end
-    self.MouseLeave = function( sender, args )
-        self:SetWantsUpdates( false );
-    end
+    self.MouseLeave = function( sender, args ) self:SetWantsUpdates( false ) end
     self.Update = function( sender, args )
         local x, y = window:GetMousePosition();
         qs:SetPosition( x - 1, y - 1 );
@@ -120,9 +110,73 @@ function TravelButton:Constructor( area, idx, data, bg, window, qs )
             self.skill = self.qs:GetShortcut():GetData();
         end
     end
-    self.ExitEdit = function()
-        self.qs:SetVisible( false );
+    self.ExitEdit = function() self.qs:SetVisible( false ) end
+end
+
+function round( num, numDecimalPlaces )
+    local mult = 10^(numDecimalPlaces or 0);
+    return math.floor(num * mult + 0.5) / mult;
+end
+
+-- mins in top left, maxes in bottom right, positions are numbers, coords strings in format "74.9W", "113.1S" etc
+
+function position_to_coords( pos_x, pos_y, pos_x_max, pos_y_max, coord_x_min, coord_y_min, coord_x_max, coord_y_max )
+    local side_x_min = coord_x_min:sub( -1 );
+    local side_y_min = coord_y_min:sub( -1 );
+    local side_x_max = coord_x_max:sub( -1 );
+    local side_y_max = coord_y_max:sub( -1 );
+    local coord_x_min = tonumber( coord_x_min:sub( 1, -2 ) );
+    local coord_y_min = tonumber( coord_y_min:sub( 1, -2 ) );
+    local coord_x_max = tonumber( coord_x_max:sub( 1, -2 ) );
+    local coord_y_max = tonumber( coord_y_max:sub( 1, -2 ) );
+    local relative_dist_x = pos_x / pos_x_max; -- assume min positions of 0, 0
+    local relative_dist_y = pos_y / pos_y_max;
+    local coord_x, coord_y;
+    local side_x = nil;
+    local side_y = nil;
+
+    if side_x_min == "W" and side_x_max == "W" then
+        local coord_x_span = coord_x_min - coord_x_max;
+        coord_x = coord_x_min - relative_dist_x * coord_x_span;
+        side_x = "W";
+    elseif side_x_min == "E" and side_x_max == "E" then
+        local coord_x_span = coord_x_max - coord_x_min;
+        coord_x = coord_x_min + relative_dist_x * coord_x_span;
+        side_x = "E";
+    elseif side_x_min == "W" and side_x_max == "E" then
+        local coord_x_span = coord_x_max + coord_x_min;
+        coord_x = coord_x_min - relative_dist_x * coord_x_span;
+
+        if coord_x < 0 then
+            coord_x = -coord_x;
+            side_x = "E";
+        else
+            side_x = "W";
+        end
     end
+    if side_y_min == "N" and side_y_max == "N" then
+        local coord_y_span = coord_y_min - coord_y_max;
+        coord_y = coord_y_min - relative_dist_y * coord_y_span;
+        side_y = "N";
+    elseif side_y_min == "S" and side_y_max == "S" then
+        local coord_y_span = coord_y_max - coord_y_min;
+        coord_y = coord_y_min + relative_dist_y * coord_y_span;
+        side_y = "S";
+    elseif side_y_min == "N" and side_y_max == "S" then
+        local coord_y_span = coord_y_max + coord_y_min;
+        coord_y = coord_y_min - relative_dist_y * coord_y_span;
+
+        if coord_y < 0 then
+            coord_y = -coord_y;
+            side_y = "S";
+        else
+            side_y = "N";
+        end
+    end
+    if side_x == nil or side_y == nil then return "" end
+    coord_x = tostring( round( coord_x, 1 ) ) .. side_x;
+    coord_y = tostring( round( coord_y, 1 ) ) .. side_y;
+    return coord_y .. " " .. coord_x;
 end
 
 function get_text_width( text )
