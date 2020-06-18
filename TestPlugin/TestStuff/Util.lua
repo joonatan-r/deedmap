@@ -1,3 +1,130 @@
+import "Turbine.UI";
+import "Turbine.UI.Lotro";
+
+Selection = {};
+
+function Selection:SetLoc( locButton )
+    if self.current ~= nil then
+        self.current:SetBackground( 0x410f34f1 );
+        self.current.selected = false;
+    end
+    if locButton ~= nil then
+        locButton:SetBackground( 0x410d7856 );
+        locButton.selected = true;
+    end
+    self.current = locButton;
+end
+
+LocButton = class( Turbine.UI.Button );
+
+function LocButton:Constructor( area, idx, data, bg, window, infoLabel )
+    Turbine.UI.Button.Constructor( self );
+    self.selected = false;
+    self.area = area;
+    self.idx = idx;
+    self.label = Turbine.UI.Label();
+    self.label:SetBackColor( Turbine.UI.Color( 0, 0, 0 ) );
+    self.label:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
+    self:SetSize( 16, 16 );
+    self:SetBackground( 0x410f34f1 );
+    self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
+    self:SetParent( bg );
+    self.label:SetParent( window ); -- label parent is window so that it won't be scaled if bg map needs to be resized
+    self.label:SetVisible( false );
+    self.info = data[area][idx];
+    self:SetPosition( unpack(self.info.point) );
+    self.MouseEnter = function(sender, args)
+        local x,y = window:GetMousePosition();
+        self.label:SetText( self.info.text );
+        self.label:SetPosition( x + 25, y - 25 );
+        self.label:SetWidth( get_text_width( self.info.text ) );
+        self.label:SetHeight( 25 );
+        self.label:SetVisible( true );
+        self.label:SetZOrder( 10 ); -- show on top
+        self.label:SetStretchMode( 1 ); -- renders outside bounds
+    end
+    self.MouseLeave = function(sender, args)
+        self.label:SetVisible( false );
+    end
+    self.Click = function( sender, args )
+        if not self.selected then
+            Selection:SetLoc( self );
+        else
+            Selection:SetLoc( nil );
+        end
+        infoLabel:SetText( self.info.desc );
+        infoLabel:SetVisible( self.selected );
+    end
+end
+
+ZoomButton = class( Turbine.UI.Button );
+
+function ZoomButton:Constructor( area, point, bg, changeArea )
+    Turbine.UI.Button.Constructor( self );
+    self:SetBackground( 0x410081a2 );
+    self:SetSize( 63, 63 );
+    self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
+    self:SetParent( bg );
+    self:SetPosition( unpack( point ) );
+    self.area = area;
+    self.MouseEnter = function(sender, args)
+        self:SetBlendMode( Turbine.UI.BlendMode.Multiply );
+    end
+    self.MouseLeave = function(sender, args)
+        self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
+    end
+    self.Click = function( sender, args )
+        changeArea( self.area );
+    end
+end
+
+TravelButton = class( Turbine.UI.Lotro.Button );
+
+function TravelButton:Constructor( area, idx, data, bg, window, qs )
+    Turbine.UI.Button.Constructor( self );
+    self.x, self.y = unpack( data[area].travel[idx].point );
+    self.skill = data[area].travel[idx].skill;
+    self.idx = idx;
+    self:SetParent( bg );
+    self:SetPosition( self.x, self.y );
+    self:SetSize( 30, 30 );
+    self:SetBackground( 0x41005e52 );
+    self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
+    self.MouseEnter = function( sender, args )
+        self:SetBackground( 0x41005e55 );
+        qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Skill, self.skill ) );
+        qs.MouseLeave = function( sender, args )
+            local x,y = bg:GetMousePosition();
+        
+            if not ( x >= self.x and x <= self.x + 29 ) or not ( y >= self.y and y <= self.y + 29 ) then
+                self:SetBackground( 0x41005e52 );
+            end
+        end
+        self:SetWantsUpdates( true );
+    end
+    self.MouseLeave = function( sender, args )
+        self:SetWantsUpdates( false );
+    end
+    self.Update = function( sender, args )
+        local x, y = window:GetMousePosition();
+        qs:SetPosition( x - 1, y - 1 );
+        qs:SetSize( 3, 3 );
+    end
+    self.EnterEdit = function()
+        self.qs = Turbine.UI.Lotro.Quickslot();
+        self.qs:SetParent( bg );
+        self.qs:SetPosition( self.x, self.y );
+        self.qs:SetZOrder( 10 );
+        self.qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Skill, self.skill ) );
+        self.qs.ShortcutChanged = function( sender, args )
+            self.skill = self.qs:GetShortcut():GetData();
+        end
+    end
+    self.ExitEdit = function()
+        self.qs:SetVisible( false );
+    end
+end
+
 function get_text_width( text )
     local width = 0;
 
