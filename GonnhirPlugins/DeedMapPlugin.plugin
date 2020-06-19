@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<Plugin>
+	<Information>
+		<Name>DeedMapPlugin</Name>
+		<Author>Gonnhir</Author>
+		<Version>1.0</Version>
+		<Description>Map with interactive deed locations and configurable milestone buttons for activating port skills from the map.</Description>
+	</Information>
+	<Package>GonnhirPlugins.DeedMapPlugin.Main</Package>
+        <Configuration Apartment="DeedMapPlugin" />
+</Plugin>

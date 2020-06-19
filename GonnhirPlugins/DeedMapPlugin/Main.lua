@@ -1,7 +1,7 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "TestPlugin.TestStuff";
+import "GonnhirPlugins.DeedMapPlugin";
 
 current_area = "Middle-earth";
 width = data[current_area].width;
@@ -65,20 +65,6 @@ Turbine.Shell.AddCommand( "deedmap", cmd );
 loc_buttons = {};
 zoom_buttons = {};
 travel_buttons = {};
-load_data = Turbine.PluginData.Load( Turbine.DataScope.Character, "TestPlugin_saved_skills" );
-
-if load_data ~= nil then
-    function load_skills()
-        for area,info in pairs( load_data ) do
-            for j,skill in pairs( info ) do
-                travel_buttons[area][j].skill = skill;
-            end
-        end
-    end
-    pcall( load_skills )
-else 
-    load_data = {}
-end
 
 filterMenu = Turbine.UI.ContextMenu();
 filterMenuItems = filterMenu:GetItems();
@@ -128,7 +114,7 @@ function exit_edit( sender, args )
             load_data[current_area][button.idx] = button.skill;
         end
     end
-    Turbine.PluginData.Save( Turbine.DataScope.Character, "TestPlugin_saved_skills", load_data );
+    Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", load_data );
     editButton.Click = function( sender, args ) enter_edit( sender, args ) end
 end
 
@@ -291,6 +277,21 @@ for i,area in pairs( all_areas ) do
             travel_buttons[area][j]:SetVisible( false );
         end
     end
+end
+
+load_data = Turbine.PluginData.Load( Turbine.DataScope.Character, "DeedMapPluginSkills" );
+
+if load_data ~= nil then
+    function load_skills()
+        for area,info in pairs( load_data ) do
+            for j,skill in pairs( info ) do
+                travel_buttons[area][j].skill = skill;
+            end
+        end
+    end
+    pcall( load_skills )
+else 
+    load_data = {}
 end
 
 changeArea( current_area );
