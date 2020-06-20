@@ -65,8 +65,8 @@ function ZoomButton:Constructor( area, point, bg, changeArea )
     self:SetParent( bg );
     self:SetPosition( unpack( point ) );
     self.area = area;
-    self.MouseEnter = function(sender, args) self:SetBlendMode( Turbine.UI.BlendMode.Multiply ) end
-    self.MouseLeave = function(sender, args) self:SetBlendMode( Turbine.UI.BlendMode.Overlay ) end
+    self.MouseEnter = function( sender, args ) self:SetBlendMode( Turbine.UI.BlendMode.Multiply ) end
+    self.MouseLeave = function( sender, args ) self:SetBlendMode( Turbine.UI.BlendMode.Overlay ) end
     self.Click = function( sender, args ) changeArea( self.area ) end
 end
 

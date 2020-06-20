@@ -3,6 +3,21 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "GonnhirPlugins.DeedMapPlugin";
 
+debug_window = Turbine.UI.Window();
+debug_window:SetPosition( 0, 0 );
+debug_window:SetSize( 100, 100 );
+debug_window:SetVisible( false );
+debug_window:Activate();
+test_qs = Turbine.UI.Lotro.Quickslot(); -- for getting skill ids
+test_qs:SetParent( debug_window );
+test_qs:SetPosition( 0, 0 );
+test_qs.ShortcutChanged = function( sender, args )
+    Turbine.Shell.WriteLine( test_qs:GetShortcut():GetData() );
+    test_qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Undefined, "" ) );
+end
+
+---------------
+
 current_area = "Middle-earth";
 width = data[current_area].width;
 height = data[current_area].height;
@@ -17,8 +32,8 @@ bg:SetPosition( 20, 35 );
 bg.MouseClick = function( sender, args )
     if args.Button == Turbine.UI.MouseButton.Left then
         local x,y = bg:GetMousePosition();
-        x = x - 30; -- adjust for image, - 5 for loc, - 30 for zoom, - 15 for travel
-        y = y - 30;
+        -- x = x - 5; -- adjust for image, - 5 for loc, - 30 for zoom, - 15 for travel
+        -- y = y - 5;
         Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
     elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
         changeArea( data[current_area].main_area );
@@ -56,12 +71,16 @@ qs:SetParent( window );
 qs:SetZOrder( 10 );
 qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Undefined, "" ) );
 qs:SetSize( 0, 0 );
-cmd = Turbine.ShellCommand();
-cmd.Execute = function( sender, cmd, args )
+deedmap_cmd = Turbine.ShellCommand();
+deedmap_cmd.Execute = function( sender, cmd, args )
+    if args == "debug_window" then
+        debug_window:SetVisible( not debug_window:IsVisible() );
+        return;
+    end
     window:SetVisible( not window:IsVisible() );
     if window:IsVisible() then window:Activate() end
 end
-Turbine.Shell.AddCommand( "deedmap", cmd );
+Turbine.Shell.AddCommand( "deedmap", deedmap_cmd );
 loc_buttons = {};
 zoom_buttons = {};
 travel_buttons = {};
@@ -110,11 +129,13 @@ function exit_edit( sender, args )
         button.ExitEdit();
         
         if button.skill ~= data[current_area].travel[button.idx].skill then -- no point saving custom skill if it's the default one
-            if load_data[current_area] == nil then load_data[current_area] = {} end
-            load_data[current_area][button.idx] = button.skill;
+            if custom_skill_data[current_area] == nil then
+                custom_skill_data[current_area] = {};
+            end
+            custom_skill_data[current_area][button.idx] = button.skill;
         end
     end
-    Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", load_data );
+    Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", custom_skill_data );
     editButton.Click = function( sender, args ) enter_edit( sender, args ) end
 end
 
@@ -279,19 +300,95 @@ for i,area in pairs( all_areas ) do
     end
 end
 
-load_data = Turbine.PluginData.Load( Turbine.DataScope.Character, "DeedMapPluginSkills" );
+custom_skill_data = Turbine.PluginData.Load( Turbine.DataScope.Character, "DeedMapPluginSkills" );
 
-if load_data ~= nil then
+if custom_skill_data ~= nil then
     function load_skills()
-        for area,info in pairs( load_data ) do
+        for area,info in pairs( custom_skill_data ) do
             for j,skill in pairs( info ) do
                 travel_buttons[area][j].skill = skill;
             end
         end
     end
-    pcall( load_skills )
+    pcall( load_skills );
 else 
-    load_data = {}
+    custom_skill_data = {}
 end
+
+custom_travel_data = Turbine.PluginData.Load( Turbine.DataScope.Character, "DeedMapPluginTravels" );
+
+if custom_travel_data ~= nil then
+    function load_travels()
+        for area,area_info in pairs( custom_travel_data ) do
+            for i,travel_info in pairs( area_info ) do 
+                if data[area].travel == nil then
+                    data[area].travel = {};
+                end
+                if travel_buttons[area] == nil then
+                    travel_buttons[area] = {};
+                end
+                data[area].travel[i] = {}; -- saved indexes should already be continuing properly from data
+                data[area].travel[i].skill = travel_info.skill;
+                data[area].travel[i].point = travel_info.point;
+                travel_buttons[area][i] = TravelButton( area, i, data, bg, window, qs );
+                travel_buttons[area][i]:SetVisible( false );
+            end
+        end
+    end
+    pcall( load_travels );
+else
+    custom_travel_data = {};
+end
+
+savenewtravel_cmd = Turbine.ShellCommand();
+savenewtravel_cmd.Execute = function( sender, cmd, args )
+    if args == nil or args == "" then return end
+    local new_idx, skill, point;
+    local arg_list = {};
+
+    if data[current_area].travel == nil then
+        data[current_area].travel = {};
+        new_idx = 1;
+    else
+        new_idx = #data[current_area].travel + 1;
+    end
+    if travel_buttons[current_area] == nil then
+        travel_buttons[current_area] = {};
+    end
+    if custom_travel_data[current_area] == nil then
+        custom_travel_data[current_area] = {};
+    end
+    for w in string.gmatch( args, "%w+" ) do
+        arg_list[#arg_list + 1] = w;
+    end
+    skill = arg_list[3];
+    point = {tonumber( arg_list[1] ), tonumber( arg_list[2] )};
+    data[current_area].travel[new_idx] = {};
+    data[current_area].travel[new_idx].skill = skill;
+    data[current_area].travel[new_idx].point = point;
+    travel_buttons[current_area][new_idx] = TravelButton( current_area, new_idx, data, bg, window, qs );
+    travel_buttons[current_area][new_idx]:SetVisible( true );
+    custom_travel_data[current_area][new_idx] = {};
+    custom_travel_data[current_area][new_idx].skill = skill;
+    custom_travel_data[current_area][new_idx].point = point;
+    Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginTravels", custom_travel_data );
+end
+Turbine.Shell.AddCommand( "savenewtravel", savenewtravel_cmd );
+
+deletetravel_cmd = Turbine.ShellCommand();
+deletetravel_cmd.Execute = function( sender, cmd, args )
+    if args == nil or args == "" or custom_travel_data[current_area] == nil then return end
+    local idx = tonumber( args );
+    custom_travel_data[current_area][idx] = nil;
+    local i = idx + 1;
+
+    while custom_travel_data[current_area][i] ~= nil do
+        custom_travel_data[current_area][i - 1] = custom_travel_data[current_area][i];
+        custom_travel_data[current_area][i] = nil;
+        i = i + 1;
+    end
+    Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginTravels", custom_travel_data );
+end
+Turbine.Shell.AddCommand( "deletetravel", deletetravel_cmd );
 
 changeArea( current_area );
