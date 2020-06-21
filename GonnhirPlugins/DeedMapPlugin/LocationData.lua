@@ -2527,6 +2527,27 @@ data["Pelennor After Battle"].coord_y_max = "73.0S";
 data["Pelennor After Battle"].main_area = "North Ithilien";
 data["Pelennor After Battle"].sub_types = {};
 
+data["Pelennor After Battle"].zoom = {};
+data["Pelennor After Battle"].zoom[1] = {};
+data["Pelennor After Battle"].zoom[1].area = "Minas Tirith After Battle";
+data["Pelennor After Battle"].zoom[1].point = {330, 450};
+
+data["Pelennor After Battle"].travel = {};
+data["Pelennor After Battle"].travel[1] = {};
+data["Pelennor After Battle"].travel[1].skill = "0x70046CC0";
+data["Pelennor After Battle"].travel[1].point = {460, 450};
+
+data["Minas Tirith After Battle"] = {};
+data["Minas Tirith After Battle"].map = 0x4119389d;
+data["Minas Tirith After Battle"].width = 1024;
+data["Minas Tirith After Battle"].height = 768;
+data["Minas Tirith After Battle"].coord_x_min = "24.1W";
+data["Minas Tirith After Battle"].coord_y_min = "62.2S";
+data["Minas Tirith After Battle"].coord_x_max = "15.0W";
+data["Minas Tirith After Battle"].coord_y_max = "69.0S";
+data["Minas Tirith After Battle"].main_area = "Pelennor After Battle";
+data["Minas Tirith After Battle"].sub_types = {};
+
 data["Osgiliath After Battle"] = {};
 data["Osgiliath After Battle"].map = 0x411a42e5;
 data["Osgiliath After Battle"].width = 1024;
