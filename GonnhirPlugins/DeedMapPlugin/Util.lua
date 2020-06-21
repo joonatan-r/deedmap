@@ -174,8 +174,8 @@ function position_to_coords( pos_x, pos_y, pos_x_max, pos_y_max, coord_x_min, co
         end
     end
     if side_x == nil or side_y == nil then return "" end
-    coord_x = tostring( round( coord_x, 1 ) ) .. side_x;
-    coord_y = tostring( round( coord_y, 1 ) ) .. side_y;
+    coord_x = string.format( "%.1f", round( coord_x, 1 ) ) .. side_x;
+    coord_y = string.format( "%.1f", round( coord_y, 1 ) ) .. side_y;
     return coord_y .. " " .. coord_x;
 end
 

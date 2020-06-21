@@ -19,6 +19,29 @@ end
 
 ---------------
 
+function BgAdjustedGetMousePosition() -- get proper mouse click position for original img if stretching bg 
+    local x,y = bg:GetMousePosition();
+    x = ( data[current_area].width / bg_width ) * x;
+    y = ( data[current_area].height / bg_height ) * y;
+    return round( x, 0 ), round( y, 0 );
+end
+
+function handle_bg_click( sender, args )
+    if args.Button == Turbine.UI.MouseButton.Left then
+        local x,y;
+        if adjusted then
+            x,y = BgAdjustedGetMousePosition();
+        else
+            x,y = bg:GetMousePosition();
+        end
+        -- x = x - 5; -- adjust for image, - 5 for loc, - 30 for zoom, - 15 for travel
+        -- y = y - 5;
+        Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
+    elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
+        changeArea( data[current_area].main_area );
+    end
+end
+
 current_area = "Middle-earth";
 width = data[current_area].width;
 height = data[current_area].height;
@@ -30,16 +53,7 @@ window:Activate();
 bg = Turbine.UI.Control();
 bg:SetParent( window );
 bg:SetPosition( 20, 35 );
-bg.MouseClick = function( sender, args )
-    if args.Button == Turbine.UI.MouseButton.Left then
-        local x,y = bg:GetMousePosition();
-        -- x = x - 5; -- adjust for image, - 5 for loc, - 30 for zoom, - 15 for travel
-        -- y = y - 5;
-        Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
-    elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
-        changeArea( data[current_area].main_area );
-    end
-end
+bg.MouseClick = handle_bg_click;
 bg_width = bg:GetWidth();
 bg_height = bg:GetHeight(); -- these need to be changed manually if stretching
 bg.MouseMove = function( sender, args )
@@ -118,14 +132,16 @@ for i = 1, areaMenuItems:GetCount() do
     end
 end
 
+function showCustomizeWindow( sender, args )
+    customizeWindow:SetVisible( true );
+    customizeWindow:Activate();
+end
+
 editButton = Turbine.UI.Lotro.Button();
 editButton:SetSize( 100, 20 );
 editButton:SetText( "Customize" );
 editButton:SetParent( window );
-editButton.Click = function( sender, args )
-    customizeWindow:SetVisible( true );
-    customizeWindow:Activate();
-end
+editButton.Click = showCustomizeWindow;
 
 customizeWindow = Turbine.UI.Lotro.Window();
 customizeWindow:SetSize( 250, 250 );
@@ -142,7 +158,7 @@ skillsButton.Click = function( sender, args )
     customizeWindow:SetVisible( false );
 
     if travel_buttons[current_area] == nil or #travel_buttons[current_area] < 1 then
-        alertMenu = Turbine.UI.ContextMenu();
+        local alertMenu = Turbine.UI.ContextMenu();
         alertMenu:GetItems():Add( Turbine.UI.MenuItem( "There are no travel buttons in this area!" ) );
         alertMenu:ShowMenu();
     else
@@ -150,6 +166,7 @@ skillsButton.Click = function( sender, args )
             button.EnterEdit();
         end
         prompt.area = current_area; -- make sure area changing won't mess things
+        prompt.type = "skill_edit";
         editButton:SetText( STOP_EDIT_TEXT );
         editButton.Click = function( sender, args )
             prompt:SetVisible( true );
@@ -160,6 +177,94 @@ skillsButton.Click = function( sender, args )
         infoLabel:SetVisible( true );
     end
 end
+
+travelsButton = Turbine.UI.Lotro.Button();
+travelsButton:SetSize( 200, 20 );
+travelsButton:SetText( "Add new travel buttons" );
+travelsButton:SetParent( customizeWindow );
+travelsButton:SetPosition( 25, 80 );
+travelsButton.Click = function( sender, args )
+    customizeWindow:SetVisible( false );
+    temp_custom_travel_data = {};
+    temp_qs_table = {}; -- used for deleting all temp quickslots when stopping editing
+    local temp_length = 0;
+    bg.MouseClick = function( sender, args )
+        local x,y;
+        if adjusted then
+            x,y = BgAdjustedGetMousePosition();
+        else
+            x,y = bg:GetMousePosition();
+        end
+        local point = {x - 15, y - 15};
+        local temp_qs = Turbine.UI.Lotro.Quickslot();
+        temp_qs:SetParent( bg );
+        temp_qs:SetPosition( x - 15, y - 15 );
+        temp_qs:SetZOrder( 10 );
+        temp_qs.ShortcutChanged = function( sender, args )
+            local new_idx;
+    
+            if temp_length < 1 then -- idx continues from default data, length needs to be manually updated
+                new_idx = #data[current_area].travel + 1; 
+            else
+                -- get the last index, as it isn't necessarily the same as number of elements
+                for i,val in pairs( temp_custom_travel_data ) do
+                    if new_idx == nil or i > new_idx then new_idx = i end
+                end
+                new_idx = new_idx + 1;
+            end
+            temp_custom_travel_data[new_idx] = {};
+            temp_custom_travel_data[new_idx].point = point;
+            temp_custom_travel_data[new_idx].skill = temp_qs:GetShortcut():GetData();
+            temp_length = temp_length + 1;
+            Turbine.Shell.WriteLine( tostring(new_idx) );
+        end
+        temp_qs_table[#temp_qs_table + 1] = temp_qs;
+    end
+    prompt.area = current_area;
+    prompt.type = "travel_button";
+    editButton:SetText( STOP_EDIT_TEXT );
+    editButton.Click = function( sender, args )
+        prompt:SetVisible( true );
+        prompt:Activate();
+        infoLabel:SetVisible( false );
+    end
+    infoLabel:SetText( "Add new travel buttons to a location on the map by clicking, then dragging " ..
+                       "the port skill for it to the appearing quickslot");
+    infoLabel:SetVisible( true );
+end
+
+deleteTravelsButton = Turbine.UI.Lotro.Button();
+deleteTravelsButton:SetSize( 200, 20 );
+deleteTravelsButton:SetText( "Delete all custom travel buttons in this area" );
+deleteTravelsButton:SetParent( customizeWindow );
+deleteTravelsButton:SetPosition( 25, 110 );
+deleteTravelsButton.Click = function( sender, args )
+    customizeWindow:SetVisible( false );
+    prompt.area = current_area;
+    prompt.type = "travels_delete";
+    prompt:SetVisible( true );
+    prompt:Activate();
+end
+
+deleteSkillsButton = Turbine.UI.Lotro.Button();
+deleteSkillsButton:SetSize( 200, 20 );
+deleteSkillsButton:SetText( "Reset all travel skills to default in this area" );
+deleteSkillsButton:SetParent( customizeWindow );
+deleteSkillsButton:SetPosition( 25, 140 );
+deleteSkillsButton.Click = function( sender, args )
+    customizeWindow:SetVisible( false );
+    prompt.area = current_area;
+    prompt.type = "skills_delete";
+    prompt:SetVisible( true );
+    prompt:Activate();
+end
+
+customizeLabel = Turbine.UI.Label();
+customizeLabel:SetSize( 200, 100 );
+customizeLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
+customizeLabel:SetText( "Note: Deleting or reseting requires reloading the plugin to take effect" );
+customizeLabel:SetParent( customizeWindow );
+customizeLabel:SetPosition( 25, 170 );
 
 prompt = Turbine.UI.Window();
 prompt:SetBackColor( Turbine.UI.Color( 0, 0, 0 ) );
@@ -177,20 +282,61 @@ prompt.ok:SetParent( prompt );
 prompt.ok.Click = function( sender, args )
     prompt:SetVisible( false );
     editButton:SetText( "Customize" );
-    editButton.Click = function( sender, args )
-        customizeWindow:SetVisible( true );
-        customizeWindow:Activate();
-    end
+    editButton.Click = showCustomizeWindow;
     if prompt.area == nil then return end
-    for i,button in pairs( travel_buttons[prompt.area] ) do
-        button.ExitEdit();
 
-        if custom_skill_data[prompt.area] == nil then
-            custom_skill_data[prompt.area] = {};
+    if prompt.type == "skill_edit" then
+        for i,button in pairs( travel_buttons[prompt.area] ) do
+            button.ExitEdit();
+
+            if custom_skill_data[prompt.area] == nil then
+                custom_skill_data[prompt.area] = {};
+            end
+            custom_skill_data[prompt.area][button.idx] = button.skill;
         end
-        custom_skill_data[prompt.area][button.idx] = button.skill;
+        Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", custom_skill_data );
+    elseif prompt.type == "travel_button" then
+        if data[prompt.area].travel == nil then
+            data[prompt.area].travel = {};
+        end
+        if travel_buttons[prompt.area] == nil then
+            travel_buttons[prompt.area] = {};
+        end
+        if custom_travel_data[prompt.area] == nil then
+            custom_travel_data[prompt.area] = {};
+        end
+        for i,val in pairs( temp_qs_table ) do
+            val:SetVisible( false );
+            val = nil;
+        end
+        for i,val in pairs( temp_custom_travel_data ) do
+            data[prompt.area].travel[i] = {};
+            data[prompt.area].travel[i].skill = val.skill;
+            data[prompt.area].travel[i].point = val.point;
+            travel_buttons[prompt.area][i] = TravelButton( prompt.area, i, data, bg, window, qs );
+            travel_buttons[prompt.area][i]:SetVisible( true );
+            custom_travel_data[prompt.area][i] = {};
+            custom_travel_data[prompt.area][i].skill = val.skill;
+            custom_travel_data[prompt.area][i].point = val.point;
+        end
+        Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginTravels", custom_travel_data );
+        bg.MouseClick = handle_bg_click;
+    elseif prompt.type == "travels_delete" then
+        for i,val in pairs( custom_travel_data[prompt.area] ) do
+            custom_travel_data[prompt.area][i] = nil;
+
+            if custom_skill_data[prompt.area] ~= nil and custom_skill_data[prompt.area][i] ~= nil then
+                custom_skill_data[prompt.area][i] = nil;
+            end
+        end
+        Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginTravels", custom_travel_data );
+        Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", custom_skill_data );
+    elseif prompt.type == "skills_delete" then
+        for i,val in pairs( custom_skill_data[prompt.area] ) do
+            custom_skill_data[prompt.area][i] = nil;
+        end
+        Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", custom_skill_data );
     end
-    Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", custom_skill_data );
 end
 prompt.ok:SetText( "Ok" );
 prompt.ok:SetSize( 20, 20 );
@@ -200,14 +346,20 @@ prompt.no:SetParent( prompt );
 prompt.no.Click = function( sender, args )
     prompt:SetVisible( false );
     editButton:SetText( "Customize" );
-    editButton.Click = function( sender, args )
-        customizeWindow:SetVisible( true );
-        customizeWindow:Activate();
-    end
+    editButton.Click = showCustomizeWindow;
     if prompt.area == nil then return end
-    for i,button in pairs( travel_buttons[prompt.area] ) do
-        button.ExitEdit();
-        button.skill = data[prompt.area].travel[button.idx].skill;
+    
+    if prompt.type == "skill_edit" then
+        for i,button in pairs( travel_buttons[prompt.area] ) do
+            button.ExitEdit();
+            button.skill = data[prompt.area].travel[button.idx].skill;
+        end
+    elseif prompt.type == "travel_button" then
+        for i,val in pairs( temp_qs_table ) do
+            val:SetVisible( false );
+            val = nil;
+        end
+        bg.MouseClick = handle_bg_click;
     end
 end
 prompt.no:SetText( "No" );
@@ -264,6 +416,7 @@ function changeArea( area )
             local new_width = (disp_height / window_height) * window_width;
             window:SetSize( new_width, disp_height );
         end
+        adjusted = true;
         window_width = window:GetWidth();
         window_height = window:GetHeight();
         bg_width = window_width - 40 - 220;
@@ -277,6 +430,7 @@ function changeArea( area )
         checkBox:SetPosition( window_width - 220, 35 + 50 );
         infoLabel:SetPosition( window_width - 220, 35 + 100 );
     else
+        adjusted = false;
         filterButton:SetPosition( width + 20 + 20, 35 + 20 );
         areaButton:SetPosition( width + 20 + 20 + 50, 35 + 20 );
         editButton:SetPosition( width + 20 + 20 + 50 + 50, 35 + 20 );
@@ -416,63 +570,5 @@ if custom_skill_data ~= nil then
 else 
     custom_skill_data = {}
 end
-
-savenewtravel_cmd = Turbine.ShellCommand();
-savenewtravel_cmd.Execute = function( sender, cmd, args )
-    if args == nil or args == "" then return end
-    local new_idx, skill, point;
-    local arg_list = {};
-
-    if data[current_area].travel == nil then
-        data[current_area].travel = {};
-        new_idx = 1;
-    else
-        new_idx = #data[current_area].travel + 1;
-    end
-    if travel_buttons[current_area] == nil then
-        travel_buttons[current_area] = {};
-    end
-    if custom_travel_data[current_area] == nil then
-        custom_travel_data[current_area] = {};
-    end
-    for w in string.gmatch( args, "%w+" ) do
-        arg_list[#arg_list + 1] = w;
-    end
-    skill = arg_list[3];
-    point = {tonumber( arg_list[1] ), tonumber( arg_list[2] )};
-    data[current_area].travel[new_idx] = {};
-    data[current_area].travel[new_idx].skill = skill;
-    data[current_area].travel[new_idx].point = point;
-    travel_buttons[current_area][new_idx] = TravelButton( current_area, new_idx, data, bg, window, qs );
-    travel_buttons[current_area][new_idx]:SetVisible( true );
-    custom_travel_data[current_area][new_idx] = {};
-    custom_travel_data[current_area][new_idx].skill = skill;
-    custom_travel_data[current_area][new_idx].point = point;
-    Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginTravels", custom_travel_data );
-end
-Turbine.Shell.AddCommand( "savenewtravel", savenewtravel_cmd );
-
-deletetravel_cmd = Turbine.ShellCommand();
-deletetravel_cmd.Execute = function( sender, cmd, args )
-    if args == nil or args == "" or custom_travel_data[current_area] == nil then return end
-    local idx = tonumber( args );
-
-    if custom_travel_data[current_area][idx] == nil then return end
-    custom_travel_data[current_area][idx] = nil;
-    local i = idx + 1;
-
-    while custom_travel_data[current_area][i] ~= nil do
-        custom_travel_data[current_area][i - 1] = custom_travel_data[current_area][i];
-        custom_travel_data[current_area][i] = nil;
-        i = i + 1;
-    end
-    Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginTravels", custom_travel_data );
-
-    if custom_skill_data[current_area][idx] ~= nil then
-        custom_skill_data[current_area][idx] = nil;
-        Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", custom_skill_data );
-    end
-end
-Turbine.Shell.AddCommand( "deletetravel", deletetravel_cmd );
 
 changeArea( current_area );
