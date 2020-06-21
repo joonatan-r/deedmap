@@ -94,13 +94,8 @@ deedmap_cmd.Execute = function( sender, cmd, args )
     if window:IsVisible() then window:Activate() end
 end
 Turbine.Shell.AddCommand( "deedmap", deedmap_cmd );
-loc_buttons = {};
-zoom_buttons = {};
-travel_buttons = {};
-
 filterMenu = Turbine.UI.ContextMenu();
 filterMenuItems = filterMenu:GetItems();
-
 filterButton = Turbine.UI.Lotro.Button();
 filterButton:SetSize( 50, 20 );
 filterButton:SetText( "Filter" );
@@ -109,10 +104,8 @@ filterButton.Click = function( sender, args )
     filterMenuX, filterMenuY = Turbine.UI.Display.GetMousePosition();
     filterMenu:ShowMenu();
 end
-
 areaMenu = Turbine.UI.ContextMenu();
 areaMenuItems = areaMenu:GetItems();
-
 areaButton = Turbine.UI.Lotro.Button();
 areaButton:SetSize( 50, 20 );
 areaButton:SetText( "Area" );
@@ -140,13 +133,11 @@ editButton:SetSize( 100, 20 );
 editButton:SetText( "Customize" );
 editButton:SetParent( window );
 editButton.Click = showCustomizeWindow;
-
 customizeWindow = Turbine.UI.Lotro.Window();
 customizeWindow:SetSize( 300, 300 );
 customizeWindow:SetPosition( disp_width / 2 - 150, disp_height / 2 - 150 );
 customizeWindow:SetText( "Customize" );
 customizeWindow:SetVisible( false );
-
 skillsButton = Turbine.UI.Lotro.Button();
 skillsButton:SetSize( 250, 20 );
 skillsButton:SetText( "Change travel skills" );
@@ -175,7 +166,6 @@ skillsButton.Click = function( sender, args )
         infoLabel:SetVisible( true );
     end
 end
-
 travelsButton = Turbine.UI.Lotro.Button();
 travelsButton:SetSize( 250, 20 );
 travelsButton:SetText( "Add new travel buttons" );
@@ -229,7 +219,6 @@ travelsButton.Click = function( sender, args )
                        "the port skill for it to the appearing quickslot");
     infoLabel:SetVisible( true );
 end
-
 deleteTravelsButton = Turbine.UI.Lotro.Button();
 deleteTravelsButton:SetSize( 250, 20 );
 deleteTravelsButton:SetText( "Delete custom travel buttons" );
@@ -242,7 +231,6 @@ deleteTravelsButton.Click = function( sender, args )
     prompt:SetVisible( true );
     prompt:Activate();
 end
-
 deleteSkillsButton = Turbine.UI.Lotro.Button();
 deleteSkillsButton:SetSize( 250, 20 );
 deleteSkillsButton:SetText( "Reset travel skills to default" );
@@ -255,7 +243,6 @@ deleteSkillsButton.Click = function( sender, args )
     prompt:SetVisible( true );
     prompt:Activate();
 end
-
 customizeLabel = Turbine.UI.Label();
 customizeLabel:SetSize( 250, 100 );
 customizeLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
@@ -263,7 +250,6 @@ customizeLabel:SetText( "Note: Deleting or resetting affects all buttons and ski
                         "area. They require reloading the plugin to take effect" );
 customizeLabel:SetParent( customizeWindow );
 customizeLabel:SetPosition( 25, 170 );
-
 prompt = Turbine.UI.Lotro.Window();
 prompt:SetText( "!" );
 prompt:SetSize( 100, 120 );
@@ -277,6 +263,9 @@ prompt.label:SetSize( 200, 25 );
 prompt.label:SetPosition( 30, 40 );
 prompt.ok = Turbine.UI.Lotro.Button();
 prompt.ok:SetParent( prompt );
+prompt.ok:SetText( "Ok" );
+prompt.ok:SetSize( 20, 20 );
+prompt.ok:SetPosition( 30, 70 );
 prompt.ok.Click = function( sender, args )
     prompt:SetVisible( false );
     editButton:SetText( "Customize" );
@@ -336,11 +325,11 @@ prompt.ok.Click = function( sender, args )
         Turbine.PluginData.Save( Turbine.DataScope.Character, "DeedMapPluginSkills", custom_skill_data );
     end
 end
-prompt.ok:SetText( "Ok" );
-prompt.ok:SetSize( 20, 20 );
-prompt.ok:SetPosition( 30, 70 );
 prompt.no = Turbine.UI.Lotro.Button();
 prompt.no:SetParent( prompt );
+prompt.no:SetText( "No" );
+prompt.no:SetSize( 20, 20 );
+prompt.no:SetPosition( 80, 70 );
 prompt.no.Click = function( sender, args )
     prompt:SetVisible( false );
     editButton:SetText( "Customize" );
@@ -360,10 +349,6 @@ prompt.no.Click = function( sender, args )
         bg.MouseClick = handle_bg_click;
     end
 end
-prompt.no:SetText( "No" );
-prompt.no:SetSize( 20, 20 );
-prompt.no:SetPosition( 80, 70 );
-
 checkBox = Turbine.UI.Lotro.CheckBox();
 checkBox:SetParent( window );
 checkBox:SetText( " Stretch map to max size" );
@@ -488,6 +473,9 @@ end
 -- TODO maybe later don't load all at once
 
 all_areas = {};
+loc_buttons = {};
+zoom_buttons = {};
+travel_buttons = {};
 
 for key,val in pairs( data ) do
     if key ~= "areas" and key ~= "types" then

@@ -25,12 +25,12 @@ function LocLabel:Constructor()
     self.label:SetParent( self );
     self.label:SetPosition( 0, 0 );
     self.label:SetVisible( true );
-    self.SetWidthExt = function( width )
-        self:SetWidth( width );
+    self.SetWidth = function( self, width )
+        Turbine.UI.Window.SetWidth( self, width );
         self.label:SetWidth( width );
     end
-    self.SetHeightExt = function( height )
-        self:SetHeight( height );
+    self.SetHeight = function( self, height )
+        Turbine.UI.Window.SetHeight( self, height );
         self.label:SetHeight( height );
     end
     self.SetText = function( text )
@@ -56,8 +56,8 @@ function LocButton:Constructor( area, idx, data, bg, infoLabel )
     self.MouseEnter = function( sender, args )
         local x,y = Turbine.UI.Display.GetMousePosition();
         self.label.SetText( self.info.text );
-        self.label.SetWidthExt( get_text_width( self.info.text ) );
-        self.label.SetHeightExt( 25 );
+        self.label:SetWidth( get_text_width( self.info.text ) );
+        self.label:SetHeight( 25 );
         self.label:SetPosition( x + 25, y - 25 );
         self.label:SetVisible( true );
         self.label:Activate();
