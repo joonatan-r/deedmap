@@ -17,8 +17,6 @@ test_qs.ShortcutChanged = function( sender, args )
     test_qs:SetShortcut( Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Undefined, "" ) );
 end
 
----------------
-
 function BgAdjustedGetMousePosition() -- get proper mouse click position for original img if stretching bg 
     local x,y = bg:GetMousePosition();
     x = ( data[current_area].width / bg_width ) * x;
@@ -28,15 +26,15 @@ end
 
 function handle_bg_click( sender, args )
     if args.Button == Turbine.UI.MouseButton.Left then
-        local x,y;
-        if adjusted then
-            x,y = BgAdjustedGetMousePosition();
-        else
-            x,y = bg:GetMousePosition();
-        end
+        -- local x,y;
+        -- if adjusted then
+        --     x,y = BgAdjustedGetMousePosition();
+        -- else
+        --     x,y = bg:GetMousePosition();
+        -- end
         -- x = x - 5; -- adjust for image, - 5 for loc, - 30 for zoom, - 15 for travel
         -- y = y - 5;
-        Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
+        -- Turbine.Shell.WriteLine( "{" .. x .. ", " .. y .. "};" );
     elseif args.Button == Turbine.UI.MouseButton.Right and data[current_area].main_area ~= nil then
         changeArea( data[current_area].main_area );
     end
@@ -144,13 +142,13 @@ editButton:SetParent( window );
 editButton.Click = showCustomizeWindow;
 
 customizeWindow = Turbine.UI.Lotro.Window();
-customizeWindow:SetSize( 250, 250 );
-customizeWindow:SetPosition( disp_width / 2 - 125, disp_height / 2 - 125 );
+customizeWindow:SetSize( 300, 300 );
+customizeWindow:SetPosition( disp_width / 2 - 150, disp_height / 2 - 150 );
 customizeWindow:SetText( "Customize" );
 customizeWindow:SetVisible( false );
 
 skillsButton = Turbine.UI.Lotro.Button();
-skillsButton:SetSize( 200, 20 );
+skillsButton:SetSize( 250, 20 );
 skillsButton:SetText( "Change travel skills" );
 skillsButton:SetParent( customizeWindow );
 skillsButton:SetPosition( 25, 50 );
@@ -179,7 +177,7 @@ skillsButton.Click = function( sender, args )
 end
 
 travelsButton = Turbine.UI.Lotro.Button();
-travelsButton:SetSize( 200, 20 );
+travelsButton:SetSize( 250, 20 );
 travelsButton:SetText( "Add new travel buttons" );
 travelsButton:SetParent( customizeWindow );
 travelsButton:SetPosition( 25, 80 );
@@ -216,7 +214,6 @@ travelsButton.Click = function( sender, args )
             temp_custom_travel_data[new_idx].point = point;
             temp_custom_travel_data[new_idx].skill = temp_qs:GetShortcut():GetData();
             temp_length = temp_length + 1;
-            Turbine.Shell.WriteLine( tostring(new_idx) );
         end
         temp_qs_table[#temp_qs_table + 1] = temp_qs;
     end
@@ -234,8 +231,8 @@ travelsButton.Click = function( sender, args )
 end
 
 deleteTravelsButton = Turbine.UI.Lotro.Button();
-deleteTravelsButton:SetSize( 200, 20 );
-deleteTravelsButton:SetText( "Delete all custom travel buttons in this area" );
+deleteTravelsButton:SetSize( 250, 20 );
+deleteTravelsButton:SetText( "Delete custom travel buttons" );
 deleteTravelsButton:SetParent( customizeWindow );
 deleteTravelsButton:SetPosition( 25, 110 );
 deleteTravelsButton.Click = function( sender, args )
@@ -247,8 +244,8 @@ deleteTravelsButton.Click = function( sender, args )
 end
 
 deleteSkillsButton = Turbine.UI.Lotro.Button();
-deleteSkillsButton:SetSize( 200, 20 );
-deleteSkillsButton:SetText( "Reset all travel skills to default in this area" );
+deleteSkillsButton:SetSize( 250, 20 );
+deleteSkillsButton:SetText( "Reset travel skills to default" );
 deleteSkillsButton:SetParent( customizeWindow );
 deleteSkillsButton:SetPosition( 25, 140 );
 deleteSkillsButton.Click = function( sender, args )
@@ -260,15 +257,16 @@ deleteSkillsButton.Click = function( sender, args )
 end
 
 customizeLabel = Turbine.UI.Label();
-customizeLabel:SetSize( 200, 100 );
+customizeLabel:SetSize( 250, 100 );
 customizeLabel:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
-customizeLabel:SetText( "Note: Deleting or reseting requires reloading the plugin to take effect" );
+customizeLabel:SetText( "Note: Deleting or resetting affects all buttons and skills in the displayed " .. 
+                        "area. They require reloading the plugin to take effect" );
 customizeLabel:SetParent( customizeWindow );
 customizeLabel:SetPosition( 25, 170 );
 
-prompt = Turbine.UI.Window();
-prompt:SetBackColor( Turbine.UI.Color( 0, 0, 0 ) );
-prompt:SetSize( 150, 130 );
+prompt = Turbine.UI.Lotro.Window();
+prompt:SetText( "!" );
+prompt:SetSize( 100, 120 );
 prompt:SetPosition( disp_width / 2 - 150, disp_height / 2 - 100 );
 prompt:SetVisible( false );
 prompt.label = Turbine.UI.Label();
@@ -276,7 +274,7 @@ prompt.label:SetParent( prompt );
 prompt.label:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
 prompt.label:SetText( "Save changes?" );
 prompt.label:SetSize( 200, 25 );
-prompt.label:SetPosition( 20, 20 );
+prompt.label:SetPosition( 30, 40 );
 prompt.ok = Turbine.UI.Lotro.Button();
 prompt.ok:SetParent( prompt );
 prompt.ok.Click = function( sender, args )
@@ -340,7 +338,7 @@ prompt.ok.Click = function( sender, args )
 end
 prompt.ok:SetText( "Ok" );
 prompt.ok:SetSize( 20, 20 );
-prompt.ok:SetPosition( 20, 100 );
+prompt.ok:SetPosition( 30, 70 );
 prompt.no = Turbine.UI.Lotro.Button();
 prompt.no:SetParent( prompt );
 prompt.no.Click = function( sender, args )
@@ -364,7 +362,7 @@ prompt.no.Click = function( sender, args )
 end
 prompt.no:SetText( "No" );
 prompt.no:SetSize( 20, 20 );
-prompt.no:SetPosition( 70, 100 );
+prompt.no:SetPosition( 80, 70 );
 
 checkBox = Turbine.UI.Lotro.CheckBox();
 checkBox:SetParent( window );
@@ -401,7 +399,6 @@ function changeArea( area )
     bg:SetStretchMode( 0 );
     bg:SetSize( bg_width, bg_height );
     bg:SetPosition( 20, 35 );
-
     local window_width = window:GetWidth();
     local window_height = window:GetHeight();
 
@@ -457,7 +454,6 @@ function changeArea( area )
     for i,button in pairs( travel_buttons[current_area] ) do
         button:SetVisible( true );
     end
-
     filterMenuItems:Clear();
     filterMenuItems:Add( Turbine.UI.MenuItem( "Select All" ) );
     filterMenuItems:Add( Turbine.UI.MenuItem( "Clear All" ) );
@@ -503,7 +499,7 @@ for i,area in pairs( all_areas ) do
 
     for j,info in pairs( data[area] ) do
         if type(j) == "number" then -- if index is a number, it contains info for a button
-            loc_buttons[area][j] = LocButton( area, j, data, bg, window, infoLabel );
+            loc_buttons[area][j] = LocButton( area, j, data, bg, infoLabel );
             loc_buttons[area][j]:SetVisible( false );
         end
     end

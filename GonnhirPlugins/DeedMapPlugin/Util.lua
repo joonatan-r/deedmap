@@ -15,33 +15,52 @@ function Selection:SetLoc( locButton )
     self.current = locButton;
 end
 
+LocLabel = class( Turbine.UI.Lotro.Window );
+
+function LocLabel:Constructor()
+    Turbine.UI.Window.Constructor( self );
+    self.label = Turbine.UI.Label();
+    self.label:SetBackColor( Turbine.UI.Color( 0, 0, 0 ) );
+    self.label:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
+    self.label:SetParent( self );
+    self.label:SetPosition( 0, 0 );
+    self.label:SetVisible( true );
+    self.SetWidthExt = function( width )
+        self:SetWidth( width );
+        self.label:SetWidth( width );
+    end
+    self.SetHeightExt = function( height )
+        self:SetHeight( height );
+        self.label:SetHeight( height );
+    end
+    self.SetText = function( text )
+        self.label:SetText( text );
+    end
+end
+
 LocButton = class( Turbine.UI.Button );
 
-function LocButton:Constructor( area, idx, data, bg, window, infoLabel )
+function LocButton:Constructor( area, idx, data, bg, infoLabel )
     Turbine.UI.Button.Constructor( self );
     self.selected = false;
     self.area = area;
     self.idx = idx;
-    self.label = Turbine.UI.Label();
-    self.label:SetBackColor( Turbine.UI.Color( 0, 0, 0 ) );
-    self.label:SetFont( Turbine.UI.Lotro.Font.BookAntiqua20 );
+    self.label = LocLabel();
+    self.label:SetVisible( false );
     self:SetSize( 16, 16 );
     self:SetBackground( 0x410f34f1 );
     self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
     self:SetParent( bg );
-    self.label:SetParent( window ); -- label parent is window so that it won't be scaled if bg map needs to be resized
-    self.label:SetVisible( false );
     self.info = data[area][idx];
-    self:SetPosition( unpack(self.info.point) );
-    self.MouseEnter = function(sender, args)
-        local x,y = window:GetMousePosition();
-        self.label:SetText( self.info.text );
+    self:SetPosition( unpack( self.info.point ) );
+    self.MouseEnter = function( sender, args )
+        local x,y = Turbine.UI.Display.GetMousePosition();
+        self.label.SetText( self.info.text );
+        self.label.SetWidthExt( get_text_width( self.info.text ) );
+        self.label.SetHeightExt( 25 );
         self.label:SetPosition( x + 25, y - 25 );
-        self.label:SetWidth( get_text_width( self.info.text ) );
-        self.label:SetHeight( 25 );
         self.label:SetVisible( true );
-        self.label:SetZOrder( 10 ); -- show on top
-        self.label:SetStretchMode( 1 ); -- renders outside bounds
+        self.label:Activate();
     end
     self.MouseLeave = function(sender, args) self.label:SetVisible( false ) end
     self.Click = function( sender, args )
