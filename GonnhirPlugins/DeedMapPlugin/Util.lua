@@ -63,6 +63,7 @@ function LocButton:Constructor( area, idx, data, bg, infoLabel )
         self.label:Activate();
     end
     self.MouseLeave = function(sender, args) self.label:SetVisible( false ) end
+    self.MouseMove = bg.MouseMove;
     self.Click = function( sender, args )
         if not self.selected then
             Selection:SetLoc( self );

@@ -19,8 +19,8 @@ end
 
 function BgAdjustedGetMousePosition() -- get proper mouse click position for original img if stretching bg 
     local x,y = bg:GetMousePosition();
-    x = ( data[current_area].width / bg_width ) * x;
-    y = ( data[current_area].height / bg_height ) * y;
+    x = ( data[current_area].width / bg.bg_width ) * x;
+    y = ( data[current_area].height / bg.bg_height ) * y;
     return round( x, 0 ), round( y, 0 );
 end
 
@@ -52,8 +52,8 @@ bg = Turbine.UI.Control();
 bg:SetParent( window );
 bg:SetPosition( 20, 35 );
 bg.MouseClick = handle_bg_click;
-bg_width = bg:GetWidth();
-bg_height = bg:GetHeight(); -- these need to be changed manually if stretching
+bg.bg_width = bg:GetWidth();
+bg.bg_height = bg:GetHeight(); -- these need to be changed manually if stretching
 bg.MouseMove = function( sender, args )
     if data[current_area].coord_x_min == nil then
         coordsLabel:SetVisible( false );
@@ -64,8 +64,8 @@ bg.MouseMove = function( sender, args )
     local coord_x_max = data[current_area].coord_x_max;
     local coord_y_max = data[current_area].coord_y_max;
     local x,y = bg:GetMousePosition();
-    coordsLabel:SetText( position_to_coords( x, y, bg_width - 1, bg_height - 1, coord_x_min, coord_y_min, coord_x_max, coord_y_max ) );
-    coordsLabel:SetPosition( bg_width + 25, bg_height - 25 + 35 );
+    coordsLabel:SetText( position_to_coords( x, y, bg.bg_width - 1, bg.bg_height - 1, coord_x_min, coord_y_min, coord_x_max, coord_y_max ) );
+    coordsLabel:SetPosition( bg.bg_width + 25, bg.bg_height - 25 + 35 );
     coordsLabel:SetVisible( true );
 end
 infoLabel = Turbine.UI.Label();
@@ -377,12 +377,12 @@ function changeArea( area )
     end
     width = data[area].width;
     height = data[area].height;
-    bg_width = width;
-    bg_height = height;
+    bg.bg_width = width;
+    bg.bg_height = height;
     window:SetSize( width + 40 + 220, height + 57 );
     bg:SetBackground( data[area].map );
     bg:SetStretchMode( 0 );
-    bg:SetSize( bg_width, bg_height );
+    bg:SetSize( bg.bg_width, bg.bg_height );
     bg:SetPosition( 20, 35 );
     local window_width = window:GetWidth();
     local window_height = window:GetHeight();
@@ -401,11 +401,11 @@ function changeArea( area )
         adjusted = true;
         window_width = window:GetWidth();
         window_height = window:GetHeight();
-        bg_width = window_width - 40 - 220;
-        bg_height = window_height - 57;
+        bg.bg_width = window_width - 40 - 220;
+        bg.bg_height = window_height - 57;
         window:SetPosition( 0, 0 );
         bg:SetStretchMode( 1 );
-        bg:SetSize( bg_width, bg_height );
+        bg:SetSize( bg.bg_width, bg.bg_height );
         filterButton:SetPosition( window_width - 220, 35 + 20 );
         areaButton:SetPosition( window_width - 220 + 50, 35 + 20 );
         editButton:SetPosition( window_width - 220 + 50 + 50, 35 + 20 );
