@@ -89,6 +89,7 @@ function ZoomButton:Constructor( area, point, bg, changeArea )
     self.area = area;
     self.MouseEnter = function( sender, args ) self:SetBlendMode( Turbine.UI.BlendMode.Multiply ) end
     self.MouseLeave = function( sender, args ) self:SetBlendMode( Turbine.UI.BlendMode.Overlay ) end
+    self.MouseMove = bg.MouseMove;
     self.Click = function( sender, args ) changeArea( self.area ) end
 end
 
@@ -117,6 +118,7 @@ function TravelButton:Constructor( area, idx, data, bg, window, qs )
         self:SetWantsUpdates( true );
     end
     self.MouseLeave = function( sender, args ) self:SetWantsUpdates( false ) end
+    self.MouseMove = bg.MouseMove;
     self.Update = function( sender, args )
         local x, y = window:GetMousePosition();
         qs:SetPosition( x - 1, y - 1 );

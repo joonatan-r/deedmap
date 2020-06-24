@@ -1156,6 +1156,22 @@ data["Evendim"].coord_y_max = "24.4S";
 data["Evendim"].main_area = "Eriador";
 data["Evendim"].sub_types = {};
 
+data["Evendim"].zoom = {};
+data["Evendim"].zoom[1] = {};
+data["Evendim"].zoom[1].area = "Annuminas";
+data["Evendim"].zoom[1].point = {390, 490};
+    
+data["Annuminas"] = {};
+data["Annuminas"].map = 0x410E6EAD;
+data["Annuminas"].width = 1024;
+data["Annuminas"].height = 768;
+data["Annuminas"].coord_x_min = "73.5W";
+data["Annuminas"].coord_y_min = "15.5S";
+data["Annuminas"].coord_x_max = "65.9W";
+data["Annuminas"].coord_y_max = "21.2S";
+data["Annuminas"].main_area = "Evendim";
+data["Annuminas"].sub_types = {};
+
 data["Forochel"] = {};
 data["Forochel"].map = 0x410e3f46;
 data["Forochel"].width = 1024;
