@@ -25,11 +25,11 @@ function LocLabel:Constructor()
     self.label:SetParent( self );
     self.label:SetPosition( 0, 0 );
     self.label:SetVisible( true );
-    self.SetWidth = function( self, width )
+    function self:SetWidth( width )
         Turbine.UI.Window.SetWidth( self, width );
         self.label:SetWidth( width );
     end
-    self.SetHeight = function( self, height )
+    function self:SetHeight( height )
         Turbine.UI.Window.SetHeight( self, height );
         self.label:SetHeight( height );
     end
@@ -38,6 +38,8 @@ function LocLabel:Constructor()
     end
 end
 
+locLabel = LocLabel(); -- use the same label instance for all locations
+
 LocButton = class( Turbine.UI.Button );
 
 function LocButton:Constructor( area, idx, data, bg, infoLabel )
@@ -45,7 +47,7 @@ function LocButton:Constructor( area, idx, data, bg, infoLabel )
     self.selected = false;
     self.area = area;
     self.idx = idx;
-    self.label = LocLabel();
+    self.label = locLabel;
     self.label:SetVisible( false );
     self:SetSize( 16, 16 );
     self:SetBackground( 0x410f34f1 );
